@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Content Governance System — Stanley Carter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #ffffff;
+      --surface:   #f7f7f8;
+      --border:    #e8e9eb;
+      --muted:     #9ca3af;
+      --body:      #6b7280;
+      --heading:   #111827;
+      --blue:      #2563eb;
+      --green:     #16a34a;
+      --green-bg:  #dcfce7;
+      --blue-bg:   #dbeafe;
+      --tag-text:  #166534;
+      --blue-tag:  #1d4ed8;
+      --sans:      'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--body); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 60px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-size: 1rem; font-weight: 600; color: var(--heading); text-decoration: none; }
+    .nav-center { display: flex; gap: 2rem; }
+    .nav-center a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-center a:hover { color: var(--heading); }
+    .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+    .nav-right a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-right a:hover { color: var(--heading); }
+    .btn-back { background: var(--blue); color: #fff !important; padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.82rem; font-weight: 500; transition: opacity 0.15s; }
+    .btn-back:hover { opacity: 0.88; }
+
+    .hero { padding: 4rem 2.5rem 3.5rem; max-width: 960px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+    .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tag-text); background: var(--green-bg); padding: 0.25rem 0.7rem; border-radius: 100px; margin-bottom: 1.4rem; }
+    .hero h1 { font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 700; color: var(--heading); line-height: 1.15; margin-bottom: 1rem; }
+    .hero h1 span { color: var(--green); }
+    .hero .sub { font-size: 1rem; color: var(--body); max-width: 560px; line-height: 1.75; margin-bottom: 2.5rem; }
+    .metrics { display: flex; flex-wrap: wrap; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .metric { flex: 1; min-width: 130px; background: var(--bg); padding: 1.2rem 1.4rem; }
+    .metric .val { font-size: 1.6rem; font-weight: 700; color: var(--heading); display: block; line-height: 1; }
+    .metric .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+
+    .page { max-width: 960px; margin: 0 auto; padding: 0 2.5rem 6rem; }
+    section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+    .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    h2 { font-size: 1.55rem; font-weight: 700; color: var(--heading); margin-bottom: 1.1rem; line-height: 1.3; }
+    h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--green); margin: 1.8rem 0 0.5rem; }
+    h3:first-of-type { margin-top: 1rem; }
+    p { color: var(--body); margin-bottom: 0.9rem; line-height: 1.75; }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--heading); font-weight: 600; }
+
+    .steps { display: flex; flex-direction: column; gap: 7px; margin-top: 1.8rem; }
+    .step { display: grid; grid-template-columns: 40px 1fr; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .step-num { background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; color: var(--muted); border-right: 1px solid var(--border); }
+    .step-body { padding: 1rem 1.25rem; }
+    .step-body strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--heading); margin-bottom: 0.25rem; }
+    .step-body span { font-size: 0.875rem; color: var(--body); line-height: 1.6; }
+
+    /* COMPARISON GRID */
+    .comparison { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 1.8rem; }
+    .comp-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .comp-head { padding: 0.6rem 1rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    .comp-card.bad .comp-head { background: #fef2f2; color: #991b1b; }
+    .comp-card.good .comp-head { background: var(--green-bg); color: var(--tag-text); }
+    .comp-card img { width: 100%; height: auto; display: block; cursor: zoom-in; transition: opacity 0.15s; }
+    .comp-card img:hover { opacity: 0.9; }
+
+    .results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 1.8rem; }
+    .r-item { background: var(--bg); padding: 1.2rem 1.3rem; }
+    .r-item .r-val { font-size: 1.25rem; font-weight: 700; color: var(--heading); display: block; margin-bottom: 0.2rem; }
+    .r-item .r-lbl { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .r-item .r-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    .callout { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; padding: 1.3rem 1.6rem; margin: 2rem 0; }
+    .callout p { font-size: 1rem; font-weight: 500; color: var(--heading); line-height: 1.65; margin: 0; }
+
+    .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+    .pill { font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.75rem; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--body); }
+
+    /* SIDE BY SIDE FULL IMAGE */
+    .img-full { margin: 1.8rem 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .img-full img { width: 100%; height: auto; display: block; cursor: zoom-in; }
+    .img-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0.6rem 1rem; border-top: 1px solid var(--border); background: var(--surface); }
+
+    /* LIGHTBOX */
+    .lb { position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 1.5rem; }
+    .lb.on { opacity: 1; pointer-events: all; }
+    .lb img { max-width: 100%; max-height: 90vh; border-radius: 10px; object-fit: contain; }
+    .lb-close { position: fixed; top: 1.25rem; right: 1.5rem; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.15); border: none; color: #fff; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+    .lb-close:hover { background: rgba(255,255,255,.3); }
+
+    .ticker { background: #111; padding: 0.65rem 0; overflow: hidden; white-space: nowrap; }
+    .ticker-inner { display: inline-flex; gap: 2.5rem; animation: ticker 32s linear infinite; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    footer a { color: var(--blue); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; }
+      .nav-center { display: none; }
+      .hero, .page { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .comparison { grid-template-columns: 1fr; }
+      .results { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+  <div class="nav-center">
+    <a href="https://stanleycarter.netlify.app/#work">Work</a>
+    <a href="https://stanleycarter.netlify.app/#about">About</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://github.com/MNG-AI">GitHub</a>
+    <a href="https://stanleycarter.netlify.app/" class="btn-back">← Portfolio</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">AI Governance · Workflow Design</div>
+  <h1>AI Content<br><span>Governance System</span></h1>
+  <p class="sub">9 documents that replaced ad hoc AI use with a consistent, auditable standard across two brands. Works across any model — ChatGPT, Claude, or whatever comes next.</p>
+  <div class="metrics">
+    <div class="metric"><span class="val">6,704</span><div class="lbl">SKUs processed</div></div>
+    <div class="metric"><span class="val">15→&lt;1</span><div class="lbl">Days turnaround</div></div>
+    <div class="metric"><span class="val">9</span><div class="lbl">Governance documents</div></div>
+    <div class="metric"><span class="val">v2.0</span><div class="lbl">Current version</div></div>
+    <div class="metric"><span class="val">2</span><div class="lbl">Brands covered</div></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <section class="reveal">
+    <div class="eyebrow">01 — The Problem</div>
+    <h2>Same AI tools. Completely different outputs. No way to catch errors before go-live.</h2>
+    <p>Writers across Shoe Carnival and Shoe Station were using AI with no shared rules. Every output looked different. Tone varied by writer, format varied by session, and there was no systematic way to catch inaccurate product claims before a listing went live.</p>
+    <p>The result was inconsistency at scale. Turnaround on a full seasonal batch ran 15+ days. Quality checks happened after the fact, if at all. When a writer left, their approach left with them.</p>
+    <p>The system needed rules that were independent of who was running it — and model-agnostic enough to survive the next AI upgrade.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">02 — The Solution</div>
+    <h2>A structured governance layer that any model reads and follows</h2>
+    <p>The core of the system is a SKILL.md file: a structured Markdown document that encodes every rule a writer needs to follow — voice, format, feature selection, prohibited phrases, applicable tags, and quality checks — as a machine-readable instruction set. The model reads it on every run. Output is consistent regardless of batch size, product category, or which AI is doing the work.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <strong>SKILL.md — The Governing Document</strong>
+          <span>A single Markdown file uploaded as context to any AI session. Encodes voice rules for both brands, format structure, feature selection logic, prohibited language, and quality acceptance criteria. This file is the system prompt on every content run.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <strong>Dual-Voice Framework</strong>
+          <span>The SC Way (Shoe Carnival: energetic, value-driven, family-first) and The SS Way (Shoe Station: elevated, lifestyle-forward, premium) are both defined in the governance doc. Same product, same photos — two distinct brand voices without writing separate prompts.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <strong>Structured Output Format</strong>
+          <span>Every output follows a fixed schema: Customer Friendly Name, description paragraph, feature bullets, and Applicable Features from a pre-approved master list. No improvisation, no off-format output, no manual reformatting after generation.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <strong>Cross-Model Portability</strong>
+          <span>The SKILL.md is model-agnostic by design. A writer can upload it to ChatGPT, Claude, or any future tool and get the same structured output. The framework does not depend on a single vendor staying ahead.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">03 — The Difference It Makes</div>
+    <h2>Same product. Same photos. No governance vs. with governance.</h2>
+    <p>The comparison below shows the same product run through ChatGPT without governance, ChatGPT with the SKILL.md applied, and Claude with the SKILL.md applied. The governed outputs are structurally identical regardless of which model produced them.</p>
+    <div class="comparison">
+      <div class="comp-card bad">
+        <div class="comp-head">ChatGPT — No Governance</div>
+        <img src="assets/chatgpt-no-governance.png" alt="ChatGPT output without governance" onclick="openLB(this.src)">
+      </div>
+      <div class="comp-card good">
+        <div class="comp-head">ChatGPT — With Governance</div>
+        <img src="assets/chatgpt-with-governance.png" alt="ChatGPT output with governance" onclick="openLB(this.src)">
+      </div>
+      <div class="comp-card good">
+        <div class="comp-head">Claude — With Governance</div>
+        <img src="assets/claude-with-governance.png" alt="Claude output with governance" onclick="openLB(this.src)">
+      </div>
+    </div>
+    <div class="img-full" style="margin-top:1.5rem">
+      <img src="assets/chatgpt-side-by-side.png" alt="Side-by-side comparison view" onclick="openLB(this.src)">
+      <div class="img-label">Side-by-side — no governance vs. governed output</div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">04 — Results</div>
+    <h2>6,704 SKUs. Under a day of turnaround. Two brands, one system.</h2>
+    <div class="results">
+      <div class="r-item"><span class="r-val">6,704</span><div class="r-lbl">SKUs processed</div><div class="r-sub">Under governed pipeline</div></div>
+      <div class="r-item"><span class="r-val">15 → &lt;1</span><div class="r-lbl">Days turnaround</div><div class="r-sub">Per seasonal batch</div></div>
+      <div class="r-item"><span class="r-val">9</span><div class="r-lbl">Governance docs</div><div class="r-sub">Rules, templates, rubrics</div></div>
+      <div class="r-item"><span class="r-val">2</span><div class="r-lbl">Brand voices</div><div class="r-sub">SC Way + SS Way</div></div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">05 — Who Uses It</div>
+    <h2>Built for operators, not just writers</h2>
+    <div class="callout">
+      <p>Supervisors, the creative director, marketing manager, buyer assistants, and the photography team all operate inside this system without needing to understand how it works technically. The governance layer is invisible to the user — it just makes the output right.</p>
+    </div>
+    <p>The system was built to survive personnel changes. When a new writer joins, they get the SKILL.md. They do not need to learn a style guide from memory or shadow a senior writer for weeks. The rules are in the document, and the document runs every time.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">06 — Stack</div>
+    <h2>What it's built on</h2>
+    <div class="pills">
+      <span class="pill">Markdown (SKILL.md)</span>
+      <span class="pill">Claude</span>
+      <span class="pill">ChatGPT</span>
+      <span class="pill">Prompt Engineering</span>
+      <span class="pill">Shoe Carnival Oracle Fusion</span>
+      <span class="pill">Excel</span>
+      <span class="pill">Version Control (v1 → v2)</span>
+    </div>
+  </section>
+
+</div>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>AI Governance</span><span>·</span><span>Workflow Design</span><span>·</span><span>Prompt Engineering</span><span>·</span><span>SKILL.md</span><span>·</span><span>Content Standards</span><span>·</span><span>eCommerce</span><span>·</span><span>Shoe Carnival</span><span>·</span><span>Shoe Station</span><span>·</span><span>Model Agnostic</span><span>·</span><span>QA Frameworks</span><span>·</span>
+    <span>AI Governance</span><span>·</span><span>Workflow Design</span><span>·</span><span>Prompt Engineering</span><span>·</span><span>SKILL.md</span><span>·</span><span>Content Standards</span><span>·</span><span>eCommerce</span><span>·</span><span>Shoe Carnival</span><span>·</span><span>Shoe Station</span><span>·</span><span>Model Agnostic</span><span>·</span><span>QA Frameworks</span><span>·</span>
+  </div>
+</div>
+
+<footer>
+  <p>
+    <a href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+    &nbsp;·&nbsp; eCommerce Content Specialist, Shoe Carnival, Inc.
+    &nbsp;·&nbsp; <a href="mailto:skcart79@gmail.com">skcart79@gmail.com</a>
+  </p>
+</footer>
+
+<div class="lb" id="lb" onclick="closeLB()">
+  <button class="lb-close" onclick="closeLB()">&#x2715;</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<script>
+  function openLB(src) { document.getElementById('lb-img').src = src; document.getElementById('lb').classList.add('on'); document.body.style.overflow = 'hidden'; }
+  function closeLB() { document.getElementById('lb').classList.remove('on'); document.body.style.overflow = ''; }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

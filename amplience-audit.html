@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amplience Photo Audit — Stanley Carter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #ffffff;
+      --surface:   #f7f7f8;
+      --border:    #e8e9eb;
+      --muted:     #9ca3af;
+      --body:      #6b7280;
+      --heading:   #111827;
+      --blue:      #2563eb;
+      --green:     #16a34a;
+      --green-bg:  #dcfce7;
+      --blue-bg:   #dbeafe;
+      --tag-text:  #166534;
+      --blue-tag:  #1d4ed8;
+      --sans:      'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--body);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 60px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 1rem; font-weight: 600; color: var(--heading); text-decoration: none; }
+    .nav-center { display: flex; gap: 2rem; }
+    .nav-center a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-center a:hover { color: var(--heading); }
+    .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+    .nav-right a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-right a:hover { color: var(--heading); }
+    .btn-back {
+      background: var(--blue); color: #fff !important;
+      padding: 0.35rem 0.9rem; border-radius: 100px;
+      font-size: 0.82rem; font-weight: 500;
+      transition: opacity 0.15s;
+    }
+    .btn-back:hover { opacity: 0.88; }
+
+    /* HERO */
+    .hero { padding: 4rem 2.5rem 3.5rem; max-width: 960px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--blue-tag);
+      background: var(--blue-bg); padding: 0.25rem 0.7rem;
+      border-radius: 100px; margin-bottom: 1.4rem;
+    }
+    .hero h1 { font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 700; color: var(--heading); line-height: 1.15; margin-bottom: 1rem; }
+    .hero h1 span { color: var(--blue); }
+    .hero .sub { font-size: 1rem; color: var(--body); max-width: 560px; line-height: 1.75; margin-bottom: 2.5rem; }
+
+    .metrics { display: flex; flex-wrap: wrap; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .metric { flex: 1; min-width: 130px; background: var(--bg); padding: 1.2rem 1.4rem; }
+    .metric .val { font-size: 1.6rem; font-weight: 700; color: var(--heading); display: block; line-height: 1; }
+    .metric .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+
+    /* PAGE */
+    .page { max-width: 960px; margin: 0 auto; padding: 0 2.5rem 6rem; }
+    section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    h2 { font-size: 1.55rem; font-weight: 700; color: var(--heading); margin-bottom: 1.1rem; line-height: 1.3; }
+    h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--green); margin: 1.8rem 0 0.5rem; }
+    h3:first-of-type { margin-top: 1rem; }
+    p { color: var(--body); margin-bottom: 0.9rem; line-height: 1.75; }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--heading); font-weight: 600; }
+
+    /* STEPS */
+    .steps { display: flex; flex-direction: column; gap: 7px; margin-top: 1.8rem; }
+    .step { display: grid; grid-template-columns: 40px 1fr; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .step-num { background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; color: var(--muted); border-right: 1px solid var(--border); }
+    .step-body { padding: 1rem 1.25rem; }
+    .step-body strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--heading); margin-bottom: 0.25rem; }
+    .step-body span { font-size: 0.875rem; color: var(--body); line-height: 1.6; }
+
+    /* VIDEO */
+    .vid-wrap { margin: 1.8rem 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #000; }
+    .vid-wrap video { width: 100%; display: block; }
+    .vid-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0.6rem 1rem; border-top: 1px solid var(--border); background: var(--surface); }
+
+    /* RESULTS */
+    .results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 1.8rem; }
+    .r-item { background: var(--bg); padding: 1.2rem 1.3rem; }
+    .r-item .r-val { font-size: 1.25rem; font-weight: 700; color: var(--heading); display: block; margin-bottom: 0.2rem; }
+    .r-item .r-lbl { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .r-item .r-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* CALLOUT */
+    .callout { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0; padding: 1.3rem 1.6rem; margin: 2rem 0; }
+    .callout p { font-size: 1rem; font-weight: 500; color: var(--heading); line-height: 1.65; margin: 0; }
+
+    /* PILLS */
+    .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+    .pill { font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.75rem; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--body); }
+
+    /* LOG */
+    .log { background: #0f1117; border-radius: 10px; padding: 1.3rem 1.5rem; margin-top: 1.4rem; font-family: 'Menlo', 'Courier New', monospace; font-size: 0.77rem; line-height: 1.9; overflow-x: auto; }
+    .log .t  { color: #4b5563; }
+    .log .ok { color: #4ade80; }
+    .log .wa { color: #fb923c; }
+    .log .in { color: #d1d5db; }
+    .log .hi { color: #60a5fa; }
+
+    /* TICKER */
+    .ticker { background: #111; padding: 0.65rem 0; overflow: hidden; white-space: nowrap; }
+    .ticker-inner { display: inline-flex; gap: 2.5rem; animation: ticker 32s linear infinite; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    footer a { color: var(--blue); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; }
+      .nav-center { display: none; }
+      .hero, .page { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .results { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+  <div class="nav-center">
+    <a href="https://stanleycarter.netlify.app/#work">Work</a>
+    <a href="https://stanleycarter.netlify.app/#about">About</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://github.com/MNG-AI">GitHub</a>
+    <a href="https://stanleycarter.netlify.app/" class="btn-back">← Portfolio</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Python · Automation · eCommerce</div>
+  <h1>Amplience<br><span>Photo Audit</span></h1>
+  <p class="sub">Automated photo verification across 16,000+ products. What used to take hours of one-at-a-time searching now runs in a single command and finishes in under 20 minutes.</p>
+  <div class="metrics">
+    <div class="metric"><span class="val">16K+</span><div class="lbl">SKUs audited</div></div>
+    <div class="metric"><span class="val">4,813</span><div class="lbl">SHOT confirmed</div></div>
+    <div class="metric"><span class="val">4,811</span><div class="lbl">NEEDS PHOTO flagged</div></div>
+    <div class="metric"><span class="val">~20 min</span><div class="lbl">Full sweep runtime</div></div>
+    <div class="metric"><span class="val">0</span><div class="lbl">Manual lookups needed</div></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <section class="reveal">
+    <div class="eyebrow">01 — The Problem</div>
+    <h2>16,000 products. One at a time. Always out of date.</h2>
+    <p>Every product needs a confirmed photo in Amplience before a description can be written. The check had to be done manually: search Amplience for a style, read the result, type the status into a spreadsheet. Then move to the next one.</p>
+    <p>With 16,000+ products across seven department tabs, status was perpetually stale. A buyer asking "which of my styles still need photos?" had no fast answer. The only honest answer was "whatever someone checked last week, and some of it is probably wrong now."</p>
+    <p>There was no way to scale this without automation.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">02 — The Solution</div>
+    <h2>A Python script that reads Amplience the same way a browser does</h2>
+    <p>The script walks through every product row in the Master Sample List, constructs the Amplience asset URL using the standard naming convention, and checks whether a real image exists at that address. Results write back directly to the Excel file as each department tab completes — so a crash mid-run never wipes completed work.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <strong>Browser Header Spoofing</strong>
+          <span>Amplience blocked raw Python requests and returned errors. Sending a standard browser User-Agent header resolved this — Amplience now responds to the script the same way it responds to Chrome.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <strong>Byte-Count Verification</strong>
+          <span>Amplience returns HTTP 200 for missing products by serving a small placeholder image. Trusting the status code produced all false positives. The fix: read the actual byte count of the response. Real product images are consistently larger than the placeholder threshold.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <strong>Tab-by-Tab Save</strong>
+          <span>An early run crashed mid-way through and wiped the session. The script was updated to write results back to Excel after each department tab finishes — crash recovery now costs at most one tab's worth of work.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <strong>Live View Photo Links</strong>
+          <span>Every confirmed SHOT row gets a clickable Amplience URL written directly into the spreadsheet. A buyer can jump from the tracker to the actual photo without leaving Excel.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">03 — Excel Output</div>
+    <h2>Results written directly into the Master Sample List</h2>
+    <p>The script does not create a separate report. It writes status and photo links back into the source file — the same spreadsheet buyers, writers, and the photography team already use. No new tool to learn, no new file to check.</p>
+    <div class="vid-wrap">
+      <video controls playsinline>
+        <source src="assets/amplience-audit-demo.mp4" type="video/mp4">
+        Your browser does not support the video element.
+      </video>
+      <div class="vid-label">Excel — Updated Master Sample List output</div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">04 — Results</div>
+    <h2>Two columns checked. Buyer-ready output in under 20 minutes.</h2>
+    <div class="results">
+      <div class="r-item"><span class="r-val">4,813</span><div class="r-lbl">SHOT confirmed</div><div class="r-sub">Real image verified</div></div>
+      <div class="r-item"><span class="r-val">4,811</span><div class="r-lbl">NEEDS PHOTO</div><div class="r-sub">No real asset found</div></div>
+      <div class="r-item"><span class="r-val">~20 min</span><div class="r-lbl">Full 16K sweep</div><div class="r-sub">Unattended after launch</div></div>
+      <div class="r-item"><span class="r-val">2 cols</span><div class="r-lbl">Only T and U touched</div><div class="r-sub">Status + View Photo link</div></div>
+    </div>
+  </section>
+
+  <div class="callout reveal">
+    <p>Filtering column T now gives a buyer-ready NEEDS PHOTO list with zero manual work. Status reflects what is actually in Amplience, not what someone entered weeks ago.</p>
+  </div>
+
+  <section class="reveal">
+    <div class="eyebrow">05 — Stack</div>
+    <h2>What it's built on</h2>
+    <div class="pills">
+      <span class="pill">Python 3</span>
+      <span class="pill">openpyxl</span>
+      <span class="pill">requests</span>
+      <span class="pill">Amplience CDN API</span>
+      <span class="pill">Excel / Master Sample List</span>
+      <span class="pill">Browser User-Agent Spoofing</span>
+      <span class="pill">Byte-Count Verification</span>
+    </div>
+  </section>
+
+</div>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Python</span><span>·</span><span>Automation</span><span>·</span><span>Amplience</span><span>·</span><span>eCommerce Ops</span><span>·</span><span>openpyxl</span><span>·</span><span>Photo Verification</span><span>·</span><span>QA Tooling</span><span>·</span><span>Shoe Carnival</span><span>·</span><span>Master Sample List</span><span>·</span><span>Asset Management</span><span>·</span>
+    <span>Python</span><span>·</span><span>Automation</span><span>·</span><span>Amplience</span><span>·</span><span>eCommerce Ops</span><span>·</span><span>openpyxl</span><span>·</span><span>Photo Verification</span><span>·</span><span>QA Tooling</span><span>·</span><span>Shoe Carnival</span><span>·</span><span>Master Sample List</span><span>·</span><span>Asset Management</span><span>·</span>
+  </div>
+</div>
+
+<footer>
+  <p>
+    <a href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+    &nbsp;·&nbsp; eCommerce Content Specialist, Shoe Carnival, Inc.
+    &nbsp;·&nbsp; <a href="mailto:skcart79@gmail.com">skcart79@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

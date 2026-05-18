@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDP Automation Pipeline — Stanley Carter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #ffffff;
+      --surface:   #f7f7f8;
+      --border:    #e8e9eb;
+      --muted:     #9ca3af;
+      --body:      #6b7280;
+      --heading:   #111827;
+      --blue:      #2563eb;
+      --green:     #16a34a;
+      --green-bg:  #dcfce7;
+      --blue-bg:   #dbeafe;
+      --tag-text:  #166534;
+      --blue-tag:  #1d4ed8;
+      --sans:      'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--body);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 60px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 1rem; font-weight: 600; color: var(--heading); text-decoration: none; }
+    .nav-center { display: flex; gap: 2rem; }
+    .nav-center a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-center a:hover { color: var(--heading); }
+    .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+    .nav-right a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-right a:hover { color: var(--heading); }
+    .nav-right .btn-back {
+      background: var(--blue); color: #fff;
+      padding: 0.35rem 0.9rem; border-radius: 100px;
+      font-size: 0.82rem; font-weight: 500; text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .nav-right .btn-back:hover { opacity: 0.88; color: #fff; }
+
+    /* ── HERO ── */
+    .hero { padding: 4rem 2.5rem 3.5rem; max-width: 960px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--blue-tag);
+      background: var(--blue-bg); padding: 0.25rem 0.7rem;
+      border-radius: 100px; margin-bottom: 1.4rem;
+    }
+    .hero h1 { font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 700; color: var(--heading); line-height: 1.15; margin-bottom: 1rem; }
+    .hero h1 span { color: var(--blue); }
+    .hero .sub { font-size: 1rem; color: var(--body); max-width: 560px; line-height: 1.75; margin-bottom: 2.5rem; }
+
+    .metrics { display: flex; flex-wrap: wrap; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .metric { flex: 1; min-width: 130px; background: var(--bg); padding: 1.2rem 1.4rem; }
+    .metric .val { font-size: 1.6rem; font-weight: 700; color: var(--heading); display: block; line-height: 1; }
+    .metric .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+
+    /* ── PAGE ── */
+    .page { max-width: 960px; margin: 0 auto; padding: 0 2.5rem 6rem; }
+
+    section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    h2 { font-size: 1.55rem; font-weight: 700; color: var(--heading); margin-bottom: 1.1rem; line-height: 1.3; }
+    h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--green); margin: 1.8rem 0 0.5rem; }
+    h3:first-of-type { margin-top: 1rem; }
+    p { color: var(--body); margin-bottom: 0.9rem; line-height: 1.75; }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--heading); font-weight: 600; }
+
+    /* ── STEPS ── */
+    .steps { display: flex; flex-direction: column; gap: 7px; margin-top: 1.8rem; }
+    .step { display: grid; grid-template-columns: 40px 1fr; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .step-num { background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; color: var(--muted); border-right: 1px solid var(--border); }
+    .step-body { padding: 1rem 1.25rem; }
+    .step-body strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--heading); margin-bottom: 0.25rem; }
+    .step-body span { font-size: 0.875rem; color: var(--body); line-height: 1.6; }
+
+    /* ── SPLIT ── */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.8rem; }
+    .split-col { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .split-head { padding: 0.75rem 1.2rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    .before .split-head { background: #fef9f0; color: #92400e; }
+    .after  .split-head { background: var(--green-bg); color: var(--tag-text); }
+    .split-col ul { list-style: none; padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .split-col ul li { font-size: 0.875rem; color: var(--body); padding-left: 1rem; position: relative; line-height: 1.5; }
+    .split-col ul li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; border-radius: 50%; }
+    .before ul li::before { background: #f59e0b; }
+    .after  ul li::before { background: var(--green); }
+
+    /* ── RESULTS ── */
+    .results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 1.8rem; }
+    .r-item { background: var(--bg); padding: 1.2rem 1.3rem; }
+    .r-item .r-val { font-size: 1.25rem; font-weight: 700; color: var(--heading); display: block; margin-bottom: 0.2rem; }
+    .r-item .r-lbl { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .r-item .r-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* ── LOG ── */
+    .log { background: #0f1117; border-radius: 10px; padding: 1.3rem 1.5rem; margin-top: 1.4rem; font-family: 'Menlo', 'Courier New', monospace; font-size: 0.77rem; line-height: 1.9; overflow-x: auto; }
+
+    /* ── CASE STUDY IMAGES ── */
+    .img-wrap { margin: 1.8rem 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .img-wrap img { width: 100%; height: auto; display: block; cursor: zoom-in; transition: opacity 0.15s; }
+    .img-wrap img:hover { opacity: 0.92; }
+    .img-wrap .img-cap { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0.6rem 1rem; border-top: 1px solid var(--border); background: var(--surface); }
+
+    /* ── LIGHTBOX ── */
+    .lb { position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 1.5rem; }
+    .lb.on { opacity: 1; pointer-events: all; }
+    .lb img { max-width: 100%; max-height: 90vh; border-radius: 10px; object-fit: contain; }
+    .lb-x { position: fixed; top: 1.25rem; right: 1.5rem; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.15); border: none; color: #fff; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+    .lb-x:hover { background: rgba(255,255,255,.3); }
+    .log .t  { color: #4b5563; }
+    .log .ok { color: #4ade80; }
+    .log .wa { color: #fb923c; }
+    .log .in { color: #d1d5db; }
+    .log .hi { color: #60a5fa; }
+
+    /* ── CALLOUT ── */
+    .callout { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0; padding: 1.3rem 1.6rem; margin: 2rem 0; }
+    .callout p { font-size: 1rem; font-weight: 500; color: var(--heading); line-height: 1.65; margin: 0; }
+
+    /* ── PILLS ── */
+    .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+    .pill { font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.75rem; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--body); }
+
+    /* ── ROADMAP ── */
+    .roadmap { display: flex; flex-direction: column; gap: 6px; margin-top: 1.4rem; }
+    .road-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem 1.1rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; color: var(--body); line-height: 1.55; background: var(--surface); }
+    .road-item::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--border); flex-shrink: 0; margin-top: 0.5em; }
+
+    /* ── TICKER ── */
+    .ticker { background: #111; padding: 0.65rem 0; overflow: hidden; white-space: nowrap; }
+    .ticker-inner { display: inline-flex; gap: 2.5rem; animation: ticker 32s linear infinite; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    footer a { color: var(--blue); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; }
+      .nav-center { display: none; }
+      .hero, .page { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .split, .results { grid-template-columns: 1fr; }
+      .results { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+  <div class="nav-center">
+    <a href="https://stanleycarter.netlify.app/#work">Work</a>
+    <a href="https://stanleycarter.netlify.app/#about">About</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://github.com/MNG-AI">GitHub</a>
+    <a href="https://stanleycarter.netlify.app/" class="btn-back">← Portfolio</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Python · Automation · eCommerce</div>
+  <h1>PDP Automation<br><span>Pipeline</span></h1>
+  <p class="sub">From label photo to production-ready product copy in 40 minutes. A vision pipeline that replaced 8+ hours of manual work with a single button click.</p>
+  <div class="metrics">
+    <div class="metric"><span class="val">40 min</span><div class="lbl">Full batch runtime</div></div>
+    <div class="metric"><span class="val">117</span><div class="lbl">Unique styles output</div></div>
+    <div class="metric"><span class="val">$4.59</span><div class="lbl">Total API cost</div></div>
+    <div class="metric"><span class="val">~$0.03</span><div class="lbl">Per description</div></div>
+    <div class="metric"><span class="val">1 click</span><div class="lbl">To run a full batch</div></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <section class="reveal">
+    <div class="eyebrow">01 — The Problem</div>
+    <h2>Eight hours of manual work, one product at a time</h2>
+    <p>At Shoe Carnival, every product sample that arrives needs a full product description page before it goes live — a Customer Friendly Name, a 2-4 sentence description, feature bullets, and applicable feature tags. This work was done manually, one product at a time.</p>
+    <p>The process: photograph the label, photograph the product, transfer files, read the label, look up the style on the brand's site, open Claude.ai, upload photos, write a prompt, review the output, then copy-paste each field individually into the production system. Repeat for the next product.</p>
+    <p>Timed precisely: <strong>3 minutes and 49 seconds per product.</strong> A batch of 139 samples would require 8.8 hours of uninterrupted, focused attention. Products with multiple colorways needed separate sessions even though their descriptions are identical.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">02 — The Solution</div>
+    <h2>A governed vision pipeline launched from a desktop shortcut</h2>
+    <p>A local Python automation pipeline that processes a folder of iPhone photos and outputs a formatted Excel workbook with extracted label data, embedded product thumbnails, and complete AI-generated PDP copy for every style. Launches from a desktop shortcut — no terminal, no code, no configuration at run time.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><div class="step-body"><strong>Smart Photo Pairing</strong><span>Images sorted by iOS timestamp. A detection layer reads each photo and swaps the order automatically if the label and product are reversed — handling the natural variation across multi-session shoots.</span></div></div>
+      <div class="step"><div class="step-num">02</div><div class="step-body"><strong>Label Extraction via Vision API</strong><span>Claude reads each label photo and returns structured JSON: brand code (BGRP), brand name, style name, ecom style number, and ecom color number. Labels downsampled to 1536px before upload, keeping text legible while cutting payload by ~85%.</span></div></div>
+      <div class="step"><div class="step-num">03</div><div class="step-body"><strong>Governed PDP Generation</strong><span>The product photo and extracted label data are sent to Claude with the company SKILL.md as the governing system prompt. The model returns a Customer Friendly Name, product description, feature bullets, and applicable feature tags — consistent every run.</span></div></div>
+      <div class="step"><div class="step-num">04</div><div class="step-body"><strong>Style-Level Deduplication</strong><span>Results grouped by ecom style number after processing. Multiple colorways under the same style collapse into one PDP row with all color numbers listed. 139 pairs became 117 unique descriptions automatically.</span></div></div>
+      <div class="step"><div class="step-num">05</div><div class="step-body"><strong>Excel Output with Thumbnails</strong><span>Timestamped Excel workbook with all columns populated — Style Name, Ecom numbers, embedded product thumbnail, Customer Friendly Name, Description, Features, Applicable Features, and Status. Error rows highlighted for manual review.</span></div></div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">03 — Before vs. After</div>
+    <h2>The same output. The attention freed.</h2>
+    <p>The runtime is comparable. The difference is where your attention goes during those 40 minutes.</p>
+    <div class="split">
+      <div class="split-col before">
+        <div class="split-head">Before — Manual</div>
+        <ul>
+          <li>3m 49s per product — ~8.8 hours for 139 styles</li>
+          <li>Full attention required throughout</li>
+          <li>One product at a time, no parallelism</li>
+          <li>Duplicate descriptions for every colorway</li>
+          <li>No log, no audit trail, no error tracking</li>
+          <li>Output quality varies session to session</li>
+        </ul>
+      </div>
+      <div class="split-col after">
+        <div class="split-head">After — Pipeline</div>
+        <ul>
+          <li>40 minutes for 117 unique styles</li>
+          <li>Zero attention required after clicking Run</li>
+          <li>Full batch runs while you do something else</li>
+          <li>Automatic colorway deduplication</li>
+          <li>Timestamped log file for every run</li>
+          <li>Governed output via SKILL.md — consistent every time</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">04 — Results</div>
+    <h2>First full batch — May 13, 2026</h2>
+    <div class="results">
+      <div class="r-item"><span class="r-val">278</span><div class="r-lbl">Images processed</div><div class="r-sub">139 label + product pairs</div></div>
+      <div class="r-item"><span class="r-val">117</span><div class="r-lbl">Unique styles</div><div class="r-sub">22 colorways deduplicated</div></div>
+      <div class="r-item"><span class="r-val">40m 13s</span><div class="r-lbl">Runtime</div><div class="r-sub">Fully unattended</div></div>
+      <div class="r-item"><span class="r-val">3 rows</span><div class="r-lbl">Errors flagged</div><div class="r-sub">Highlighted for review</div></div>
+      <div class="r-item"><span class="r-val">76</span><div class="r-lbl">Auto-corrections</div><div class="r-sub">Reversed pairs swapped</div></div>
+      <div class="r-item"><span class="r-val">19</span><div class="r-lbl">Style groups merged</div><div class="r-sub">2–4 colorways each</div></div>
+      <div class="r-item"><span class="r-val">$4.59</span><div class="r-lbl">Total API cost</div><div class="r-sub">Claude Sonnet</div></div>
+      <div class="r-item"><span class="r-val">~$0.03</span><div class="r-lbl">Per description</div><div class="r-sub">vs. $5–15 freelance</div></div>
+    </div>
+    <div class="img-wrap" style="margin-top:1.8rem">
+      <img src="assets/PDP-Pipeline.jpg" alt="Excel output from first full batch run" onclick="openLB(this.src)">
+      <div class="img-cap">Excel output — first full batch, May 13, 2026</div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">05 — In the Wild</div>
+    <h2>The pipeline self-correcting in real time</h2>
+    <div class="img-wrap">
+      <img src="assets/1779131927815_image.png" alt="PDP Pipeline GUI showing a completed 139-pair run" onclick="openLB(this.src)">
+      <div class="img-cap">tkinter GUI — Pair 139/139 complete, 117 unique styles output</div>
+    </div>
+    <p>Pair 3 from the first run — photo order was reversed. The pipeline detected it, swapped, and continued without stopping.</p>
+    <div class="log">
+<span class="t">14:35:40</span> <span class="in">[INFO]   OK: None / None / None</span>
+<span class="t">14:35:40</span> <span class="wa">[WARNING]  photo_a gave no label data — trying photo_b as label.</span>
+<span class="t">14:35:43</span> <span class="ok">[INFO]   OK: ADIDA / STEEL MTL BTL HANDLE / 187479_418929</span>
+<span class="t">14:35:43</span> <span class="ok">[INFO]   Swapped: 135112349 is the label, 135055172 is the product.</span>
+<span class="t">14:35:50</span> <span class="ok">[INFO]   Pair 3 -> OK</span>
+    </div>
+    <p style="margin-top:1.2rem">End-of-run deduplication summary:</p>
+    <div class="log">
+<span class="ok">[INFO]  Style 191391: <span class="hi">4 colors</span> merged into one row (430547, 430549, 430543, 430545)</span>
+<span class="ok">[INFO]  Style 191396: <span class="hi">3 colors</span> merged into one row (430550, 430554, 430552)</span>
+<span class="ok">[INFO]  After deduplication: <span class="hi">117 unique style(s).</span></span>
+<span class="ok">[INFO]  Complete. 114/117 OK.</span>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">06 — Design Decisions</div>
+    <h2>Why it works the way it does</h2>
+    <h3>Governed output via SKILL.md</h3>
+    <p>Rather than prompting the model with free-form instructions, all PDP generation is governed by the company SKILL.md — a structured document encoding writing standards, formatting rules, and quality checks. It becomes the system prompt on every run. Output is consistent regardless of batch size or product category.</p>
+    <h3>Image resizing before API upload</h3>
+    <p>iPhone photos are ~4032×3024px and 3-4MB each. Sending full-resolution files was causing each pair to take over 2 minutes. Downsampling labels to 1536px and products to 1024px before upload reduced per-pair time to 15-25 seconds with no loss in output quality.</p>
+    <h3>Smart label detection, not brittle ordering</h3>
+    <p>The pipeline tries label extraction on the first photo. If it returns no style name and no ecom number, it swaps and retries. In the first full run, 76 of 139 pairs required this correction — a naive ordering assumption would have failed more than half the batch.</p>
+    <h3>Built for a non-developer daily user</h3>
+    <p>Custom tkinter GUI with a live log, pair-limit control for test runs, a Stop button, and a cost estimate before any API calls are made. Launches from a Windows desktop shortcut. No terminal, no command line needed after initial setup.</p>
+  </section>
+
+  <div class="callout reveal">
+    <p>The real value is not time saved — it is attention freed. 45 minutes of repetitive focused work became a single button click and a result waiting when you come back.</p>
+  </div>
+
+  <section class="reveal">
+    <div class="eyebrow">07 — Stack</div>
+    <h2>What it's built on</h2>
+    <div class="pills">
+      <span class="pill">Python 3</span>
+      <span class="pill">Anthropic Claude Sonnet</span>
+      <span class="pill">httpx</span>
+      <span class="pill">openpyxl</span>
+      <span class="pill">Pillow</span>
+      <span class="pill">tkinter GUI</span>
+      <span class="pill">GitHub</span>
+      <span class="pill">iOS timestamp pairing</span>
+      <span class="pill">Windows VBS launcher</span>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">08 — What's Next</div>
+    <h2>Version 2 is already scoped</h2>
+    <div class="roadmap">
+      <div class="road-item">Color language prohibition in PDP output so shared descriptions hold across all colorways</div>
+      <div class="road-item">Strict mismatch detection — flag label/product conflicts rather than best-guess pairings</div>
+      <div class="road-item">Windows Task Scheduler integration for fully unattended overnight runs</div>
+      <div class="road-item">Completion notification via email or Teams when a batch finishes</div>
+      <div class="road-item">Cross-reference against the Master Sample List to validate ecom numbers before output</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Python</span><span>·</span><span>Automation</span><span>·</span><span>Claude Vision API</span><span>·</span><span>eCommerce Ops</span><span>·</span><span>openpyxl</span><span>·</span><span>Label Extraction</span><span>·</span><span>PDP Copywriting</span><span>·</span><span>Style Deduplication</span><span>·</span><span>SKILL.md Governance</span><span>·</span><span>Shoe Carnival</span><span>·</span><span>tkinter GUI</span><span>·</span><span>iOS Timestamp Pairing</span><span>·</span>
+    <span>Python</span><span>·</span><span>Automation</span><span>·</span><span>Claude Vision API</span><span>·</span><span>eCommerce Ops</span><span>·</span><span>openpyxl</span><span>·</span><span>Label Extraction</span><span>·</span><span>PDP Copywriting</span><span>·</span><span>Style Deduplication</span><span>·</span><span>SKILL.md Governance</span><span>·</span><span>Shoe Carnival</span><span>·</span><span>tkinter GUI</span><span>·</span><span>iOS Timestamp Pairing</span><span>·</span>
+  </div>
+</div>
+
+<footer>
+  <p>
+    <a href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+    &nbsp;·&nbsp; eCommerce Content Specialist, Shoe Carnival, Inc.
+    &nbsp;·&nbsp; <a href="mailto:skcart79@gmail.com">skcart79@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  function openLB(src) { document.getElementById('lb-img').src = src; document.getElementById('lb').classList.add('on'); document.body.style.overflow = 'hidden'; }
+  function closeLB() { document.getElementById('lb').classList.remove('on'); document.body.style.overflow = ''; }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+</script>
+<div class="lb" id="lb" onclick="closeLB()">
+  <button class="lb-x" onclick="closeLB()">&#x2715;</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
+</body>
+</html>

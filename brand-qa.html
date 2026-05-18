@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Brand Page QA Tool — Stanley Carter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #ffffff;
+      --surface:   #f7f7f8;
+      --border:    #e8e9eb;
+      --muted:     #9ca3af;
+      --body:      #6b7280;
+      --heading:   #111827;
+      --blue:      #2563eb;
+      --red:       #dc2626;
+      --red-bg:    #fef2f2;
+      --green:     #16a34a;
+      --green-bg:  #dcfce7;
+      --blue-bg:   #dbeafe;
+      --tag-text:  #991b1b;
+      --blue-tag:  #1d4ed8;
+      --sans:      'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--body); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 60px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-size: 1rem; font-weight: 600; color: var(--heading); text-decoration: none; }
+    .nav-center { display: flex; gap: 2rem; }
+    .nav-center a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-center a:hover { color: var(--heading); }
+    .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+    .nav-right a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-right a:hover { color: var(--heading); }
+    .btn-back { background: var(--blue); color: #fff !important; padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.82rem; font-weight: 500; transition: opacity 0.15s; }
+    .btn-back:hover { opacity: 0.88; }
+
+    .hero { padding: 4rem 2.5rem 3.5rem; max-width: 960px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+    .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tag-text); background: var(--red-bg); padding: 0.25rem 0.7rem; border-radius: 100px; margin-bottom: 1.4rem; }
+    .hero h1 { font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 700; color: var(--heading); line-height: 1.15; margin-bottom: 1rem; }
+    .hero h1 span { color: var(--red); }
+    .hero .sub { font-size: 1rem; color: var(--body); max-width: 560px; line-height: 1.75; margin-bottom: 2.5rem; }
+    .metrics { display: flex; flex-wrap: wrap; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .metric { flex: 1; min-width: 130px; background: var(--bg); padding: 1.2rem 1.4rem; }
+    .metric .val { font-size: 1.6rem; font-weight: 700; color: var(--heading); display: block; line-height: 1; }
+    .metric .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+
+    .page { max-width: 960px; margin: 0 auto; padding: 0 2.5rem 6rem; }
+    section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+    .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    h2 { font-size: 1.55rem; font-weight: 700; color: var(--heading); margin-bottom: 1.1rem; line-height: 1.3; }
+    h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--red); margin: 1.8rem 0 0.5rem; }
+    h3:first-of-type { margin-top: 1rem; }
+    p { color: var(--body); margin-bottom: 0.9rem; line-height: 1.75; }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--heading); font-weight: 600; }
+
+    /* VERSION BLOCKS */
+    .version-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.8rem; }
+    .v-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .v-head { padding: 0.75rem 1.2rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    .v-card.v1 .v-head { background: var(--blue-bg); color: var(--blue-tag); }
+    .v-card.v2 .v-head { background: var(--green-bg); color: #166534; }
+    .v-card ul { list-style: none; padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .v-card ul li { font-size: 0.875rem; color: var(--body); padding-left: 1rem; position: relative; line-height: 1.5; }
+    .v-card ul li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; border-radius: 50%; }
+    .v1 ul li::before { background: var(--blue); }
+    .v2 ul li::before { background: var(--green); }
+
+    /* VIDEO */
+    .vid-wrap { margin: 1.8rem 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #000; }
+    .vid-wrap video { width: 100%; display: block; }
+    .vid-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0.6rem 1rem; border-top: 1px solid var(--border); background: var(--surface); }
+
+    /* RESULTS */
+    .results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 1.8rem; }
+    .r-item { background: var(--bg); padding: 1.2rem 1.3rem; }
+    .r-item .r-val { font-size: 1.25rem; font-weight: 700; color: var(--heading); display: block; margin-bottom: 0.2rem; }
+    .r-item .r-lbl { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .r-item .r-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* LOG */
+    .log { background: #0f1117; border-radius: 10px; padding: 1.3rem 1.5rem; margin-top: 1.4rem; font-family: 'Menlo', 'Courier New', monospace; font-size: 0.77rem; line-height: 1.9; overflow-x: auto; }
+    .log .t  { color: #4b5563; }
+    .log .ok { color: #4ade80; }
+    .log .wa { color: #fb923c; }
+    .log .er { color: #f87171; }
+    .log .in { color: #d1d5db; }
+
+    .callout { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0; padding: 1.3rem 1.6rem; margin: 2rem 0; }
+    .callout p { font-size: 1rem; font-weight: 500; color: var(--heading); line-height: 1.65; margin: 0; }
+
+    .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+    .pill { font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.75rem; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--body); }
+
+    .roadmap { display: flex; flex-direction: column; gap: 6px; margin-top: 1.4rem; }
+    .road-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem 1.1rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; color: var(--body); line-height: 1.55; background: var(--surface); }
+    .road-item::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--border); flex-shrink: 0; margin-top: 0.5em; }
+
+    .ticker { background: #111; padding: 0.65rem 0; overflow: hidden; white-space: nowrap; }
+    .ticker-inner { display: inline-flex; gap: 2.5rem; animation: ticker 32s linear infinite; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    footer a { color: var(--blue); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; }
+      .nav-center { display: none; }
+      .hero, .page { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .version-grid { grid-template-columns: 1fr; }
+      .results { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+  <div class="nav-center">
+    <a href="https://stanleycarter.netlify.app/#work">Work</a>
+    <a href="https://stanleycarter.netlify.app/#about">About</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://github.com/MNG-AI">GitHub</a>
+    <a href="https://stanleycarter.netlify.app/" class="btn-back">← Portfolio</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Python · QA Tooling</div>
+  <h1>Python Brand Page<br><span>QA Tool</span></h1>
+  <p class="sub">~2,000 brand URLs checked across two retail banners. Found 20 genuinely missing pages in Version 1. Refined into a tool accurate enough that its failures are immediately explainable in Version 2.</p>
+  <div class="metrics">
+    <div class="metric"><span class="val">~2K</span><div class="lbl">URLs audited</div></div>
+    <div class="metric"><span class="val">20</span><div class="lbl">Missing pages found</div></div>
+    <div class="metric"><span class="val">356/356</span><div class="lbl">SC passed in v2</div></div>
+    <div class="metric"><span class="val">v2</span><div class="lbl">Current version</div></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <section class="reveal">
+    <div class="eyebrow">01 — The Problem</div>
+    <h2>Brand pages can disappear quietly. No one was checking.</h2>
+    <p>A brand page that redirects to a search results page — or simply returns a 404 — looks fine in a spreadsheet. No alert fires. No process existed to systematically verify that brand pages across both banners were actually live and resolving correctly.</p>
+    <p>The risk: customers land on a search page instead of a curated brand experience. SEO signals are lost. And nobody knows until a buyer or writer happens to click on it.</p>
+    <p>The tool checks every brand URL, follows all redirects, and flags anything that does not land on the expected brand page destination.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">02 — Watch It Run</div>
+    <h2>The script auditing live brand URLs</h2>
+    <p>The recording below shows the tool running against the brand list, following redirects, and flagging pages that do not resolve to the correct destination. Status prints to the terminal in real time.</p>
+    <!-- rename to: brand-qa-demo.mp4, place in assets/ -->
+    <div class="vid-wrap">
+      <video controls playsinline>
+        <source src="assets/brand-qa-demo.mp4" type="video/mp4">
+        Your browser does not support the video element.
+      </video>
+      <div class="vid-label">Terminal — Brand page QA audit running live</div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">03 — Output</div>
+    <h2>Results exported and ready for action</h2>
+    <p>The tool writes its findings to a structured output file: confirmed pages, flagged redirects, and missing pages — separated so each finding is immediately actionable without manual sorting.</p>
+    <!-- rename to: brand-qa-output.mp4, place in assets/ -->
+    <div class="vid-wrap">
+      <video controls playsinline>
+        <source src="assets/brand-qa-output.mp4" type="video/mp4">
+        Your browser does not support the video element.
+      </video>
+      <div class="vid-label">Output — Structured results by status</div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">04 — Two Versions</div>
+    <h2>Version 1 found the problem. Version 2 proved accuracy.</h2>
+    <div class="version-grid">
+      <div class="v-card v1">
+        <div class="v-head">Version 1 — May 2025</div>
+        <ul>
+          <li>1,008 SC brands checked — 7 missing</li>
+          <li>1,005 SS brands checked — 13 missing</li>
+          <li>20 genuinely missing pages found and reported</li>
+          <li>Initial redirect logic — some edge cases flagged incorrectly</li>
+        </ul>
+      </div>
+      <div class="v-card v2">
+        <div class="v-head">Version 2 — April 2026</div>
+        <ul>
+          <li>SC: 356 brands checked — 356 passed, 0 missing</li>
+          <li>SS: 18 flags — all confirmed false positives</li>
+          <li>Edge cases (Frye &amp; Co., B-52) now explained immediately</li>
+          <li>Refined redirect detection — passes clean lists cleanly</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">05 — Results</div>
+    <h2>By the numbers</h2>
+    <div class="results">
+      <div class="r-item"><span class="r-val">1,008</span><div class="r-lbl">SC brands (v1)</div><div class="r-sub">7 missing found</div></div>
+      <div class="r-item"><span class="r-val">1,005</span><div class="r-lbl">SS brands (v1)</div><div class="r-sub">13 missing found</div></div>
+      <div class="r-item"><span class="r-val">356/356</span><div class="r-lbl">SC passed (v2)</div><div class="r-sub">Zero missing</div></div>
+      <div class="r-item"><span class="r-val">18</span><div class="r-lbl">SS flags (v2)</div><div class="r-sub">All false positives — explained</div></div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">06 — Sample Output</div>
+    <h2>What the terminal looks like mid-run</h2>
+    <div class="log">
+<span class="ok">[PASS]</span> <span class="in">shoecarnival.com/nike → 200 OK — brand page confirmed</span>
+<span class="ok">[PASS]</span> <span class="in">shoecarnival.com/adidas → 200 OK — brand page confirmed</span>
+<span class="wa">[FLAG]</span> <span class="in">shoestation.com/frye-and-co → 302 → search results — reviewing</span>
+<span class="ok">[PASS]</span> <span class="in">shoecarnival.com/birkenstock → 200 OK — brand page confirmed</span>
+<span class="er">[MISS]</span> <span class="in">shoestation.com/brand-x → 404 — page not found, adding to report</span>
+<span class="in">---</span>
+<span class="ok">[DONE]</span> <span class="in">SC: 356 checked — 356 passed — 0 missing</span>
+<span class="wa">[DONE]</span> <span class="in">SS: 1,005 checked — 987 passed — 18 flagged for review</span>
+    </div>
+  </section>
+
+  <div class="callout reveal">
+    <p>Version 1 found a real problem. Version 2 proved the tool was accurate enough that its own failures were explainable. That is the difference between a script that runs once and a tool that improves.</p>
+  </div>
+
+  <section class="reveal">
+    <div class="eyebrow">07 — What's Next</div>
+    <h2>Planned improvements</h2>
+    <div class="roadmap">
+      <div class="road-item">Special-character brand handling — detect and normalize names like Frye &amp; Co. and B-52 before checking</div>
+      <div class="road-item">Scheduled runs — automated weekly audit with results emailed on completion</div>
+      <div class="road-item">Delta tracking — surface only new failures since the last run, not the full list each time</div>
+      <div class="road-item">Cross-reference against the brand master list to flag brands in the system with no corresponding page</div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">08 — Stack</div>
+    <h2>What it's built on</h2>
+    <div class="pills">
+      <span class="pill">Python 3</span>
+      <span class="pill">requests</span>
+      <span class="pill">Redirect Following</span>
+      <span class="pill">CSV / Excel Output</span>
+      <span class="pill">Shoe Carnival Brand List</span>
+      <span class="pill">Shoe Station Brand List</span>
+      <span class="pill">GitHub</span>
+    </div>
+  </section>
+
+</div>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Python</span><span>·</span><span>QA Tooling</span><span>·</span><span>URL Auditing</span><span>·</span><span>Redirect Detection</span><span>·</span><span>eCommerce Ops</span><span>·</span><span>Shoe Carnival</span><span>·</span><span>Shoe Station</span><span>·</span><span>Automation</span><span>·</span><span>Brand Health</span><span>·</span><span>Link Checking</span><span>·</span>
+    <span>Python</span><span>·</span><span>QA Tooling</span><span>·</span><span>URL Auditing</span><span>·</span><span>Redirect Detection</span><span>·</span><span>eCommerce Ops</span><span>·</span><span>Shoe Carnival</span><span>·</span><span>Shoe Station</span><span>·</span><span>Automation</span><span>·</span><span>Brand Health</span><span>·</span><span>Link Checking</span><span>·</span>
+  </div>
+</div>
+
+<footer>
+  <p>
+    <a href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+    &nbsp;·&nbsp; eCommerce Content Specialist, Shoe Carnival, Inc.
+    &nbsp;·&nbsp; <a href="mailto:skcart79@gmail.com">skcart79@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

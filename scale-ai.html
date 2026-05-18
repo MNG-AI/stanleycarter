@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM Evaluation at Scale AI — Stanley Carter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #ffffff;
+      --surface:   #f7f7f8;
+      --border:    #e8e9eb;
+      --muted:     #9ca3af;
+      --body:      #6b7280;
+      --heading:   #111827;
+      --blue:      #2563eb;
+      --green:     #16a34a;
+      --green-bg:  #dcfce7;
+      --blue-bg:   #dbeafe;
+      --tag-text:  #166534;
+      --blue-tag:  #1d4ed8;
+      --sans:      'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--body); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 60px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-size: 1rem; font-weight: 600; color: var(--heading); text-decoration: none; }
+    .nav-center { display: flex; gap: 2rem; }
+    .nav-center a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-center a:hover { color: var(--heading); }
+    .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+    .nav-right a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-right a:hover { color: var(--heading); }
+    .btn-back { background: var(--blue); color: #fff !important; padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.82rem; font-weight: 500; transition: opacity 0.15s; }
+    .btn-back:hover { opacity: 0.88; }
+
+    .hero { padding: 4rem 2.5rem 3.5rem; max-width: 960px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+    .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #374151; background: #f3f4f6; padding: 0.25rem 0.7rem; border-radius: 100px; margin-bottom: 1.4rem; }
+    .hero h1 { font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 700; color: var(--heading); line-height: 1.15; margin-bottom: 1rem; }
+    .hero h1 span { color: var(--blue); }
+    .hero .sub { font-size: 1rem; color: var(--body); max-width: 560px; line-height: 1.75; margin-bottom: 2.5rem; }
+    .metrics { display: flex; flex-wrap: wrap; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .metric { flex: 1; min-width: 130px; background: var(--bg); padding: 1.2rem 1.4rem; }
+    .metric .val { font-size: 1.6rem; font-weight: 700; color: var(--heading); display: block; line-height: 1; }
+    .metric .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+
+    .page { max-width: 960px; margin: 0 auto; padding: 0 2.5rem 6rem; }
+    section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+    .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    h2 { font-size: 1.55rem; font-weight: 700; color: var(--heading); margin-bottom: 1.1rem; line-height: 1.3; }
+    h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--blue); margin: 1.8rem 0 0.5rem; }
+    h3:first-of-type { margin-top: 1rem; }
+    p { color: var(--body); margin-bottom: 0.9rem; line-height: 1.75; }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--heading); font-weight: 600; }
+
+    /* PROGRESSION TIMELINE */
+    .timeline { display: flex; gap: 0; margin-top: 1.8rem; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .tl-step { flex: 1; padding: 1.4rem 1.5rem; position: relative; border-right: 1px solid var(--border); }
+    .tl-step:last-child { border-right: none; }
+    .tl-eyebrow { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .tl-role { font-size: 1rem; font-weight: 700; color: var(--heading); margin-bottom: 0.35rem; line-height: 1.2; }
+    .tl-desc { font-size: 0.8rem; color: var(--body); line-height: 1.55; }
+    .tl-arrow { position: absolute; right: -11px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--border); z-index: 1; background: var(--bg); padding: 2px; }
+
+    /* RESULTS */
+    .results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 1.8rem; }
+    .r-item { background: var(--bg); padding: 1.2rem 1.3rem; }
+    .r-item .r-val { font-size: 1.25rem; font-weight: 700; color: var(--heading); display: block; margin-bottom: 0.2rem; }
+    .r-item .r-lbl { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .r-item .r-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* WHAT I DID */
+    .practice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.8rem; }
+    .practice-card { border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.4rem; background: var(--surface); }
+    .practice-card .p-title { font-size: 0.78rem; font-weight: 600; color: var(--heading); margin-bottom: 0.5rem; letter-spacing: 0.01em; }
+    .practice-card .p-desc { font-size: 0.82rem; color: var(--body); line-height: 1.65; }
+
+    .callout { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0; padding: 1.3rem 1.6rem; margin: 2rem 0; }
+    .callout p { font-size: 1rem; font-weight: 500; color: var(--heading); line-height: 1.65; margin: 0; }
+
+    .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+    .pill { font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.75rem; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--body); }
+
+    .ticker { background: #111; padding: 0.65rem 0; overflow: hidden; white-space: nowrap; }
+    .ticker-inner { display: inline-flex; gap: 2.5rem; animation: ticker 32s linear infinite; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    footer a { color: var(--blue); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; }
+      .nav-center { display: none; }
+      .hero, .page { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .timeline { flex-direction: column; }
+      .tl-step { border-right: none; border-bottom: 1px solid var(--border); }
+      .tl-step:last-child { border-bottom: none; }
+      .tl-arrow { display: none; }
+      .results, .practice-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+  <div class="nav-center">
+    <a href="https://stanleycarter.netlify.app/#work">Work</a>
+    <a href="https://stanleycarter.netlify.app/#about">About</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://github.com/MNG-AI">GitHub</a>
+    <a href="https://stanleycarter.netlify.app/" class="btn-back">← Portfolio</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">LLM Evaluation · QA Management</div>
+  <h1>LLM Evaluation<br><span>at Scale AI</span></h1>
+  <p class="sub">Final-line quality decisions on 5,000+ AI conversations. Grew from freelance contributor to QA Manager in under a year by reducing reviewer variance across a rotating team to under 3%.</p>
+  <div class="metrics">
+    <div class="metric"><span class="val">5,000+</span><div class="lbl">Conversations reviewed</div></div>
+    <div class="metric"><span class="val">&lt;3%</span><div class="lbl">Reviewer variance</div></div>
+    <div class="metric"><span class="val">50+</span><div class="lbl">Reviewers trained</div></div>
+    <div class="metric"><span class="val">100%</span><div class="lbl">Client delivery rate</div></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <section class="reveal">
+    <div class="eyebrow">01 — The Role</div>
+    <h2>Final-line approver for human feedback data going to model training</h2>
+    <p>Scale AI builds the human feedback datasets used to train large language models. As a final-line approver, every accept or reject decision on AI outputs ran through me — checked against safety, accuracy, and compliance guidelines before the data shipped to clients.</p>
+    <p>The decisions were high-stakes. A conversation flagged incorrectly could corrupt a training signal. A conversation passed incorrectly could introduce a defect into a production model. The job was to hold the line at both ends, consistently, across thousands of edge cases.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">02 — How It Progressed</div>
+    <h2>Three roles. Under a year.</h2>
+    <div class="timeline">
+      <div class="tl-step">
+        <div class="tl-eyebrow">Start</div>
+        <div class="tl-role">Freelance Contributor</div>
+        <div class="tl-desc">Producing individual LLM conversation evaluations — rating quality, safety, and instruction-following on a per-output basis</div>
+        <div class="tl-arrow">›</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-eyebrow">Promoted</div>
+        <div class="tl-role">Contractor Reviewer</div>
+        <div class="tl-desc">Reviewing and approving the evaluations submitted by other contributors — catching calibration drift and enforcing consistency across outputs</div>
+        <div class="tl-arrow">›</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-eyebrow">Promoted</div>
+        <div class="tl-role">QA Manager</div>
+        <div class="tl-desc">Owning the full quality standard for the reviewer pool — calibration sessions, rubric development, variance tracking, and final-line decisions</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">03 — What I Actually Did</div>
+    <h2>Building a shared quality standard across a rotating team</h2>
+    <p>The hardest problem in human feedback at scale is not finding people who can evaluate AI output — it is getting a group of independent reviewers to agree on the same judgment call when the cases are ambiguous. Edge cases do not have obvious answers. The quality standard only holds if the team calibrates to it consistently.</p>
+    <div class="practice-grid">
+      <div class="practice-card">
+        <div class="p-title">Calibration Sessions</div>
+        <div class="p-desc">Regular review passes on shared samples where everyone scores independently, then compares. Disagreements get discussed explicitly until the team reaches a shared interpretation of the rubric.</div>
+      </div>
+      <div class="practice-card">
+        <div class="p-title">Rubric Development</div>
+        <div class="p-desc">Translating vague quality criteria into specific, scoreable decision rules. If a reviewer cannot apply a rule consistently across two similar cases, the rule gets rewritten until it can be.</div>
+      </div>
+      <div class="practice-card">
+        <div class="p-title">Variance Tracking</div>
+        <div class="p-desc">Measuring inter-reviewer agreement on shared test sets after each calibration round. Tracking who is drifting high or low and running targeted correction sessions before variance compounds.</div>
+      </div>
+      <div class="practice-card">
+        <div class="p-title">Edge Case Documentation</div>
+        <div class="p-desc">Every contested call that required discussion got written up as a reference case. The library of documented edge cases became the institutional memory of the team's quality standard.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">04 — Results</div>
+    <h2>By the numbers</h2>
+    <div class="results">
+      <div class="r-item"><span class="r-val">5,000+</span><div class="r-lbl">Conversations reviewed</div><div class="r-sub">Accept / reject decisions</div></div>
+      <div class="r-item"><span class="r-val">&lt;3%</span><div class="r-lbl">Post-calibration variance</div><div class="r-sub">Across the reviewer pool</div></div>
+      <div class="r-item"><span class="r-val">50+</span><div class="r-lbl">Reviewers trained</div><div class="r-sub">Rotating contractor pool</div></div>
+      <div class="r-item"><span class="r-val">100%</span><div class="r-lbl">Client delivery rate</div><div class="r-sub">No batch rejections</div></div>
+    </div>
+  </section>
+
+  <div class="callout reveal">
+    <p>Under 3% variance means a team of independent reviewers agreed on the same quality call more than 97% of the time when evaluating ambiguous AI outputs. Getting a rotating team to that level of consistency is the core challenge of human feedback at scale.</p>
+  </div>
+
+  <section class="reveal">
+    <div class="eyebrow">05 — Why It Carries Forward</div>
+    <h2>The practice built at Scale AI is the same practice used now</h2>
+    <p>The work done at Scale AI was not specialized LLM research. It was the operational discipline of defining a quality standard, enforcing it across a group of people who each have their own interpretations, and measuring whether the enforcement is working.</p>
+    <p>That discipline maps directly to AI governance work: writing standards that hold across different users, measuring consistency, catching drift early. The context changed. The approach did not.</p>
+
+    <h3>What transfers directly</h3>
+    <p>Rubric development, calibration design, variance measurement, and edge case documentation are all reusable skills. The Ecom Way governance system at Shoe Carnival was built on the same framework: define the rule precisely, test it against edge cases, document the gray areas, measure whether the team applies it consistently.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">06 — Stack</div>
+    <h2>What this work required</h2>
+    <div class="pills">
+      <span class="pill">LLM Evaluation</span>
+      <span class="pill">Human Feedback (RLHF)</span>
+      <span class="pill">Rubric Design</span>
+      <span class="pill">Inter-Rater Reliability</span>
+      <span class="pill">Calibration Sessions</span>
+      <span class="pill">Safety Review</span>
+      <span class="pill">Edge Case Documentation</span>
+      <span class="pill">Quality Management</span>
+    </div>
+  </section>
+
+</div>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>LLM Evaluation</span><span>·</span><span>QA Management</span><span>·</span><span>RLHF</span><span>·</span><span>Scale AI</span><span>·</span><span>Calibration</span><span>·</span><span>Reviewer Training</span><span>·</span><span>Human Feedback</span><span>·</span><span>Safety Review</span><span>·</span><span>Variance Tracking</span><span>·</span><span>Quality Standards</span><span>·</span>
+    <span>LLM Evaluation</span><span>·</span><span>QA Management</span><span>·</span><span>RLHF</span><span>·</span><span>Scale AI</span><span>·</span><span>Calibration</span><span>·</span><span>Reviewer Training</span><span>·</span><span>Human Feedback</span><span>·</span><span>Safety Review</span><span>·</span><span>Variance Tracking</span><span>·</span><span>Quality Standards</span><span>·</span>
+  </div>
+</div>
+
+<footer>
+  <p>
+    <a href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+    &nbsp;·&nbsp; eCommerce Content Specialist, Shoe Carnival, Inc.
+    &nbsp;·&nbsp; <a href="mailto:skcart79@gmail.com">skcart79@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
