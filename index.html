@@ -72,33 +72,35 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(
 .s-num{font-size:2rem;font-weight:800;letter-spacing:-.03em;line-height:1;margin-bottom:.3rem;transition:color .3s}
 .s-lbl{font-size:.74rem;color:var(--mid);font-weight:500;line-height:1.45}
 
-/* ── WORK ── */
-#work{padding:4.5rem 1.5rem 2rem}
-.work-hd{max-width:1180px;margin:0 auto 2.25rem}
+/* ── WORK CARDS ── */
+#work{padding:4.5rem 0 3rem}
+.work-hd{padding:0 1.5rem;margin-bottom:2rem}
 .sec-lbl{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:.6rem}
 .sec-ttl{font-size:clamp(1.7rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-.03em;line-height:1.1}
-
-/* ── TILE GRID ── */
-.tile-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.tile-grid .tile:nth-child(5),.tile-grid .tile:nth-child(6){grid-column:1/-1}
-
-/* ── TILE ── */
-.tile{background:var(--off);border-radius:var(--radius);overflow:hidden;display:block;text-decoration:none;color:inherit;transition:transform .25s ease,box-shadow .25s ease}
-.tile:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.1)}
-.tile-face{padding:1.75rem}
-.tile-tag{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .55rem;border-radius:980px;margin-bottom:.85rem}
-.t-py{background:rgba(0,113,227,.1);color:var(--blue)}
-.t-ai{background:rgba(26,127,55,.1);color:var(--green)}
-.t-seo{background:rgba(0,0,0,.07);color:#555}
-.t-qa{background:rgba(192,57,43,.1);color:#c0392b}
-.t-ev{background:rgba(100,100,100,.1);color:#555}
-.tile-ttl{font-size:1.25rem;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-bottom:.4rem;color:var(--dark)}
-.tile-sub{font-size:.82rem;color:var(--mid);line-height:1.55;margin-bottom:1.25rem}
-.tile-bottom{display:flex;align-items:flex-end;justify-content:space-between}
-.tile-metric .m-num{font-size:1.7rem;font-weight:800;letter-spacing:-.04em;line-height:1}
-.tile-metric .m-lbl{font-size:.65rem;color:var(--mid);font-weight:500;margin-top:.15rem}
-.tile-arrow{width:32px;height:32px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--mid);transition:all .3s;flex-shrink:0}
-.tile:hover .tile-arrow{background:var(--border);color:var(--dark);transform:translateX(2px)}
+.card-track-wrap{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:0 1.5rem 1.5rem;cursor:grab}
+.card-track-wrap:active{cursor:grabbing}
+.card-track-wrap::-webkit-scrollbar{height:0}
+.card-track{display:flex;gap:16px;width:max-content}
+.wcard{width:300px;flex-shrink:0;scroll-snap-align:start;border-radius:var(--radius);border:1px solid var(--border);background:var(--white);display:flex;flex-direction:column;overflow:hidden;text-decoration:none;color:inherit;transition:transform .22s ease,box-shadow .22s ease}
+.wcard:hover{transform:translateY(-4px);box-shadow:0 14px 44px rgba(0,0,0,.11)}
+.wcard-img{height:180px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wcard-body{padding:1.1rem 1.25rem 1.25rem;display:flex;flex-direction:column;flex:1}
+.wcard-tag{font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.45rem}
+.wcard-ttl{font-size:1rem;font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-bottom:.4rem;color:var(--dark)}
+.wcard-sub{font-size:.8rem;color:var(--mid);line-height:1.58;flex:1}
+.wcard-foot{display:flex;align-items:center;justify-content:space-between;margin-top:1rem}
+.wcard-stat strong{font-size:1.25rem;font-weight:800;letter-spacing:-.03em;color:var(--dark);display:block;line-height:1.1}
+.wcard-stat span{font-size:.65rem;color:var(--mid);font-weight:500}
+.wcard-arrow{width:28px;height:28px;border-radius:50%;background:var(--off);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--mid);transition:background .2s,transform .2s;flex-shrink:0}
+.wcard:hover .wcard-arrow{background:var(--border);color:var(--dark);transform:translateX(2px)}
+/* ── SCROLL NAV ── */
+.scroll-nav{display:flex;align-items:center;gap:.6rem;margin-top:1.25rem;padding:0 1.5rem}
+.scroll-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:var(--dark);transition:background .18s,border-color .18s,transform .15s;flex-shrink:0}
+.scroll-btn:hover{background:var(--dark);color:#fff;border-color:var(--dark);transform:scale(1.06)}
+.scroll-btn:disabled{opacity:.28;pointer-events:none}
+.scroll-pip-wrap{display:flex;gap:5px;align-items:center;padding:0 .25rem}
+.scroll-pip{width:6px;height:6px;border-radius:50%;background:var(--border);transition:background .25s,transform .25s}
+.scroll-pip.active{background:var(--dark);transform:scale(1.3)}
 
 /* ── ABOUT ── */
 #about{background:var(--off);padding:4.5rem 1.5rem}
@@ -139,8 +141,6 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
   .hero-photo{order:-1}
   .hero-photo img,.photo-ph{width:160px;height:160px}
   .stats-in{grid-template-columns:repeat(2,1fr);gap:1.25rem}
-  .tile-grid{grid-template-columns:1fr}
-  .tile-grid .tile:nth-child(5),.tile-grid .tile:nth-child(6){grid-column:auto}
   .about-in{grid-template-columns:1fr;gap:2rem}
   .caps{grid-template-columns:1fr}
   .grid2{grid-template-columns:1fr}
@@ -259,103 +259,239 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     <h2 class="sec-ttl">Six projects. All real.</h2>
   </div>
 
-  <div class="tile-grid">
+  <div class="card-track-wrap">
+    <div class="card-track">
 
-    <!-- TILE 1: AMPLIENCE -->
-    <a href="amplience-audit.html" class="tile reveal" id="t1">
-      <div class="tile-face">
-        <span class="tile-tag t-py">Python · Automation</span>
-        <h3 class="tile-ttl">Amplience Photo Audit</h3>
-        <p class="tile-sub">Automated photo verification across 16,000+ products. What used to take hours now runs in one command.</p>
-        <div class="tile-bottom">
-          <div class="tile-metric">
-            <div class="m-num">16K+</div>
-            <div class="m-lbl">SKUs audited</div>
-          </div>
-          <div class="tile-arrow">&#8594;</div>
+      <!-- CARD 1: Amplience -->
+      <a href="amplience-audit.html" class="wcard reveal">
+        <div class="wcard-img" style="background:#EEF4FF">
+          <svg width="220" height="158" viewBox="0 0 220 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="18" y="20" width="48" height="38" rx="5" fill="#BFCFEF"/>
+            <rect x="72" y="20" width="48" height="38" rx="5" fill="#C8D6F5"/>
+            <rect x="126" y="20" width="48" height="38" rx="5" fill="#B8CAF0"/>
+            <rect x="18" y="66" width="48" height="38" rx="5" fill="#C5D4F3"/>
+            <rect x="72" y="66" width="48" height="38" rx="5" fill="#BFCFEF"/>
+            <rect x="126" y="66" width="48" height="38" rx="5" fill="#C8D6F5"/>
+            <polyline points="26,50 38,34 50,50" stroke="#7B9CD4" stroke-width="1.5" fill="none"/>
+            <circle cx="44" cy="37" r="3" fill="#7B9CD4"/>
+            <polyline points="80,50 92,34 104,50" stroke="#7B9CD4" stroke-width="1.5" fill="none"/>
+            <circle cx="98" cy="37" r="3" fill="#7B9CD4"/>
+            <polyline points="134,50 146,34 158,50" stroke="#7B9CD4" stroke-width="1.5" fill="none"/>
+            <circle cx="152" cy="37" r="3" fill="#7B9CD4"/>
+            <polyline points="26,96 38,80 50,96" stroke="#7B9CD4" stroke-width="1.5" fill="none"/>
+            <circle cx="44" cy="83" r="3" fill="#7B9CD4"/>
+            <polyline points="80,96 92,80 104,96" stroke="#7B9CD4" stroke-width="1.5" fill="none"/>
+            <circle cx="98" cy="83" r="3" fill="#7B9CD4"/>
+            <polyline points="134,96 146,80 158,96" stroke="#7B9CD4" stroke-width="1.5" fill="none"/>
+            <circle cx="152" cy="83" r="3" fill="#7B9CD4"/>
+            <circle cx="60" cy="20" r="9" fill="#16a34a"/>
+            <polyline points="55,20 58,23 65,16" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <circle cx="114" cy="20" r="9" fill="#16a34a"/>
+            <polyline points="109,20 112,23 119,16" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <circle cx="60" cy="66" r="9" fill="#16a34a"/>
+            <polyline points="55,66 58,69 65,62" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <circle cx="168" cy="20" r="9" fill="#f59e0b"/>
+            <text x="168" y="24" text-anchor="middle" font-size="10" fill="white" font-weight="700">!</text>
+            <rect x="18" y="116" width="174" height="9" rx="4" fill="#DDEAFF"/>
+            <rect x="18" y="116" width="120" height="9" rx="4" fill="#3B6FD4"/>
+            <text x="110" y="143" text-anchor="middle" font-size="11" fill="#3B6FD4" font-weight="500">16,000+ SKUs checked</text>
+          </svg>
         </div>
-      </div>
-    </a>
-
-    <a href="ai-governance.html" class="tile reveal" id="t2">
-      <div class="tile-face">
-        <span class="tile-tag t-ai">AI Governance · Workflow</span>
-        <h3 class="tile-ttl">AI Content Governance System</h3>
-        <p class="tile-sub">9 documents that replaced ad hoc AI use with a consistent, auditable standard. Works across any model.</p>
-        <div class="tile-bottom">
-          <div class="tile-metric">
-            <div class="m-num">15→&lt;1</div>
-            <div class="m-lbl">Days turnaround</div>
+        <div class="wcard-body">
+          <span class="wcard-tag t-py">Python · Automation</span>
+          <p class="wcard-ttl">Amplience Photo Audit</p>
+          <p class="wcard-sub">Automated photo verification across 16,000+ products. What used to take hours now runs in one command.</p>
+          <div class="wcard-foot">
+            <div class="wcard-stat"><strong>16K+</strong><span>SKUs audited</span></div>
+            <div class="wcard-arrow">&#8594;</div>
           </div>
-          <div class="tile-arrow">&#8594;</div>
         </div>
-      </div>
-    </a>
+      </a>
 
-    <!-- TILE 3: SEO -->
-    <a href="seo-copy.html" class="tile reveal" id="t3">
-      <div class="tile-face">
-        <span class="tile-tag t-seo">SEO Copy · GA4 · Tracking</span>
-        <h3 class="tile-ttl">Brand &amp; PLP SEO Copy Program</h3>
-        <p class="tile-sub">24 pages written and tracked across two retail banners. Built the measurement system to go with it.</p>
-        <div class="tile-bottom">
-          <div class="tile-metric">
-            <div class="m-num">24</div>
-            <div class="m-lbl">Pages authored</div>
+      <!-- CARD 2: Governance -->
+      <a href="ai-governance.html" class="wcard reveal">
+        <div class="wcard-img" style="background:#EDFAF4">
+          <svg width="220" height="158" viewBox="0 0 220 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="55" y="12" width="110" height="130" rx="7" fill="white" stroke="#9FE1CB" stroke-width="1"/>
+            <rect x="67" y="24" width="86" height="10" rx="3" fill="#5DCAA5"/>
+            <rect x="67" y="42" width="86" height="6" rx="2" fill="#C5EEE2"/>
+            <rect x="67" y="52" width="72" height="6" rx="2" fill="#C5EEE2"/>
+            <rect x="67" y="68" width="60" height="6" rx="2" fill="#5DCAA5" opacity="0.6"/>
+            <rect x="67" y="78" width="86" height="5" rx="2" fill="#C5EEE2"/>
+            <rect x="67" y="87" width="60" height="5" rx="2" fill="#C5EEE2"/>
+            <rect x="67" y="101" width="60" height="6" rx="2" fill="#5DCAA5" opacity="0.6"/>
+            <rect x="67" y="111" width="86" height="5" rx="2" fill="#C5EEE2"/>
+            <rect x="67" y="120" width="50" height="5" rx="2" fill="#C5EEE2"/>
+            <path d="M148 16 L160 20 L160 28 C160 32 154 36 148 38 C142 36 136 32 136 28 L136 20 Z" fill="#0F6E56" opacity="0.15"/>
+            <path d="M148 17 L159 21 L159 28 C159 31.5 153.5 35 148 37 C142.5 35 138 31.5 138 28 L138 21 Z" stroke="#0F6E56" stroke-width="1.2" fill="none"/>
+            <polyline points="143,28 147,32 154,23" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <rect x="140" y="130" width="28" height="14" rx="4" fill="#1D9E75"/>
+            <text x="154" y="140.5" text-anchor="middle" font-size="9" fill="white" font-weight="600">v2.0</text>
+          </svg>
+        </div>
+        <div class="wcard-body">
+          <span class="wcard-tag t-ai">AI Governance · Workflow</span>
+          <p class="wcard-ttl">AI Content Governance System</p>
+          <p class="wcard-sub">9 documents that replaced ad hoc AI use with a consistent, auditable standard. Works across any model.</p>
+          <div class="wcard-foot">
+            <div class="wcard-stat"><strong>15&#8594;&lt;1</strong><span>Days turnaround</span></div>
+            <div class="wcard-arrow">&#8594;</div>
           </div>
-          <div class="tile-arrow">&#8594;</div>
         </div>
-      </div>
-    </a>
+      </a>
 
-    <a href="brand-qa.html" class="tile reveal" id="t4">
-      <div class="tile-face">
-        <span class="tile-tag t-qa">Python · QA Tool</span>
-        <h3 class="tile-ttl">Python Brand Page QA Tool</h3>
-        <p class="tile-sub">~2,000 brand URLs checked across both banners. Found 20 missing pages. Improved across two versions.</p>
-        <div class="tile-bottom">
-          <div class="tile-metric">
-            <div class="m-num">~2K</div>
-            <div class="m-lbl">URLs audited</div>
+      <!-- CARD 3: SEO Copy -->
+      <a href="seo-copy.html" class="wcard reveal">
+        <div class="wcard-img" style="background:#F5F5F7">
+          <svg width="220" height="158" viewBox="0 0 220 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="22" y="14" width="176" height="128" rx="8" fill="white" stroke="#D3D1C7" stroke-width="1"/>
+            <rect x="22" y="14" width="176" height="24" rx="8" fill="#EEEDE8"/>
+            <rect x="22" y="26" width="176" height="12" fill="#EEEDE8"/>
+            <circle cx="36" cy="26" r="4" fill="#F09595"/>
+            <circle cx="50" cy="26" r="4" fill="#FAC775"/>
+            <circle cx="64" cy="26" r="4" fill="#97C459"/>
+            <rect x="76" y="20" width="100" height="12" rx="4" fill="white" stroke="#D3D1C7" stroke-width="0.5"/>
+            <text x="126" y="29" text-anchor="middle" font-size="8" fill="#888780">shoecarnival.com/nike</text>
+            <rect x="34" y="48" width="70" height="10" rx="2" fill="#2C2C2A"/>
+            <rect x="34" y="64" width="50" height="7" rx="2" fill="#888780"/>
+            <circle cx="38" cy="78" r="2" fill="#B4B2A9"/>
+            <rect x="44" y="75" width="60" height="5" rx="2" fill="#D3D1C7"/>
+            <circle cx="38" cy="89" r="2" fill="#B4B2A9"/>
+            <rect x="44" y="86" width="48" height="5" rx="2" fill="#D3D1C7"/>
+            <circle cx="38" cy="100" r="2" fill="#B4B2A9"/>
+            <rect x="44" y="97" width="54" height="5" rx="2" fill="#D3D1C7"/>
+            <rect x="122" y="56" width="64" height="52" rx="5" fill="#F5F4F0" stroke="#D3D1C7" stroke-width="0.5"/>
+            <polyline points="130,96 140,84 150,88 160,72 170,76 178,64" stroke="#3B6D11" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="154" y="128" text-anchor="middle" font-size="9" fill="#888780">GA4 tracked</text>
+          </svg>
+        </div>
+        <div class="wcard-body">
+          <span class="wcard-tag t-seo">SEO Copy · GA4 · Tracking</span>
+          <p class="wcard-ttl">Brand &amp; PLP SEO Copy Program</p>
+          <p class="wcard-sub">24 pages written and tracked across two retail banners. Built the measurement system to go with it.</p>
+          <div class="wcard-foot">
+            <div class="wcard-stat"><strong>24</strong><span>Pages authored</span></div>
+            <div class="wcard-arrow">&#8594;</div>
           </div>
-          <div class="tile-arrow">&#8594;</div>
         </div>
-      </div>
-    </a>
+      </a>
 
-    <a href="scale-ai.html" class="tile reveal" id="t5">
-      <div class="tile-face">
-        <span class="tile-tag t-ev">LLM Evaluation · QA Management</span>
-        <h3 class="tile-ttl">LLM Evaluation at Scale AI</h3>
-        <p class="tile-sub">Final-line quality decisions on 5,000+ AI conversations. Grew from freelance contributor to QA Manager in under a year by reducing reviewer variance across a rotating team to under 3%.</p>
-        <div class="tile-bottom">
-          <div class="tile-metric">
-            <div class="m-num">&lt;3%</div>
-            <div class="m-lbl">Post-calibration reviewer variance</div>
+      <!-- CARD 4: Brand QA -->
+      <a href="brand-qa.html" class="wcard reveal">
+        <div class="wcard-img" style="background:#FEF3F0">
+          <svg width="220" height="158" viewBox="0 0 220 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="22" y="18" width="176" height="118" rx="8" fill="#1e1e2e"/>
+            <rect x="22" y="18" width="176" height="22" rx="8" fill="#2a2a3e"/>
+            <rect x="22" y="32" width="176" height="8" fill="#2a2a3e"/>
+            <circle cx="36" cy="29" r="4" fill="#F09595" opacity="0.8"/>
+            <circle cx="50" cy="29" r="4" fill="#FAC775" opacity="0.8"/>
+            <circle cx="64" cy="29" r="4" fill="#97C459" opacity="0.8"/>
+            <rect x="34" y="48" width="14" height="5" rx="1" fill="#4ade80" opacity="0.9"/>
+            <rect x="52" y="48" width="80" height="5" rx="1" fill="#9ca3af" opacity="0.7"/>
+            <rect x="34" y="59" width="14" height="5" rx="1" fill="#4ade80" opacity="0.9"/>
+            <rect x="52" y="59" width="68" height="5" rx="1" fill="#9ca3af" opacity="0.7"/>
+            <rect x="34" y="70" width="18" height="5" rx="1" fill="#fb923c" opacity="0.9"/>
+            <rect x="56" y="70" width="78" height="5" rx="1" fill="#9ca3af" opacity="0.7"/>
+            <rect x="34" y="81" width="14" height="5" rx="1" fill="#4ade80" opacity="0.9"/>
+            <rect x="52" y="81" width="90" height="5" rx="1" fill="#9ca3af" opacity="0.7"/>
+            <rect x="34" y="92" width="14" height="5" rx="1" fill="#4ade80" opacity="0.9"/>
+            <rect x="52" y="92" width="74" height="5" rx="1" fill="#9ca3af" opacity="0.7"/>
+            <rect x="34" y="104" width="8" height="9" rx="1" fill="#60a5fa" opacity="0.8"/>
+            <rect x="128" y="104" width="58" height="16" rx="4" fill="#c0392b" opacity="0.85"/>
+            <text x="157" y="115.5" text-anchor="middle" font-size="9" fill="white" font-weight="600">~2K checked</text>
+          </svg>
+        </div>
+        <div class="wcard-body">
+          <span class="wcard-tag t-qa">Python · QA Tool</span>
+          <p class="wcard-ttl">Python Brand Page QA Tool</p>
+          <p class="wcard-sub">~2,000 brand URLs checked across both banners. Found 20 missing pages. Improved across two versions.</p>
+          <div class="wcard-foot">
+            <div class="wcard-stat"><strong>20</strong><span>Missing pages found</span></div>
+            <div class="wcard-arrow">&#8594;</div>
           </div>
-          <div class="tile-arrow">&#8594;</div>
         </div>
-      </div>
-    </a>
+      </a>
 
-    <a href="pdp-pipeline.html" class="tile reveal" id="t6">
-      <div class="tile-face">
-        <span class="tile-tag t-py">Python · Claude Vision API</span>
-        <h3 class="tile-ttl">PDP Automation Pipeline</h3>
-        <p class="tile-sub">From label photo to production-ready product copy in 40 minutes. A vision pipeline that replaced 8+ hours of manual work with a single button click. Processes full batches unattended.</p>
-        <div class="tile-bottom">
-          <div class="tile-metric">
-            <div class="m-num">117</div>
-            <div class="m-lbl">Unique styles — 1 run</div>
+      <!-- CARD 5: Scale AI -->
+      <a href="scale-ai.html" class="wcard reveal">
+        <div class="wcard-img" style="background:#F2F0FF">
+          <svg width="220" height="158" viewBox="0 0 220 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="18" width="120" height="28" rx="10" stroke="#AFA9EC" stroke-width="1" fill="#7F77DD" fill-opacity="0.1"/>
+            <rect x="34" y="26" width="80" height="6" rx="2" fill="#7F77DD" opacity="0.45"/>
+            <rect x="34" y="36" width="60" height="6" rx="2" fill="#7F77DD" opacity="0.25"/>
+            <rect x="70" y="54" width="120" height="28" rx="10" stroke="#AFA9EC" stroke-width="1" fill="#7F77DD" fill-opacity="0.1"/>
+            <rect x="76" y="62" width="90" height="6" rx="2" fill="#7F77DD" opacity="0.45"/>
+            <rect x="76" y="72" width="70" height="6" rx="2" fill="#7F77DD" opacity="0.25"/>
+            <text x="30" y="106" font-size="16" fill="#7F77DD" opacity="0.9">&#9733;</text>
+            <text x="50" y="106" font-size="16" fill="#7F77DD" opacity="0.9">&#9733;</text>
+            <text x="70" y="106" font-size="16" fill="#7F77DD" opacity="0.9">&#9733;</text>
+            <text x="90" y="106" font-size="16" fill="#7F77DD" opacity="0.9">&#9733;</text>
+            <text x="110" y="106" font-size="16" fill="#7F77DD" opacity="0.3">&#9733;</text>
+            <rect x="30" y="114" width="90" height="14" rx="4" fill="#534AB7" opacity="0.13"/>
+            <text x="75" y="124.5" text-anchor="middle" font-size="9" fill="#534AB7" font-weight="600">QA MANAGER</text>
+            <rect x="150" y="96" width="44" height="34" rx="6" fill="#534AB7" fill-opacity="0.1" stroke="#AFA9EC" stroke-width="0.5"/>
+            <text x="172" y="111" text-anchor="middle" font-size="14" fill="#534AB7" font-weight="700">&lt;3%</text>
+            <text x="172" y="122" text-anchor="middle" font-size="8" fill="#534AB7" opacity="0.8">variance</text>
+          </svg>
+        </div>
+        <div class="wcard-body">
+          <span class="wcard-tag t-ev">LLM Evaluation · QA Management</span>
+          <p class="wcard-ttl">LLM Evaluation at Scale AI</p>
+          <p class="wcard-sub">Final-line quality decisions on 5,000+ AI conversations. Reviewer variance under 3%.</p>
+          <div class="wcard-foot">
+            <div class="wcard-stat"><strong>&lt;3%</strong><span>Reviewer variance</span></div>
+            <div class="wcard-arrow">&#8594;</div>
           </div>
-          <div class="tile-arrow">&#8594;</div>
         </div>
-      </div>
-    </a>
+      </a>
 
+      <!-- CARD 6: PDP Pipeline -->
+      <a href="pdp-pipeline.html" class="wcard reveal">
+        <div class="wcard-img" style="background:#FFF8ED">
+          <svg width="220" height="158" viewBox="0 0 220 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="18" y="24" width="64" height="84" rx="6" fill="white" stroke="#FAC775" stroke-width="1"/>
+            <rect x="25" y="32" width="50" height="36" rx="3" fill="#FAC775" opacity="0.3"/>
+            <rect x="25" y="74" width="30" height="5" rx="2" fill="#D3D1C7"/>
+            <rect x="25" y="83" width="44" height="4" rx="2" fill="#D3D1C7"/>
+            <rect x="25" y="91" width="36" height="4" rx="2" fill="#D3D1C7"/>
+            <path d="M92 72 L112 72" stroke="#BA7517" stroke-width="2" stroke-linecap="round"/>
+            <polyline points="107,67 113,72 107,77" stroke="#BA7517" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <rect x="122" y="18" width="80" height="96" rx="6" fill="white" stroke="#FAC775" stroke-width="1"/>
+            <rect x="129" y="26" width="64" height="8" rx="2" fill="#EF9F27" opacity="0.5"/>
+            <rect x="129" y="40" width="64" height="5" rx="2" fill="#D3D1C7"/>
+            <rect x="129" y="49" width="50" height="5" rx="2" fill="#D3D1C7"/>
+            <rect x="129" y="58" width="56" height="5" rx="2" fill="#D3D1C7"/>
+            <rect x="129" y="71" width="40" height="5" rx="2" fill="#EF9F27" opacity="0.4"/>
+            <rect x="129" y="80" width="64" height="4" rx="2" fill="#D3D1C7"/>
+            <rect x="129" y="89" width="48" height="4" rx="2" fill="#D3D1C7"/>
+            <rect x="94" y="38" width="20" height="18" rx="4" fill="#EF9F27" opacity="0.18" stroke="#EF9F27" stroke-width="0.8"/>
+            <circle cx="98" cy="44" r="2" fill="#EF9F27" opacity="0.8"/>
+            <circle cx="110" cy="44" r="2" fill="#EF9F27" opacity="0.8"/>
+            <rect x="97" y="49" width="10" height="3" rx="1" fill="#EF9F27" opacity="0.6"/>
+            <text x="110" y="134" text-anchor="middle" font-size="10" fill="#854f0b" font-weight="500">40 min · 117 styles</text>
+          </svg>
+        </div>
+        <div class="wcard-body">
+          <span class="wcard-tag t-pdp">Python · Claude Vision API</span>
+          <p class="wcard-ttl">PDP Automation Pipeline</p>
+          <p class="wcard-sub">From label photo to production-ready copy in 40 minutes. 117 styles, one unattended run.</p>
+          <div class="wcard-foot">
+            <div class="wcard-stat"><strong>117</strong><span>Unique styles — 1 run</span></div>
+            <div class="wcard-arrow">&#8594;</div>
+          </div>
+        </div>
+      </a>
+
+    </div>
   </div>
-</section>
 
+  <div class="scroll-nav">
+    <button class="scroll-btn" id="btn-prev" aria-label="Previous">&#8592;</button>
+    <button class="scroll-btn" id="btn-next" aria-label="Next">&#8594;</button>
+    <div class="scroll-pip-wrap" id="pip-wrap"></div>
+  </div>
+
+</section>
 <!-- ABOUT -->
 <section id="about">
   <div class="about-in">
@@ -446,6 +582,52 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: .15 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── CARD CAROUSEL ──
+const wrap   = document.querySelector('.card-track-wrap');
+const cards  = document.querySelectorAll('.wcard');
+const btnP   = document.getElementById('btn-prev');
+const btnN   = document.getElementById('btn-next');
+const pipWrap= document.getElementById('pip-wrap');
+
+if (wrap && cards.length) {
+  // build pips
+  cards.forEach((_, i) => {
+    const p = document.createElement('div');
+    p.className = 'scroll-pip' + (i === 0 ? ' active' : '');
+    pipWrap.appendChild(p);
+  });
+
+  const pips = pipWrap.querySelectorAll('.scroll-pip');
+  const cardW = () => cards[0].offsetWidth + 16; // card + gap
+
+  function getIdx() {
+    return Math.round(wrap.scrollLeft / cardW());
+  }
+
+  function scrollTo(idx) {
+    idx = Math.max(0, Math.min(cards.length - 1, idx));
+    wrap.scrollTo({ left: idx * cardW(), behavior: 'smooth' });
+  }
+
+  function updateNav() {
+    const i = getIdx();
+    pips.forEach((p, j) => p.classList.toggle('active', j === i));
+    btnP.disabled = i === 0;
+    btnN.disabled = i === cards.length - 1;
+  }
+
+  btnP.addEventListener('click', () => scrollTo(getIdx() - 1));
+  btnN.addEventListener('click', () => scrollTo(getIdx() + 1));
+  wrap.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  // drag to scroll
+  let isDown = false, startX, startScroll;
+  wrap.addEventListener('mousedown', e => { isDown = true; startX = e.pageX; startScroll = wrap.scrollLeft; wrap.style.cursor = 'grabbing'; });
+  window.addEventListener('mouseup', () => { isDown = false; wrap.style.cursor = 'grab'; });
+  wrap.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); wrap.scrollLeft = startScroll - (e.pageX - startX); });
+}
 </script>
 
 </body>
