@@ -23,7 +23,24 @@
       --green:      #16a34a;
       --green-bg:   #dcfce7;
       --tag-text:   #166534;
+      --card:       #ffffff;
       --sans:       'Inter', system-ui, sans-serif;
+    }
+
+    [data-dark] {
+      --bg:         #09090b;
+      --surface:    #131315;
+      --border:     #2a2a2e;
+      --muted:      #6b7280;
+      --body:       #9ca3af;
+      --heading:    #f2f2f5;
+      --purple:     #a78bfa;
+      --purple-bg:  #1e1730;
+      --purple-tag: #c4b5fd;
+      --green:      #34c759;
+      --green-bg:   #052e16;
+      --tag-text:   #4ade80;
+      --card:       #1c1c1f;
     }
 
     html { scroll-behavior: smooth; }
@@ -34,6 +51,7 @@
       font-size: 16px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      transition: background .25s, color .25s;
     }
 
     /* ── NAV ── */
@@ -44,7 +62,9 @@
       background: rgba(255,255,255,0.95);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border);
+      transition: background .25s, border-color .25s;
     }
+    [data-dark] nav { background: rgba(9,9,11,0.9); }
     .nav-logo { font-size: 1rem; font-weight: 600; color: var(--heading); text-decoration: none; }
     .nav-center { display: flex; gap: 2rem; }
     .nav-center a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
@@ -168,15 +188,91 @@
     .ticker-inner { display: inline-flex; gap: 2.5rem; animation: ticker 32s linear infinite; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888; }
     @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
+    /* ── WORKFLOW SCREENSHOT ── */
+    .workflow-wrap {
+      margin: 1.8rem 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #0f1117;
+    }
+    .workflow-wrap img { width: 100%; height: auto; display: block; }
+    .workflow-placeholder {
+      background: #0f1117;
+      padding: 3.5rem 2rem;
+      text-align: center;
+      color: #4b5563;
+      font-family: 'Menlo', monospace;
+      font-size: 0.8rem;
+      line-height: 2;
+    }
+    .workflow-placeholder .ph-title { color: #6b7280; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .workflow-wrap .img-cap { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0.6rem 1rem; border-top: 1px solid var(--border); background: var(--surface); }
+
+    /* ── STICKY TOC ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .toc {
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+      padding: 2.5rem 1.5rem 2rem 2.5rem;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .toc-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .toc-link {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      border-left: 2px solid transparent;
+      transition: color 0.15s, background 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-link:hover { color: var(--heading); background: var(--surface); }
+    .toc-link.active { color: var(--purple); border-left-color: var(--purple); background: var(--purple-bg); }
+
+    /* ── DARK TOGGLE (project pages) ── */
+    .nav-theme-pp {
+      background: none; border: none; cursor: pointer;
+      padding: 0.3rem 0.5rem; border-radius: 8px;
+      color: var(--muted); font-size: 0.85rem; line-height: 1;
+      transition: background 0.15s, color 0.15s;
+      display: flex; align-items: center;
+    }
+    .nav-theme-pp:hover { background: var(--surface); color: var(--heading); }
+
     /* ── FOOTER ── */
     footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
     footer a { color: var(--purple); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
+    [data-dark] footer { background: #09090b; }
 
     /* ── REVEAL ── */
     .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { display: none; }
+    }
     @media (max-width: 700px) {
       nav { padding: 0 1rem; }
       .nav-center { display: none; }
@@ -200,6 +296,10 @@
   </div>
   <div class="nav-right">
     <a href="https://github.com/MNG-AI">GitHub</a>
+    <button class="nav-theme-pp" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">
+      <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
     <a href="https://stanleycarter.netlify.app/" class="btn-back">← Portfolio</a>
   </div>
 </nav>
@@ -217,9 +317,24 @@
   </div>
 </div>
 
+<div class="layout">
+
+  <!-- TOC SIDEBAR -->
+  <aside class="toc" id="toc">
+    <div class="toc-label">On this page</div>
+    <a href="#s01" class="toc-link" data-section="s01">01 — Why Rebuild</a>
+    <a href="#s02" class="toc-link" data-section="s02">02 — How It Works</a>
+    <a href="#s02b" class="toc-link" data-section="s02b">Workflow Diagram</a>
+    <a href="#s03" class="toc-link" data-section="s03">03 — Config System</a>
+    <a href="#s04" class="toc-link" data-section="s04">04 — QA Loop</a>
+    <a href="#s05" class="toc-link" data-section="s05">05 — Design Decisions</a>
+    <a href="#s06" class="toc-link" data-section="s06">06 — Stack</a>
+    <a href="#s07" class="toc-link" data-section="s07">07 — What's Next</a>
+  </aside>
+
 <div class="page">
 
-  <section class="reveal">
+  <section class="reveal" id="s01">
     <div class="eyebrow">01 — Why Rebuild</div>
     <h2>The Python pipeline worked. The Python requirement didn't.</h2>
     <p>The original PDP pipeline processed 117 styles in 40 minutes for $4.59. The logic was sound. But it required a Windows machine with Python installed, a virtual environment, a .env file with API keys, and someone comfortable running a script. That's a one-person operation.</p>
@@ -250,7 +365,7 @@
     </div>
   </section>
 
-  <section class="reveal">
+  <section class="reveal" id="s02">
     <div class="eyebrow">02 — How It Works</div>
     <h2>Fourteen nodes. One folder drop to finished CSV.</h2>
     <p>The workflow is a linear-with-branches pipeline. It starts from a Drive trigger, fans out to process each photo pair in sequence, applies a QA feedback loop on every result, then aggregates and delivers everything at the end.</p>
@@ -266,7 +381,21 @@
     </div>
   </section>
 
-  <section class="reveal">
+  <section class="reveal" id="s02b">
+    <div class="eyebrow">Workflow Diagram</div>
+    <h2>The full pipeline, node by node</h2>
+    <p>Every node visible — from the Drive trigger on the left to the email delivery on the right. The QA retry branch is in the top-right corner. The output path (CSV build → Drive upload → email) runs along the bottom.</p>
+    <div class="workflow-wrap">
+      <img src="assets/n8n-workflow.png" alt="n8n workflow diagram — Footwear PDP Generator" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="workflow-placeholder" style="display:none">
+        <div class="ph-title">Workflow diagram</div>
+        <div>Add <code>assets/n8n-workflow.png</code> to show the canvas screenshot here</div>
+      </div>
+      <div class="img-cap">n8n workflow canvas — Footwear PDP Generator (Fixed)</div>
+    </div>
+  </section>
+
+  <section class="reveal" id="s03">
     <div class="eyebrow">03 — The Config System</div>
     <h2>Everything configurable. Nothing hardcoded.</h2>
     <p>The workflow reads all operational parameters from a Google Sheets document at runtime. Changing the AI model, updating the skill prompt, adjusting the QA rubric, or tuning the retry count requires no access to the n8n workflow editor — just editing a spreadsheet.</p>
@@ -282,7 +411,7 @@
     <p style="margin-top:1.4rem">The <code>qa_examples</code> sheet provides structured failure patterns — each row has a rule ID, failure description, a bad example, a good example, and the affected field. These are assembled into a readable block that gets injected into the QA system prompt, so the model knows exactly what it's grading against.</p>
   </section>
 
-  <section class="reveal">
+  <section class="reveal" id="s04">
     <div class="eyebrow">04 — QA Feedback Loop</div>
     <h2>Reject, explain, regenerate. Up to <em>n</em> times.</h2>
     <p>The QA loop is the part that most distinguishes this workflow from a simple generate-and-ship pipeline. Every piece of generated copy is evaluated against the rubric before it touches the output file.</p>
@@ -329,7 +458,7 @@
     </div>
   </section>
 
-  <section class="reveal">
+  <section class="reveal" id="s05">
     <div class="eyebrow">05 — Design Decisions</div>
     <h2>Why it's built the way it is</h2>
     <h3>Alphabetical pairing, not timestamp pairing</h3>
@@ -346,7 +475,7 @@
     <p>The Python version proved the logic. The n8n version proves the logic doesn't need you to be there.</p>
   </div>
 
-  <section class="reveal">
+  <section class="reveal" id="s06">
     <div class="eyebrow">06 — Stack</div>
     <h2>What it's built on</h2>
     <div class="pills">
@@ -365,7 +494,7 @@
     </div>
   </section>
 
-  <section class="reveal">
+  <section class="reveal" id="s07">
     <div class="eyebrow">07 — What's Next</div>
     <h2>Already scoped for v2</h2>
     <div class="roadmap">
@@ -378,6 +507,7 @@
   </section>
 
 </div>
+</div><!-- end .layout -->
 
 <div class="ticker">
   <div class="ticker-inner">
@@ -395,10 +525,48 @@
 </footer>
 
 <script>
+  // ── DARK MODE ──
+  function toggleTheme() {
+    const isDark = document.documentElement.hasAttribute('data-dark');
+    isDark
+      ? document.documentElement.removeAttribute('data-dark')
+      : document.documentElement.setAttribute('data-dark', '');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    syncIcons();
+  }
+  function syncIcons() {
+    const isDark = document.documentElement.hasAttribute('data-dark');
+    document.getElementById('iconMoon').style.display = isDark ? 'none' : 'block';
+    document.getElementById('iconSun').style.display  = isDark ? 'block' : 'none';
+  }
+  (function() {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefersDark)) {
+      document.documentElement.setAttribute('data-dark', '');
+    }
+    syncIcons();
+  })();
+
+  // ── SCROLL REVEAL ──
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
   }, { threshold: 0.07 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ── TOC ACTIVE STATE ──
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const tocObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+  sections.forEach(s => tocObs.observe(s));
 </script>
 
 </body>
