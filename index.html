@@ -109,20 +109,30 @@ nav {
   animation: ticker 50s linear infinite;
 }
 
-.ticker-track span {
-  padding: 0 32px;
+.tick-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 28px;
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
   white-space: nowrap;
+  letter-spacing: 0.03em;
 }
 
-.ticker-track span::before {
-  content: '·';
-  margin-right: 32px;
+.tick-item img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.55;
+  flex-shrink: 0;
+}
+
+.tick-sep {
+  padding: 0 8px;
   color: var(--accent);
-  opacity: 0.5;
+  opacity: 0.3;
+  font-size: 0.6rem;
 }
 
 @keyframes ticker {
@@ -708,14 +718,19 @@ section {
 /* ── REVEAL ── */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(28px);
+  transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1);
 }
+.reveal.from-left  { transform: translateX(-40px); }
+.reveal.from-right { transform: translateX(40px); }
+.reveal.pop        { transform: scale(0.93) translateY(14px); }
+.reveal.visible    { opacity: 1; transform: none; }
 
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.projects-grid .proj-card:nth-child(2) { transition-delay: 0.06s; }
+.projects-grid .proj-card:nth-child(3) { transition-delay: 0.12s; }
+.projects-grid .proj-card:nth-child(4) { transition-delay: 0.18s; }
+.projects-grid .proj-card:nth-child(5) { transition-delay: 0.06s; }
+.projects-grid .proj-card:nth-child(7) { transition-delay: 0.06s; }
 
 /* ── FOOTER ── */
 footer {
@@ -817,38 +832,46 @@ footer {
 <!-- TICKER -->
 <div class="ticker-wrap" aria-hidden="true">
   <div class="ticker-track">
-    <span>AI Governance</span>
-    <span>LLM Evaluation</span>
-    <span>Python Automation</span>
-    <span>n8n Workflows</span>
-    <span>Workflow Design</span>
-    <span>QA Systems</span>
-    <span>eCommerce Ops</span>
-    <span>GA4 Analytics</span>
-    <span>Content Strategy</span>
-    <span>openpyxl</span>
-    <span>Oracle Fusion</span>
-    <span>SEO Copywriting</span>
-    <span>Scale AI</span>
-    <span>Shoe Carnival</span>
-    <span>Shoe Station</span>
-    <span>Coca-Cola Consolidated</span>
-    <span>AI Governance</span>
-    <span>LLM Evaluation</span>
-    <span>Python Automation</span>
-    <span>n8n Workflows</span>
-    <span>Workflow Design</span>
-    <span>QA Systems</span>
-    <span>eCommerce Ops</span>
-    <span>GA4 Analytics</span>
-    <span>Content Strategy</span>
-    <span>openpyxl</span>
-    <span>Oracle Fusion</span>
-    <span>SEO Copywriting</span>
-    <span>Scale AI</span>
-    <span>Shoe Carnival</span>
-    <span>Shoe Station</span>
-    <span>Coca-Cola Consolidated</span>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/python" alt="Python"><span>Python</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/github/ffffff" alt="GitHub"><span>GitHub</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/anthropic/ffffff" alt="Claude API"><span>Claude API</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/n8n" alt="n8n"><span>n8n</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/googlesheets" alt="Google Sheets"><span>Google Sheets</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/googleanalytics" alt="GA4"><span>GA4</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/microsoftexcel" alt="Excel"><span>Excel</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/hubspot" alt="HubSpot"><span>HubSpot</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/oracle" alt="Oracle Fusion"><span>Oracle Fusion</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/markdown/ffffff" alt="Markdown"><span>Markdown</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/python" alt="Python"><span>Python</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/github/ffffff" alt="GitHub"><span>GitHub</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/anthropic/ffffff" alt="Claude API"><span>Claude API</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/n8n" alt="n8n"><span>n8n</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/googlesheets" alt="Google Sheets"><span>Google Sheets</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/googleanalytics" alt="GA4"><span>GA4</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/microsoftexcel" alt="Excel"><span>Excel</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/hubspot" alt="HubSpot"><span>HubSpot</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/oracle" alt="Oracle Fusion"><span>Oracle Fusion</span></div>
+    <div class="tick-sep">·</div>
+    <div class="tick-item"><img src="https://cdn.simpleicons.org/markdown/ffffff" alt="Markdown"><span>Markdown</span></div>
+    <div class="tick-sep">·</div>
   </div>
 </div>
 
@@ -918,11 +941,11 @@ footer {
   </div>
 
   <div class="about-grid">
-    <div class="about-bio reveal">
+    <div class="about-bio reveal from-left">
       <p>I started in retail — selling, troubleshooting, and managing stores. Each role taught me something about systems: how they break, why they slow down, and what happens when nobody builds the guardrails.</p>
       <p>At Scale AI I evaluated thousands of LLM outputs against production standards. That became the foundation for what I build now: governance frameworks, QA tooling, and workflows designed to catch problems at creation, not at review.</p>
     </div>
-    <div class="caps-grid reveal">
+    <div class="caps-grid reveal from-right">
       <div class="cap-card">
         <div class="cap-title">LLM Quality Ops</div>
         <div class="cap-body">Evaluation rubrics, acceptance criteria, calibration, variance reduction</div>
@@ -953,7 +976,7 @@ footer {
 
   <div class="exp-list">
 
-    <div class="exp-card reveal">
+    <div class="exp-card reveal from-left">
       <div class="exp-logo">
         <img src="https://logo.clearbit.com/shoecarnival.com" alt="Shoe Carnival" loading="lazy">
       </div>
@@ -975,7 +998,7 @@ footer {
       </div>
     </div>
 
-    <div class="exp-card reveal">
+    <div class="exp-card reveal from-right">
       <div class="exp-logo">
         <img src="https://logo.clearbit.com/scale.com" alt="Scale AI" loading="lazy">
       </div>
@@ -996,7 +1019,7 @@ footer {
       </div>
     </div>
 
-    <div class="exp-card reveal">
+    <div class="exp-card reveal from-left">
       <div class="exp-logo">
         <img src="https://logo.clearbit.com/cocacolaconsolidated.com" alt="Retail & Operations" loading="lazy">
       </div>
@@ -1027,7 +1050,7 @@ footer {
     <p class="section-sub">Companies I've contributed to, and the tools I use to build with.</p>
   </div>
 
-  <div class="skills-companies reveal">
+  <div class="skills-companies reveal from-left">
     <div class="company-pill">
       <img src="https://logo.clearbit.com/shoecarnival.com" alt="Shoe Carnival" loading="lazy">
       Shoe Carnival
@@ -1050,7 +1073,7 @@ footer {
     </div>
   </div>
 
-  <div class="tools-grid reveal">
+  <div class="tools-grid reveal from-right">
     <div class="tool-item">
       <img src="https://cdn.simpleicons.org/python" alt="Python" loading="lazy">
       <span class="tool-label">Python</span>
@@ -1105,7 +1128,7 @@ footer {
   <div class="projects-grid">
 
     <!-- 1: span 2 -->
-    <a href="amplience-audit.html" class="proj-card span-2 reveal">
+    <a href="amplience-audit.html" class="proj-card span-2 reveal pop">
       <div class="proj-tag blue">Python · Automation</div>
       <div class="proj-title">Amplience Photo Audit</div>
       <p class="proj-desc">Automated photo verification across 16,000+ products. What used to take hours now runs in one command.</p>
@@ -1116,7 +1139,7 @@ footer {
     </a>
 
     <!-- 2 -->
-    <a href="ai-governance.html" class="proj-card reveal">
+    <a href="ai-governance.html" class="proj-card reveal pop">
       <div class="proj-tag green">AI Governance</div>
       <div class="proj-title">AI Content Governance System</div>
       <p class="proj-desc">9 documents that replaced ad hoc AI use with a consistent, auditable standard across two brands and any model.</p>
@@ -1127,7 +1150,7 @@ footer {
     </a>
 
     <!-- 3 -->
-    <a href="seo-copy.html" class="proj-card reveal">
+    <a href="seo-copy.html" class="proj-card reveal pop">
       <div class="proj-tag neutral">SEO · GA4</div>
       <div class="proj-title">Brand &amp; PLP SEO Copy Program</div>
       <p class="proj-desc">24 pages written and tracked across two retail banners with a measurement system built in from day one.</p>
@@ -1138,7 +1161,7 @@ footer {
     </a>
 
     <!-- 4 -->
-    <a href="brand-qa.html" class="proj-card reveal">
+    <a href="brand-qa.html" class="proj-card reveal pop">
       <div class="proj-tag red">Python · QA</div>
       <div class="proj-title">Python Brand Page QA Tool</div>
       <p class="proj-desc">~2,000 brand URLs checked across both banners. Found 20 missing pages in v1. 356/356 passed in v2.</p>
@@ -1149,7 +1172,7 @@ footer {
     </a>
 
     <!-- 5 -->
-    <a href="scale-ai.html" class="proj-card reveal">
+    <a href="scale-ai.html" class="proj-card reveal pop">
       <div class="proj-tag purple">LLM Evaluation</div>
       <div class="proj-title">LLM Evaluation at Scale AI</div>
       <p class="proj-desc">Final-line quality decisions on 5,000+ AI conversations. Built the calibration system that held variance under 3%.</p>
@@ -1160,7 +1183,7 @@ footer {
     </a>
 
     <!-- 6: span 2 -->
-    <a href="pdp-pipeline.html" class="proj-card span-2 reveal">
+    <a href="pdp-pipeline.html" class="proj-card span-2 reveal pop">
       <div class="proj-tag blue">Python · Claude Vision</div>
       <div class="proj-title">PDP Automation Pipeline</div>
       <p class="proj-desc">From label photo to production-ready product copy in 40 minutes. 8+ hours of manual work replaced with a single click. Runs fully unattended.</p>
@@ -1171,7 +1194,7 @@ footer {
     </a>
 
     <!-- 7 -->
-    <a href="n8n-pdp-generator.html" class="proj-card reveal">
+    <a href="n8n-pdp-generator.html" class="proj-card reveal pop">
       <div class="proj-tag pink">n8n · Automation</div>
       <div class="proj-title">Footwear PDP Generator — n8n</div>
       <p class="proj-desc">The Python pipeline rebuilt for the cloud. Drop photos into Google Drive, get governed descriptions emailed to you. No local machine, no terminal.</p>
