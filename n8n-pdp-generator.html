@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footwear PDP Generator — n8n · Stanley Carter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #ffffff;
+      --surface:    #f7f7f8;
+      --border:     #e8e9eb;
+      --muted:      #9ca3af;
+      --body:       #6b7280;
+      --heading:    #111827;
+      --purple:     #7c3aed;
+      --purple-bg:  #ede9fe;
+      --purple-tag: #5b21b6;
+      --green:      #16a34a;
+      --green-bg:   #dcfce7;
+      --tag-text:   #166534;
+      --sans:       'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--body);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 60px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 1rem; font-weight: 600; color: var(--heading); text-decoration: none; }
+    .nav-center { display: flex; gap: 2rem; }
+    .nav-center a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-center a:hover { color: var(--heading); }
+    .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+    .nav-right a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-right a:hover { color: var(--heading); }
+    .nav-right .btn-back {
+      background: var(--purple); color: #fff;
+      padding: 0.35rem 0.9rem; border-radius: 100px;
+      font-size: 0.82rem; font-weight: 500; text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .nav-right .btn-back:hover { opacity: 0.88; color: #fff; }
+
+    /* ── HERO ── */
+    .hero { padding: 4rem 2.5rem 3.5rem; max-width: 960px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--purple-tag);
+      background: var(--purple-bg); padding: 0.25rem 0.7rem;
+      border-radius: 100px; margin-bottom: 1.4rem;
+    }
+    .hero h1 { font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 700; color: var(--heading); line-height: 1.15; margin-bottom: 1rem; }
+    .hero h1 span { color: var(--purple); }
+    .hero .sub { font-size: 1rem; color: var(--body); max-width: 560px; line-height: 1.75; margin-bottom: 2.5rem; }
+
+    .metrics { display: flex; flex-wrap: wrap; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .metric { flex: 1; min-width: 130px; background: var(--bg); padding: 1.2rem 1.4rem; }
+    .metric .val { font-size: 1.6rem; font-weight: 700; color: var(--heading); display: block; line-height: 1; }
+    .metric .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+
+    /* ── PAGE ── */
+    .page { max-width: 960px; margin: 0 auto; padding: 0 2.5rem 6rem; }
+
+    section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    h2 { font-size: 1.55rem; font-weight: 700; color: var(--heading); margin-bottom: 1.1rem; line-height: 1.3; }
+    h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--purple); margin: 1.8rem 0 0.5rem; }
+    h3:first-of-type { margin-top: 1rem; }
+    p { color: var(--body); margin-bottom: 0.9rem; line-height: 1.75; }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--heading); font-weight: 600; }
+
+    /* ── STEPS ── */
+    .steps { display: flex; flex-direction: column; gap: 7px; margin-top: 1.8rem; }
+    .step { display: grid; grid-template-columns: 40px 1fr; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .step-num { background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; color: var(--muted); border-right: 1px solid var(--border); }
+    .step-body { padding: 1rem 1.25rem; }
+    .step-body strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--heading); margin-bottom: 0.25rem; }
+    .step-body span { font-size: 0.875rem; color: var(--body); line-height: 1.6; }
+
+    /* ── SPLIT ── */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.8rem; }
+    .split-col { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .split-head { padding: 0.75rem 1.2rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    .before .split-head { background: #fef9f0; color: #92400e; }
+    .after  .split-head { background: var(--purple-bg); color: var(--purple-tag); }
+    .split-col ul { list-style: none; padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .split-col ul li { font-size: 0.875rem; color: var(--body); padding-left: 1rem; position: relative; line-height: 1.5; }
+    .split-col ul li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; border-radius: 50%; }
+    .before ul li::before { background: #f59e0b; }
+    .after  ul li::before { background: var(--purple); }
+
+    /* ── RESULTS ── */
+    .results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 1.8rem; }
+    .r-item { background: var(--bg); padding: 1.2rem 1.3rem; }
+    .r-item .r-val { font-size: 1.25rem; font-weight: 700; color: var(--heading); display: block; margin-bottom: 0.2rem; }
+    .r-item .r-lbl { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .r-item .r-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* ── NODE DIAGRAM ── */
+    .flow { display: flex; flex-direction: column; gap: 6px; margin-top: 1.8rem; }
+    .flow-row { display: flex; gap: 6px; align-items: stretch; }
+    .flow-node {
+      flex: 1; border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.9rem 1.2rem; background: var(--surface);
+      font-size: 0.82rem; color: var(--heading); font-weight: 500;
+    }
+    .flow-node .fn-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.25rem; }
+    .flow-node.accent { border-color: var(--purple); background: var(--purple-bg); }
+    .flow-node.accent .fn-label { color: var(--purple-tag); }
+    .flow-node.green { border-color: #16a34a; background: var(--green-bg); }
+    .flow-node.green .fn-label { color: #166534; }
+    .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.8rem; padding: 0 0.2rem; flex-shrink: 0; }
+
+    /* ── CONFIG TABLE ── */
+    .config-table { margin-top: 1.6rem; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .config-row { display: grid; grid-template-columns: 180px 1fr; border-bottom: 1px solid var(--border); }
+    .config-row:last-child { border-bottom: none; }
+    .config-key { padding: 0.75rem 1.1rem; font-size: 0.8rem; font-weight: 600; color: var(--heading); background: var(--surface); font-family: 'Menlo', 'Courier New', monospace; border-right: 1px solid var(--border); }
+    .config-val { padding: 0.75rem 1.1rem; font-size: 0.82rem; color: var(--body); }
+
+    /* ── LOG ── */
+    .log { background: #0f1117; border-radius: 10px; padding: 1.3rem 1.5rem; margin-top: 1.4rem; font-family: 'Menlo', 'Courier New', monospace; font-size: 0.77rem; line-height: 1.9; overflow-x: auto; }
+    .log .t  { color: #4b5563; }
+    .log .ok { color: #4ade80; }
+    .log .wa { color: #fb923c; }
+    .log .in { color: #d1d5db; }
+    .log .hi { color: #a78bfa; }
+    .log .pu { color: #c4b5fd; }
+
+    /* ── CALLOUT ── */
+    .callout { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--purple); border-radius: 0 8px 8px 0; padding: 1.3rem 1.6rem; margin: 2rem 0; }
+    .callout p { font-size: 1rem; font-weight: 500; color: var(--heading); line-height: 1.65; margin: 0; }
+
+    /* ── PILLS ── */
+    .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+    .pill { font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.75rem; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--body); }
+
+    /* ── ROADMAP ── */
+    .roadmap { display: flex; flex-direction: column; gap: 6px; margin-top: 1.4rem; }
+    .road-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem 1.1rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; color: var(--body); line-height: 1.55; background: var(--surface); }
+    .road-item::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--border); flex-shrink: 0; margin-top: 0.5em; }
+
+    /* ── TICKER ── */
+    .ticker { background: #111; padding: 0.65rem 0; overflow: hidden; white-space: nowrap; }
+    .ticker-inner { display: inline-flex; gap: 2.5rem; animation: ticker 32s linear infinite; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    footer a { color: var(--purple); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; }
+      .nav-center { display: none; }
+      .hero, .page { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .split, .results { grid-template-columns: 1fr; }
+      .results { grid-template-columns: 1fr 1fr; }
+      .flow-row { flex-direction: column; }
+      .flow-arrow { transform: rotate(90deg); }
+      .config-row { grid-template-columns: 1fr; }
+      .config-key { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+  <div class="nav-center">
+    <a href="https://stanleycarter.netlify.app/#work">Work</a>
+    <a href="https://stanleycarter.netlify.app/#about">About</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://github.com/MNG-AI">GitHub</a>
+    <a href="https://stanleycarter.netlify.app/" class="btn-back">← Portfolio</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">n8n · Workflow Automation · Claude Vision API</div>
+  <h1>Footwear PDP<br><span>Generator — n8n</span></h1>
+  <p class="sub">The Python pipeline rebuilt for the cloud. Drop photos into a Google Drive folder and get governed product descriptions delivered to your inbox — no desktop, no terminal, no one watching it run.</p>
+  <div class="metrics">
+    <div class="metric"><span class="val">Drive-triggered</span><div class="lbl">Starts automatically on upload</div></div>
+    <div class="metric"><span class="val">Zero local setup</span><div class="lbl">Runs entirely in the cloud</div></div>
+    <div class="metric"><span class="val">Sheets-driven</span><div class="lbl">Config &amp; prompts, no code changes</div></div>
+    <div class="metric"><span class="val">QA retry loop</span><div class="lbl">Auto-corrects before delivery</div></div>
+    <div class="metric"><span class="val">Email on done</span><div class="lbl">CSV link delivered automatically</div></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <section class="reveal">
+    <div class="eyebrow">01 — Why Rebuild</div>
+    <h2>The Python pipeline worked. The Python requirement didn't.</h2>
+    <p>The original PDP pipeline processed 117 styles in 40 minutes for $4.59. The logic was sound. But it required a Windows machine with Python installed, a virtual environment, a .env file with API keys, and someone comfortable running a script. That's a one-person operation.</p>
+    <p>The goal with the n8n rebuild was to remove every local dependency. If the workflow lives in the cloud — triggered by a Drive upload, configured from a spreadsheet, and delivering results by email — then anyone on the team can use it from anywhere. The intelligence stays the same. The operational surface shrinks to: upload photos, check email.</p>
+    <div class="split">
+      <div class="split-col before">
+        <div class="split-head">Python Version — Constraints</div>
+        <ul>
+          <li>Requires Windows machine with Python</li>
+          <li>Manual setup: venv, .env, dependencies</li>
+          <li>Must be present to start and monitor</li>
+          <li>Output is a local Excel file</li>
+          <li>Changing models or prompts requires editing code</li>
+          <li>One operator, one machine</li>
+        </ul>
+      </div>
+      <div class="split-col after">
+        <div class="split-head">n8n Version — What Changed</div>
+        <ul>
+          <li>No local machine required</li>
+          <li>Credentials stored once in n8n, never touched again</li>
+          <li>Trigger fires automatically on Drive upload</li>
+          <li>CSV delivered via Drive link in email</li>
+          <li>Models and prompts configurable from Google Sheets</li>
+          <li>Available to any authorized team member</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">02 — How It Works</div>
+    <h2>Fourteen nodes. One folder drop to finished CSV.</h2>
+    <p>The workflow is a linear-with-branches pipeline. It starts from a Drive trigger, fans out to process each photo pair in sequence, applies a QA feedback loop on every result, then aggregates and delivers everything at the end.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><div class="step-body"><strong>Drive Trigger + File Collection</strong><span>Google Drive watches a designated folder. When a new photo arrives, the workflow waits 10 seconds (collecting the pair), then lists all files in the folder and sorts them alphabetically — the same pairing logic as the Python version.</span></div></div>
+      <div class="step"><div class="step-num">02</div><div class="step-body"><strong>Config Load from Google Sheets</strong><span>Reads two sheets: <code>skill_config</code> (model names, prompts, delay settings, max QA retries) and <code>qa_examples</code> (failure patterns with bad/good examples). These are assembled into a runtime config object passed to every subsequent node — change a model or tweak the QA prompt without touching the workflow.</span></div></div>
+      <div class="step"><div class="step-num">03</div><div class="step-body"><strong>Pair Loop — Photo Download &amp; Encode</strong><span>For each pair, both photos are downloaded from Drive in parallel and base64-encoded for API submission. A merge node combines them into a single data object before any AI calls are made.</span></div></div>
+      <div class="step"><div class="step-num">04</div><div class="step-body"><strong>Label Extraction with Auto-Swap</strong><span>Claude Haiku reads the first photo looking for label data (BGRP code, brand, style name, ecom style number, ecom color number, gender/age). If the response comes back empty — meaning the label photo was shot second — the workflow automatically retries with the other image and reassigns which photo is the label and which is the product shot.</span></div></div>
+      <div class="step"><div class="step-num">05</div><div class="step-body"><strong>Customer Friendly Name Logic</strong><span>Gender and age terms from the label are mapped to standardized retail prefixes (Men's, Women's, Boys', Girls', Infant (0–4), Toddler (4.5–10), Little Kid (10.5–3), Big Kid (3.5–7)). This prefix is injected directly into the PDP system prompt as a formatting constraint.</span></div></div>
+      <div class="step"><div class="step-num">06</div><div class="step-body"><strong>PDP Generation</strong><span>Claude Sonnet receives the product photo, label data, and the governing skill prompt — assembled from the Google Sheets config. It returns a JSON object: customer_friendly_name, product_description, features array, and applicable_features. The model and max_tokens are configurable without touching the workflow.</span></div></div>
+      <div class="step"><div class="step-num">07</div><div class="step-body"><strong>QA Check + Retry Loop</strong><span>Claude Haiku evaluates the generated PDP against the QA rubric (loaded from the qa_examples sheet). If it fails and retries remain, the workflow sends the rejected output back to Claude Sonnet with the specific failure reasons and requests a correction. This loop runs up to max_qa_retries times before forcing acceptance and flagging the row.</span></div></div>
+      <div class="step"><div class="step-num">08</div><div class="step-body"><strong>Collect, Deduplicate, Deliver</strong><span>After the loop, all results are deduplicated by ecom style number — multiple colorways collapse into one row with all color numbers listed. A CSV is built and uploaded to Drive, then an email is sent with the filename, counts (OK / errors), and a direct link to the file.</span></div></div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">03 — The Config System</div>
+    <h2>Everything configurable. Nothing hardcoded.</h2>
+    <p>The workflow reads all operational parameters from a Google Sheets document at runtime. Changing the AI model, updating the skill prompt, adjusting the QA rubric, or tuning the retry count requires no access to the n8n workflow editor — just editing a spreadsheet.</p>
+    <div class="config-table">
+      <div class="config-row"><div class="config-key">label_model</div><div class="config-val">The Claude model used for label extraction and QA. Default: claude-haiku-4-5-20251001. Swap to a faster or cheaper model here.</div></div>
+      <div class="config-row"><div class="config-key">pdp_model</div><div class="config-val">The Claude model used for PDP generation and QA-driven regeneration. Default: claude-sonnet-4-6. Controls output quality vs. cost tradeoff.</div></div>
+      <div class="config-row"><div class="config-key">qa_model</div><div class="config-val">The model used for QA evaluation passes. Can be set independently to use a faster model for checking than for generating.</div></div>
+      <div class="config-row"><div class="config-key">skill_prompt</div><div class="config-val">The full SKILL.md governing prompt, stored as a single cell value. Updated here, reflected in every run immediately — no workflow edit required.</div></div>
+      <div class="config-row"><div class="config-key">qa_prompt</div><div class="config-val">The QA system prompt template. Supports two placeholders — <code>{{SKILL_PROMPT}}</code> and <code>{{QA_EXAMPLES}}</code> — which are filled at runtime from the other config values.</div></div>
+      <div class="config-row"><div class="config-key">max_qa_retries</div><div class="config-val">How many times to attempt a QA-driven regeneration before forcing acceptance. Default: 2. Raise for higher quality tolerance; lower to reduce API cost.</div></div>
+      <div class="config-row"><div class="config-key">api_delay_ms</div><div class="config-val">Milliseconds to wait between pairs during the loop. Controls throughput vs. API rate limit headroom.</div></div>
+    </div>
+    <p style="margin-top:1.4rem">The <code>qa_examples</code> sheet provides structured failure patterns — each row has a rule ID, failure description, a bad example, a good example, and the affected field. These are assembled into a readable block that gets injected into the QA system prompt, so the model knows exactly what it's grading against.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">04 — QA Feedback Loop</div>
+    <h2>Reject, explain, regenerate. Up to <em>n</em> times.</h2>
+    <p>The QA loop is the part that most distinguishes this workflow from a simple generate-and-ship pipeline. Every piece of generated copy is evaluated against the rubric before it touches the output file.</p>
+
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-node accent">
+          <div class="fn-label">PDP Generation</div>
+          Claude Sonnet writes customer_friendly_name, description, features, applicable_features
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="fn-label">Parse &amp; Validate</div>
+          Extract JSON. If parse fails → mark error row, skip QA, move on
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-node accent">
+          <div class="fn-label">QA Check (Haiku)</div>
+          Evaluate against rubric. Returns: passed (bool), score, failures[], corrected_fields{}
+        </div>
+      </div>
+      <div class="flow-row" style="gap:12px">
+        <div class="flow-node green" style="flex:1">
+          <div class="fn-label">QA Passed or Max Retries Reached</div>
+          Accept output. Status: OK or QA_FORCED_ACCEPT. Add to results.
+        </div>
+        <div class="flow-node" style="flex:1">
+          <div class="fn-label">QA Failed — Retries Remaining</div>
+          Send rejected output + failure list back to Sonnet. Increment retry counter. Re-check.
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:1.6rem">When QA fails, the regeneration prompt is explicit: it shows the model its previous output, lists the numbered failures, and instructs it to fix each one. QA results can also include <code>corrected_fields</code> — partial corrections the QA model can apply directly without a full regeneration pass. Rows that exhaust retries are accepted but flagged as <code>QA_FORCED_ACCEPT</code> in the output so they can be reviewed manually.</p>
+
+    <div class="log" style="margin-top:1.4rem">
+<span class="t">node</span> <span class="in">HTTP: QA Check (Haiku)</span>
+<span class="t">eval</span> <span class="wa">passed: false | score: 6 | failures: ["CFN missing gender prefix", "Color word 'black' in description"]</span>
+<span class="t">node</span> <span class="in">HTTP: PDP Regeneration with QA Feedback</span>
+<span class="t">eval</span> <span class="ok">passed: true | score: 10 | qa_retry_count: 1</span>
+<span class="t">node</span> <span class="in">Code: Aggregate Pair Result → status: OK</span>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">05 — Design Decisions</div>
+    <h2>Why it's built the way it is</h2>
+    <h3>Alphabetical pairing, not timestamp pairing</h3>
+    <p>The Python version paired photos by iOS timestamp. n8n's workflow context doesn't expose file metadata the same way, so pairing is done by filename sort order — which works reliably as long as photos are named in a consistent pair pattern. The auto-swap detection handles the case where the pair order is reversed regardless of naming.</p>
+    <h3>Google Sheets as the control plane</h3>
+    <p>The skill prompt and QA rubric are the most frequently updated parts of any governed pipeline. Storing them in a spreadsheet means the person who maintains the writing standards (who is not necessarily a developer) can update the model's behavior directly. It also creates an audit trail: every version of the prompt is a cell edit with a timestamp.</p>
+    <h3>Haiku for label extraction and QA, Sonnet for PDP generation</h3>
+    <p>Label extraction is a structured data extraction task — low creativity, high precision. QA evaluation is a classification task. Both are well within Haiku's capability at significantly lower cost. Sonnet is reserved for the task that actually requires language generation quality: the product description and feature bullets.</p>
+    <h3>CSV output via Drive link in email</h3>
+    <p>The Python pipeline wrote an Excel file to the local machine. The n8n version builds a CSV, uploads it to Drive, and emails a direct link. The result is accessible from any device, shareable without file transfer, and stored in the same ecosystem as the input photos.</p>
+  </section>
+
+  <div class="callout reveal">
+    <p>The Python version proved the logic. The n8n version proves the logic doesn't need you to be there.</p>
+  </div>
+
+  <section class="reveal">
+    <div class="eyebrow">06 — Stack</div>
+    <h2>What it's built on</h2>
+    <div class="pills">
+      <span class="pill">n8n</span>
+      <span class="pill">Google Drive API</span>
+      <span class="pill">Google Sheets API</span>
+      <span class="pill">Gmail API</span>
+      <span class="pill">Anthropic Claude Haiku</span>
+      <span class="pill">Anthropic Claude Sonnet</span>
+      <span class="pill">Claude Vision API</span>
+      <span class="pill">Base64 image encoding</span>
+      <span class="pill">SKILL.md governance</span>
+      <span class="pill">QA rubric system</span>
+      <span class="pill">Style deduplication</span>
+      <span class="pill">CSV generation</span>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="eyebrow">07 — What's Next</div>
+    <h2>Already scoped for v2</h2>
+    <div class="roadmap">
+      <div class="road-item">Shopify or Oracle Fusion write-back — auto-populate the product record directly instead of delivering a CSV for manual import</div>
+      <div class="road-item">Per-pair status webhook — real-time Slack or Teams notification as each pair completes, not just on final delivery</div>
+      <div class="road-item">Multi-folder routing — different Drive folders mapped to different brand configs, so Shoe Carnival and Shoe Station run the same workflow with different SKILL.md prompts</div>
+      <div class="road-item">Error escalation — QA_FORCED_ACCEPT rows trigger a separate notification so they're reviewed before the file is used in production</div>
+      <div class="road-item">Prompt version tracking — log which version of the skill_prompt and qa_prompt was active during each run for full audit trail</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>n8n</span><span>·</span><span>Workflow Automation</span><span>·</span><span>Claude Vision API</span><span>·</span><span>Google Drive</span><span>·</span><span>Google Sheets</span><span>·</span><span>Prompt Engineering</span><span>·</span><span>QA Feedback Loop</span><span>·</span><span>Style Deduplication</span><span>·</span><span>SKILL.md Governance</span><span>·</span><span>No-Code AI Pipeline</span><span>·</span><span>eCommerce Ops</span><span>·</span>
+    <span>n8n</span><span>·</span><span>Workflow Automation</span><span>·</span><span>Claude Vision API</span><span>·</span><span>Google Drive</span><span>·</span><span>Google Sheets</span><span>·</span><span>Prompt Engineering</span><span>·</span><span>QA Feedback Loop</span><span>·</span><span>Style Deduplication</span><span>·</span><span>SKILL.md Governance</span><span>·</span><span>No-Code AI Pipeline</span><span>·</span><span>eCommerce Ops</span><span>·</span>
+  </div>
+</div>
+
+<footer>
+  <p>
+    <a href="https://stanleycarter.netlify.app/">Stanley Carter</a>
+    &nbsp;·&nbsp; eCommerce Content Specialist, Shoe Carnival, Inc.
+    &nbsp;·&nbsp; <a href="mailto:skcart79@gmail.com">skcart79@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

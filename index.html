@@ -80,7 +80,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(
 
 /* ── TILE GRID ── */
 .tile-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.tile-grid .tile:nth-child(5),.tile-grid .tile:nth-child(6){grid-column:1/-1}
+.tile-grid .tile:nth-child(5),.tile-grid .tile:nth-child(6),.tile-grid .tile:nth-child(7){grid-column:1/-1}
 
 /* ── TILE ── */
 .tile{background:var(--off);border-radius:var(--radius);overflow:hidden;display:block;text-decoration:none;color:inherit;transition:transform .25s ease,box-shadow .25s ease}
@@ -92,6 +92,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(
 .t-seo{background:rgba(0,0,0,.07);color:#555}
 .t-qa{background:rgba(192,57,43,.1);color:#c0392b}
 .t-ev{background:rgba(100,100,100,.1);color:#555}
+.t-n8n{background:rgba(124,58,237,.1);color:#7c3aed}
 .tile-ttl{font-size:1.25rem;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-bottom:.4rem;color:var(--dark)}
 .tile-sub{font-size:.82rem;color:var(--mid);line-height:1.55;margin-bottom:1.25rem}
 .tile-bottom{display:flex;align-items:flex-end;justify-content:space-between}
@@ -140,7 +141,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
   .hero-photo img,.photo-ph{width:160px;height:160px}
   .stats-in{grid-template-columns:repeat(2,1fr);gap:1.25rem}
   .tile-grid{grid-template-columns:1fr}
-  .tile-grid .tile:nth-child(5),.tile-grid .tile:nth-child(6){grid-column:auto}
+  .tile-grid .tile:nth-child(5),.tile-grid .tile:nth-child(6),.tile-grid .tile:nth-child(7){grid-column:auto}
   .about-in{grid-template-columns:1fr;gap:2rem}
   .caps{grid-template-columns:1fr}
   .grid2{grid-template-columns:1fr}
@@ -200,6 +201,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     <span class="ticker-item">AI Governance <span>·</span></span>
     <span class="ticker-item">LLM Evaluation <span>·</span></span>
     <span class="ticker-item">Python Automation <span>·</span></span>
+    <span class="ticker-item">n8n Workflows <span>·</span></span>
     <span class="ticker-item">Workflow Design <span>·</span></span>
     <span class="ticker-item">QA Systems <span>·</span></span>
     <span class="ticker-item">eCommerce Ops <span>·</span></span>
@@ -215,6 +217,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     <span class="ticker-item">AI Governance <span>·</span></span>
     <span class="ticker-item">LLM Evaluation <span>·</span></span>
     <span class="ticker-item">Python Automation <span>·</span></span>
+    <span class="ticker-item">n8n Workflows <span>·</span></span>
     <span class="ticker-item">Workflow Design <span>·</span></span>
     <span class="ticker-item">QA Systems <span>·</span></span>
     <span class="ticker-item">eCommerce Ops <span>·</span></span>
@@ -256,7 +259,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 <section id="work">
   <div class="work-hd reveal">
     <p class="sec-lbl">Case Studies</p>
-    <h2 class="sec-ttl">Six projects. All real.</h2>
+    <h2 class="sec-ttl">Seven projects. All real.</h2>
   </div>
 
   <div class="tile-grid">
@@ -347,6 +350,21 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
           <div class="tile-metric">
             <div class="m-num">117</div>
             <div class="m-lbl">Unique styles — 1 run</div>
+          </div>
+          <div class="tile-arrow">&#8594;</div>
+        </div>
+      </div>
+    </a>
+
+    <a href="n8n-pdp-generator.html" class="tile reveal" id="t7">
+      <div class="tile-face">
+        <span class="tile-tag t-n8n">n8n · Workflow Automation</span>
+        <h3 class="tile-ttl">Footwear PDP Generator — n8n</h3>
+        <p class="tile-sub">The Python pipeline rebuilt for the cloud. Drop photos into Google Drive, get governed product descriptions delivered to your inbox. No local machine, no terminal, no one watching it run. Config and prompts controlled from a Google Sheet.</p>
+        <div class="tile-bottom">
+          <div class="tile-metric">
+            <div class="m-num">0</div>
+            <div class="m-lbl">Lines of code to operate</div>
           </div>
           <div class="tile-arrow">&#8594;</div>
         </div>
