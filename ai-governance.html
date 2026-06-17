@@ -23,13 +23,31 @@
       --blue-bg:   #dbeafe;
       --tag-text:  #166534;
       --blue-tag:  #1d4ed8;
+      --card:      #ffffff;
       --sans:      'Inter', system-ui, sans-serif;
     }
 
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--body); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    [data-dark] {
+      --bg:         #09090b;
+      --surface:    #131315;
+      --border:     #2a2a2e;
+      --muted:      #6b7280;
+      --body:       #9ca3af;
+      --heading:    #f2f2f5;
+      --blue:       #60a5fa;
+      --blue-bg:    #1e3a5f;
+      --blue-tag:   #93c5fd;
+      --green:      #34c759;
+      --green-bg:   #052e16;
+      --tag-text:   #4ade80;
+      --card:       #1c1c1f;
+    }
 
-    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 60px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--body); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background .25s, color .25s; }
+
+    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 60px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); transition: background .25s, border-color .25s; }
+    [data-dark] nav { background: rgba(9,9,11,0.9); }
     .nav-logo { font-size: 1rem; font-weight: 600; color: var(--heading); text-decoration: none; }
     .nav-center { display: flex; gap: 2rem; }
     .nav-center a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
@@ -94,6 +112,58 @@
     .img-full img { width: 100%; height: auto; display: block; cursor: zoom-in; }
     .img-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0.6rem 1rem; border-top: 1px solid var(--border); background: var(--surface); }
 
+    /* DARK TOGGLE */
+    .nav-theme-pp {
+      background: none; border: none; cursor: pointer;
+      padding: 0.3rem 0.5rem; border-radius: 8px;
+      color: var(--muted); font-size: 0.85rem; line-height: 1;
+      transition: background 0.15s, color 0.15s;
+      display: flex; align-items: center;
+    }
+    .nav-theme-pp:hover { background: var(--surface); color: var(--heading); }
+
+    /* STICKY TOC */
+    .layout {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .toc {
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+      padding: 2.5rem 1.5rem 2rem 2.5rem;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .toc-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .toc-link {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      border-left: 2px solid transparent;
+      transition: color 0.15s, background 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-link:hover { color: var(--heading); background: var(--surface); }
+    .toc-link.active { color: var(--green); border-left-color: var(--green); background: var(--green-bg); }
+
+    [data-dark] footer { background: #09090b; }
+
     /* LIGHTBOX */
     .lb { position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 1.5rem; }
     .lb.on { opacity: 1; pointer-events: all; }
@@ -109,8 +179,15 @@
     footer a { color: var(--blue); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
-    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
-    .reveal.visible { opacity: 1; transform: none; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.from-left  { transform: translateX(-30px); }
+    .reveal.from-right { transform: translateX(30px); }
+    .reveal.visible    { opacity: 1; transform: none; }
+
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { display: none; }
+    }
 
     @media (max-width: 700px) {
       nav { padding: 0 1rem; }
@@ -131,6 +208,10 @@
   </div>
   <div class="nav-right">
     <a href="https://github.com/MNG-AI">GitHub</a>
+    <button class="nav-theme-pp" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">
+      <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
     <a href="https://stanleycarter.netlify.app/" class="btn-back">← Portfolio</a>
   </div>
 </nav>
@@ -148,9 +229,19 @@
   </div>
 </div>
 
+<div class="layout">
+  <aside class="toc" id="toc">
+    <div class="toc-label">On this page</div>
+    <a href="#s01" class="toc-link" data-section="s01">01 — The Problem</a>
+    <a href="#s02" class="toc-link" data-section="s02">02 — The Solution</a>
+    <a href="#s03" class="toc-link" data-section="s03">03 — The Difference It Makes</a>
+    <a href="#s04" class="toc-link" data-section="s04">04 — Results</a>
+    <a href="#s05" class="toc-link" data-section="s05">05 — Who Uses It</a>
+    <a href="#s06" class="toc-link" data-section="s06">06 — Stack</a>
+  </aside>
 <div class="page">
 
-  <section class="reveal">
+  <section class="reveal" id="s01">
     <div class="eyebrow">01 — The Problem</div>
     <h2>Same AI tools. Completely different outputs. No way to catch errors before go-live.</h2>
     <p>Writers across Shoe Carnival and Shoe Station were using AI with no shared rules. Every output looked different. Tone varied by writer, format varied by session, and there was no systematic way to catch inaccurate product claims before a listing went live.</p>
@@ -158,7 +249,7 @@
     <p>The system needed rules that were independent of who was running it — and model-agnostic enough to survive the next AI upgrade.</p>
   </section>
 
-  <section class="reveal">
+  <section class="reveal" id="s02">
     <div class="eyebrow">02 — The Solution</div>
     <h2>A structured governance layer that any model reads and follows</h2>
     <p>The core of the system is a SKILL.md file: a structured Markdown document that encodes every rule a writer needs to follow — voice, format, feature selection, prohibited phrases, applicable tags, and quality checks — as a machine-readable instruction set. The model reads it on every run. Output is consistent regardless of batch size, product category, or which AI is doing the work.</p>
@@ -194,7 +285,7 @@
     </div>
   </section>
 
-  <section class="reveal">
+  <section class="reveal" id="s03">
     <div class="eyebrow">03 — The Difference It Makes</div>
     <h2>Same product. Same photos. No governance vs. with governance.</h2>
     <p>The comparison below shows the same product run through ChatGPT without governance, ChatGPT with the SKILL.md applied, and Claude with the SKILL.md applied. The governed outputs are structurally identical regardless of which model produced them.</p>
@@ -218,7 +309,7 @@
     </div>
   </section>
 
-  <section class="reveal">
+  <section class="reveal" id="s04">
     <div class="eyebrow">04 — Results</div>
     <h2>6,704 SKUs. Under a day of turnaround. Two brands, one system.</h2>
     <div class="results">
@@ -229,7 +320,7 @@
     </div>
   </section>
 
-  <section class="reveal">
+  <section class="reveal" id="s05">
     <div class="eyebrow">05 — Who Uses It</div>
     <h2>Built for operators, not just writers</h2>
     <div class="callout">
@@ -238,7 +329,7 @@
     <p>The system was built to survive personnel changes. When a new writer joins, they get the SKILL.md. They do not need to learn a style guide from memory or shadow a senior writer for weeks. The rules are in the document, and the document runs every time.</p>
   </section>
 
-  <section class="reveal">
+  <section class="reveal" id="s06">
     <div class="eyebrow">06 — Stack</div>
     <h2>What it's built on</h2>
     <div class="pills">
@@ -253,6 +344,7 @@
   </section>
 
 </div>
+</div><!-- end .layout -->
 
 <div class="ticker">
   <div class="ticker-inner">
@@ -275,14 +367,49 @@
 </div>
 
 <script>
-  function openLB(src) { document.getElementById('lb-img').src = src; document.getElementById('lb').classList.add('on'); document.body.style.overflow = 'hidden'; }
-  function closeLB() { document.getElementById('lb').classList.remove('on'); document.body.style.overflow = ''; }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+function openLB(src) { document.getElementById('lb-img').src = src; document.getElementById('lb').classList.add('on'); document.body.style.overflow = 'hidden'; }
+function closeLB() { document.getElementById('lb').classList.remove('on'); document.body.style.overflow = ''; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
 
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-  }, { threshold: 0.07 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+// Dark mode
+function toggleTheme(){
+  const dark = document.documentElement.toggleAttribute('data-dark');
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+  document.getElementById('iconMoon').style.display = dark ? 'none' : '';
+  document.getElementById('iconSun').style.display  = dark ? '' : 'none';
+}
+(function(){
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved === 'dark' || (!saved && prefersDark)){
+    document.documentElement.setAttribute('data-dark','');
+    document.getElementById('iconMoon').style.display = 'none';
+    document.getElementById('iconSun').style.display  = '';
+  }
+})();
+
+// Scroll reveal
+(function(){
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+})();
+
+// TOC active highlight
+(function(){
+  const links = document.querySelectorAll('.toc-link[data-section]');
+  if(!links.length) return;
+  const sections = Array.from(links).map(function(l){ return document.getElementById(l.dataset.section); }).filter(Boolean);
+  const io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      const id = e.target.id;
+      const link = document.querySelector('.toc-link[data-section="'+id+'"]');
+      if(link){ link.classList.toggle('active', e.isIntersecting); }
+    });
+  }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+  sections.forEach(function(s){ io.observe(s); });
+})();
 </script>
 </body>
 </html>
