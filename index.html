@@ -154,7 +154,34 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 .ft-links a:hover{color:#fff}
 .ft-copy{margin-top:1.5rem;font-size:.67rem;color:rgba(255,255,255,.22)}
 
-/* ── DARK MODE OVERRIDES ── */
+/* ── RESUME BTN ── */
+.btn-resume{background:transparent;color:var(--dark);border:1.5px solid var(--border);padding:.62rem 1.3rem;border-radius:980px;font-size:.85rem;font-weight:600;font-family:var(--font);display:inline-flex;align-items:center;gap:.45rem;transition:border-color .2s,color .2s,background .2s}
+.btn-resume:hover{border-color:var(--blue);color:var(--blue);background:rgba(0,113,227,.05)}
+.btn-resume svg{width:14px;height:14px;flex-shrink:0}
+.nav-resume{font-size:.75rem;color:var(--dark);border:1.5px solid var(--border);padding:.28rem .8rem;border-radius:980px;font-weight:600;display:flex;align-items:center;gap:.35rem;transition:border-color .2s,color .2s}
+.nav-resume:hover{border-color:var(--blue);color:var(--blue)}
+.nav-resume svg{width:12px;height:12px;flex-shrink:0}
+
+/* ── TILE THUMBNAIL ── */
+.tile-thumb{width:100%;height:150px;object-fit:cover;display:block;border-bottom:1px solid rgba(0,0,0,.07)}
+[data-dark] .tile-thumb{border-bottom-color:rgba(255,255,255,.06)}
+.tile-grid .tile:nth-child(1) .tile-thumb,.tile-grid .tile:nth-child(6) .tile-thumb{height:190px}
+
+/* ── WHAT I DO ── */
+#what-i-do{padding:4.5rem 1.5rem}
+.wid-in{max-width:1180px;margin:0 auto}
+.wid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2rem}
+.wid-card{background:var(--off);border-radius:var(--radius);padding:1.9rem 1.75rem;transition:background .25s}
+.wid-icon{width:40px;height:40px;border-radius:10px;background:var(--card);display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;transition:background .25s}
+.wid-icon svg{width:20px;height:20px;color:var(--blue);stroke:var(--blue)}
+.wid-h3{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:.3rem;letter-spacing:-.015em}
+.wid-sub{font-size:.78rem;color:var(--mid);line-height:1.65;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.wid-list{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+.wid-list li{font-size:.8rem;color:var(--mid);line-height:1.6;padding-left:1rem;position:relative}
+.wid-list li::before{content:'';position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--blue);opacity:.45}
+.wid-list strong{display:block;font-size:.79rem;font-weight:700;color:var(--dark);margin-bottom:.1rem}
+
+/* ── WHAT I DO ── */
 [data-dark] .ticker-wrap{background:#000}
 [data-dark] footer{background:#0d0d10;border-top:1px solid rgba(255,255,255,.05)}
 [data-dark] .about-bio{color:#9ca3af}
@@ -183,8 +210,13 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
   .tile-grid .tile:nth-child(6) .m-num{font-size:2rem}
 }
 
+@media(max-width:900px){
+  .wid-grid{grid-template-columns:1fr}
+}
+
 @media(max-width:768px){
   .nav-links{display:none}
+  .nav-resume span{display:none}
   .hero{grid-template-columns:1fr;padding-top:88px;gap:2rem}
   .hero-photo{order:-1}
   .hero-photo img,.photo-ph{width:160px;height:160px}
@@ -233,6 +265,10 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
         <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       </button>
+      <a href="assets/stanley-carter-resume-2026.pdf" download class="nav-resume">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Resume</span>
+      </a>
       <a href="mailto:skcart79@gmail.com" class="nav-cta">Contact</a>
     </div>
   </div>
@@ -247,6 +283,10 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     <div class="hero-btns">
       <a href="#work" class="btn-p">See the work</a>
       <a href="mailto:skcart79@gmail.com" class="btn-s">Get in touch</a>
+      <a href="assets/stanley-carter-resume-2026.pdf" download class="btn-resume">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Resume
+      </a>
     </div>
   </div>
   <div class="hero-photo reveal from-right">
@@ -263,9 +303,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/n8n" alt="">n8n <span>·</span></span>
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/googlesheets" alt="">Google Sheets <span>·</span></span>
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/googleanalytics" alt="">GA4 <span>·</span></span>
-    <span class="ticker-item"><img src="https://cdn.simpleicons.org/microsoftexcel" alt="">Excel <span>·</span></span>
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/hubspot" alt="">HubSpot <span>·</span></span>
-    <span class="ticker-item"><img src="https://cdn.simpleicons.org/oracle" alt="">Oracle Fusion <span>·</span></span>
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/markdown/ffffff" alt="">Markdown <span>·</span></span>
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/python" alt="">Python <span>·</span></span>
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/github/ffffff" alt="">GitHub <span>·</span></span>
@@ -273,9 +311,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/n8n" alt="">n8n <span>·</span></span>
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/googlesheets" alt="">Google Sheets <span>·</span></span>
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/googleanalytics" alt="">GA4 <span>·</span></span>
-    <span class="ticker-item"><img src="https://cdn.simpleicons.org/microsoftexcel" alt="">Excel <span>·</span></span>
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/hubspot" alt="">HubSpot <span>·</span></span>
-    <span class="ticker-item"><img src="https://cdn.simpleicons.org/oracle" alt="">Oracle Fusion <span>·</span></span>
     <span class="ticker-item"><img src="https://cdn.simpleicons.org/markdown/ffffff" alt="">Markdown <span>·</span></span>
   </div>
 </div>
@@ -284,11 +320,11 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 <div class="stats">
   <div class="stats-in">
     <div class="reveal pop">
-      <div class="s-num" data-target="6704">0</div>
+      <div class="s-num" data-target="6704">6,704</div>
       <div class="s-lbl">SKUs through governed pipeline</div>
     </div>
     <div class="reveal pop" style="transition-delay:.07s">
-      <div class="s-num" data-target="16146">0</div>
+      <div class="s-num" data-target="16146">16,146</div>
       <div class="s-lbl">SKUs audited via automation</div>
     </div>
     <div class="reveal pop" style="transition-delay:.14s">
@@ -301,6 +337,58 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </div>
   </div>
 </div>
+
+<!-- WHAT I DO -->
+<section id="what-i-do">
+  <div class="wid-in">
+    <div class="reveal">
+      <p class="sec-lbl">Core Expertise</p>
+      <h2 class="sec-ttl">What I Do</h2>
+    </div>
+    <div class="wid-grid">
+
+      <div class="wid-card reveal pop">
+        <div class="wid-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="wid-h3">LLM &amp; Data Governance</div>
+        <p class="wid-sub">Implementing strict quality guardrails to ensure AI-generated data is safe, accurate, and structured.</p>
+        <ul class="wid-list">
+          <li><strong>Calibration Operations</strong>Designing optimization frameworks that drastically reduce reviewer variance across distributed teams.</li>
+          <li><strong>Prompt Engineering &amp; Auditing</strong>Structuring robust prompt pipelines to guarantee predictable, brand-compliant model outputs.</li>
+          <li><strong>Evaluation Frameworks</strong>Building automated scoring systems to benchmark LLM performance against enterprise-grade KPIs.</li>
+        </ul>
+      </div>
+
+      <div class="wid-card reveal pop" style="transition-delay:.08s">
+        <div class="wid-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><circle cx="19" cy="19" r="3"/><circle cx="5" cy="19" r="3"/><path d="M12 8v5M9.5 17l-2-1.5M14.5 17l2-1.5"/></svg>
+        </div>
+        <div class="wid-h3">Workflow Automation</div>
+        <p class="wid-sub">Connecting fragmented software ecosystems to eliminate manual tech debt and operational friction.</p>
+        <ul class="wid-list">
+          <li><strong>API &amp; Webhook Integration</strong>Engineering event-driven automation architectures using Python, Node.js, and n8n.</li>
+          <li><strong>Human-in-the-Loop (HITL)</strong>Designing automated systems that handle 95% of the heavy lifting while seamlessly routing edge cases to human reviewers.</li>
+          <li><strong>Agentic Workflows</strong>Orchestrating multi-agent AI systems to handle complex, multi-step conditional business logic autonomously.</li>
+        </ul>
+      </div>
+
+      <div class="wid-card reveal pop" style="transition-delay:.16s">
+        <div class="wid-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        </div>
+        <div class="wid-h3">Scalable Data Pipelines</div>
+        <p class="wid-sub">Ingesting, transforming, and validating massive datasets with zero margin for error.</p>
+        <ul class="wid-list">
+          <li><strong>SKU &amp; Catalog Management</strong>Architecting pipelines capable of ingestion, cleaning, and governing hundreds of thousands of e-commerce data points.</li>
+          <li><strong>Automated Auditing</strong>Developing continuous compliance workflows that automatically flag data anomalies before they hit production.</li>
+          <li><strong>Data Pipeline Optimization</strong>Migrating fragile, manual spreadsheet processes into robust, cloud-native data workflows.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <!-- WORK -->
 <section id="work">
@@ -328,6 +416,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="ai-governance.html" class="tile reveal pop" id="t2">
+      <img class="tile-thumb" src="assets/chatgpt-side-by-side.png" alt="AI Governance — before and after" loading="lazy">
       <div class="tile-face">
         <span class="tile-tag t-ai">AI Governance · Workflow</span>
         <h3 class="tile-ttl">AI Content Governance System</h3>
@@ -344,6 +433,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 
     <!-- TILE 3: SEO -->
     <a href="seo-copy.html" class="tile reveal pop" id="t3">
+      <img class="tile-thumb" src="assets/ga4-tracking.png" alt="GA4 tracking dashboard" loading="lazy">
       <div class="tile-face">
         <span class="tile-tag t-seo">SEO Copy · GA4 · Tracking</span>
         <h3 class="tile-ttl">Brand &amp; PLP SEO Copy Program</h3>
@@ -389,6 +479,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="pdp-pipeline.html" class="tile reveal pop" id="t6">
+      <img class="tile-thumb" src="assets/pdp-pipeline.jpg" alt="PDP Pipeline output" loading="lazy">
       <div class="tile-face">
         <span class="tile-tag t-py">Python · Claude Vision API</span>
         <h3 class="tile-ttl">PDP Automation Pipeline</h3>
