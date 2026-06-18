@@ -57,7 +57,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(
 .hero{padding:110px 1.5rem 60px;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 300px;gap:4rem;align-items:center}
 .hero-eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:1rem}
 .hero h1{font-size:clamp(3rem,7vw,5.5rem);font-weight:800;line-height:1.0;letter-spacing:-.05em;color:var(--dark);margin-bottom:1.1rem}
-.hero h1 span{color:var(--mid)}
+.blinking-period{animation:blink-p 1s infinite}
+@keyframes blink-p{0%,100%{opacity:1}50%{opacity:0}}
 .hero-sub{font-size:.97rem;color:var(--mid);line-height:1.72;margin-bottom:1.85rem;max-width:480px}
 .hero-btns{display:flex;gap:.7rem;flex-wrap:wrap}
 .btn-p{background:var(--blue);color:#fff;padding:.65rem 1.4rem;border-radius:980px;font-size:.85rem;font-weight:600;font-family:var(--font);transition:filter .2s,transform .15s}
@@ -293,7 +294,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 <div class="hero">
   <div class="hero-text reveal from-left">
     <p class="hero-eyebrow">AI Workflow Design · Governance · Automation</p>
-    <h1>I build systems<br><span>that make AI work.</span></h1>
+    <h1><span id="tw"></span><span class="blinking-period">.</span></h1>
     <p class="hero-sub">I design governance frameworks, build QA tooling, and automate workflows that help teams use AI reliably. The industry changes. The approach does not.</p>
     <div class="hero-btns">
       <a href="#work" class="btn-p">See the work</a>
@@ -674,6 +675,78 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: .15 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── TYPEWRITER ──
+(function(){
+  const el = document.getElementById('tw');
+  if (!el) return;
+
+  const TYPE  = 52;   // ms per character typed
+  const DEL   = 26;   // ms per character deleted
+  const JITTER = 18;  // random ± ms added to typing speed
+
+  const sequences = [
+    [
+      { text: "Absolutely! As an AI..." },
+      { pause: 1300 },
+      { clear: true },
+      { text: "just kidding, I build real workflows" },
+      { pause: 2400 },
+      { clear: true },
+    ],
+    [
+      { text: "Less prompt engineering. More actual engineering" },
+      { pause: 2400 },
+      { clear: true },
+    ],
+    [
+      { text: "I bridge the gap between prompt and production" },
+      { pause: 2400 },
+      { clear: true },
+    ],
+    [
+      { text: "I wire the workflows that run behind the scenes" },
+      { pause: 2400 },
+      { clear: true },
+    ],
+  ];
+
+  let buf = '';
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  async function typeText(text) {
+    for (const ch of text) {
+      buf += ch;
+      el.textContent = buf;
+      await sleep(TYPE + (Math.random() * JITTER * 2 - JITTER));
+    }
+  }
+
+  async function clearText() {
+    await sleep(300);
+    while (buf.length) {
+      buf = buf.slice(0, -1);
+      el.textContent = buf;
+      await sleep(DEL);
+    }
+    await sleep(220);
+  }
+
+  async function run() {
+    await sleep(500);
+    let i = 0;
+    while (true) {
+      for (const step of sequences[i % sequences.length]) {
+        if (step.text  !== undefined) await typeText(step.text);
+        if (step.pause !== undefined) await sleep(step.pause);
+        if (step.clear)               await clearText();
+      }
+      i++;
+    }
+  }
+
+  run();
+})();
 </script>
 
 </body>
