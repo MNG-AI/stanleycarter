@@ -99,9 +99,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(
 .tile-grid .tile:nth-child(1),.tile-grid .tile:nth-child(6){grid-column:span 2}
 
 /* ── TILE ── */
-.tile{background:var(--off);border-radius:var(--radius);overflow:hidden;display:block;text-decoration:none;color:inherit;transition:transform .25s ease,box-shadow .25s ease,background .25s}
+.tile{background:var(--off);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:transform .25s ease,box-shadow .25s ease,background .25s}
 .tile:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.09)}
-.tile-face{padding:1.75rem;display:flex;flex-direction:column;height:100%}
+.tile-thumb{width:100%;height:150px;object-fit:cover;display:block;border-bottom:1px solid rgba(0,0,0,.07);flex-shrink:0}
+.tile-face{padding:1.75rem;display:flex;flex-direction:column;flex:1}
 .tile-tag{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .55rem;border-radius:980px;margin-bottom:.85rem;align-self:flex-start}
 .t-py{background:rgba(0,113,227,.12);color:var(--blue)}
 .t-ai{background:rgba(26,127,55,.12);color:var(--green)}
@@ -163,7 +164,6 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 .nav-resume svg{width:12px;height:12px;flex-shrink:0}
 
 /* ── TILE THUMBNAIL ── */
-.tile-thumb{width:100%;height:150px;object-fit:cover;display:block;border-bottom:1px solid rgba(0,0,0,.07)}
 [data-dark] .tile-thumb{border-bottom-color:rgba(255,255,255,.06)}
 .tile-grid .tile:nth-child(1) .tile-thumb,.tile-grid .tile:nth-child(6) .tile-thumb{height:190px}
 
@@ -254,6 +254,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     <a href="#" class="nav-name">Stanley Carter</a>
     <ul class="nav-links">
       <li><a href="#work">Work</a></li>
+      <li><a href="#what-i-do">What I Do</a></li>
       <li><a href="#about">About</a></li>
     </ul>
     <div class="nav-actions">
@@ -282,7 +283,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     <p class="hero-sub">I design governance frameworks, build QA tooling, and automate workflows that help teams use AI reliably. The industry changes. The approach does not.</p>
     <div class="hero-btns">
       <a href="#work" class="btn-p">See the work</a>
-      <a href="mailto:skcart79@gmail.com" class="btn-s">Get in touch</a>
+      <a href="#what-i-do" class="btn-s">What I Do</a>
       <a href="assets/stanley-carter-resume-2026.pdf" download class="btn-resume">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Download Resume
@@ -351,12 +352,12 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
         <div class="wid-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <div class="wid-h3">LLM &amp; Data Governance</div>
-        <p class="wid-sub">Implementing strict quality guardrails to ensure AI-generated data is safe, accurate, and structured.</p>
+        <div class="wid-h3">LLM &amp; AI Governance</div>
+        <p class="wid-sub">Turning raw AI output into structured, brand-safe, auditable content — at scale.</p>
         <ul class="wid-list">
-          <li><strong>Calibration Operations</strong>Designing optimization frameworks that drastically reduce reviewer variance across distributed teams.</li>
-          <li><strong>Prompt Engineering &amp; Auditing</strong>Structuring robust prompt pipelines to guarantee predictable, brand-compliant model outputs.</li>
-          <li><strong>Evaluation Frameworks</strong>Building automated scoring systems to benchmark LLM performance against enterprise-grade KPIs.</li>
+          <li><strong>Zero-Drift Calibration</strong>Built scoring systems that cut inter-reviewer variance to under 3% across 50+ person teams.</li>
+          <li><strong>Prompt Engineering</strong>Governed prompt pipelines that deliver brand-compliant output from any model, every time.</li>
+          <li><strong>Evaluation Frameworks</strong>Automated LLM scoring benchmarked against real enterprise KPIs — not vibes.</li>
         </ul>
       </div>
 
@@ -365,11 +366,11 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><circle cx="19" cy="19" r="3"/><circle cx="5" cy="19" r="3"/><path d="M12 8v5M9.5 17l-2-1.5M14.5 17l2-1.5"/></svg>
         </div>
         <div class="wid-h3">Workflow Automation</div>
-        <p class="wid-sub">Connecting fragmented software ecosystems to eliminate manual tech debt and operational friction.</p>
+        <p class="wid-sub">If someone on your team is doing it manually, I'm building the system to do it automatically.</p>
         <ul class="wid-list">
-          <li><strong>API &amp; Webhook Integration</strong>Engineering event-driven automation architectures using Python, Node.js, and n8n.</li>
-          <li><strong>Human-in-the-Loop (HITL)</strong>Designing automated systems that handle 95% of the heavy lifting while seamlessly routing edge cases to human reviewers.</li>
-          <li><strong>Agentic Workflows</strong>Orchestrating multi-agent AI systems to handle complex, multi-step conditional business logic autonomously.</li>
+          <li><strong>API &amp; Webhook Integration</strong>Event-driven pipelines in Python and n8n — triggered by uploads, not humans.</li>
+          <li><strong>Human-in-the-Loop Design</strong>95% automated. Edge cases route to the right person instantly, with full context.</li>
+          <li><strong>Agentic Orchestration</strong>Multi-agent AI systems that execute complex, multi-step business logic — no babysitting.</li>
         </ul>
       </div>
 
@@ -378,11 +379,11 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
         </div>
         <div class="wid-h3">Scalable Data Pipelines</div>
-        <p class="wid-sub">Ingesting, transforming, and validating massive datasets with zero margin for error.</p>
+        <p class="wid-sub">From 117 SKUs processed by hand to 16,000+ governed by code.</p>
         <ul class="wid-list">
-          <li><strong>SKU &amp; Catalog Management</strong>Architecting pipelines capable of ingestion, cleaning, and governing hundreds of thousands of e-commerce data points.</li>
-          <li><strong>Automated Auditing</strong>Developing continuous compliance workflows that automatically flag data anomalies before they hit production.</li>
-          <li><strong>Data Pipeline Optimization</strong>Migrating fragile, manual spreadsheet processes into robust, cloud-native data workflows.</li>
+          <li><strong>Catalog Engineering</strong>Ingest, clean, and govern hundreds of thousands of e-commerce data points without breaking a sweat.</li>
+          <li><strong>Automated Compliance</strong>Anomaly detection that flags bad data before it ever touches production.</li>
+          <li><strong>Pipeline Modernization</strong>Replace fragile spreadsheets with cloud-native, zero-maintenance data workflows.</li>
         </ul>
       </div>
 
@@ -401,6 +402,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 
     <!-- TILE 1: AMPLIENCE -->
     <a href="amplience-audit.html" class="tile reveal pop" id="t1">
+      <video class="tile-thumb" autoplay muted loop playsinline><source src="assets/amplience-audit-demo.mp4" type="video/mp4"></video>
       <div class="tile-face">
         <span class="tile-tag t-py">Python · Automation</span>
         <h3 class="tile-ttl">Amplience Photo Audit</h3>
@@ -449,6 +451,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="brand-qa.html" class="tile reveal pop" id="t4">
+      <video class="tile-thumb" autoplay muted loop playsinline><source src="assets/brand-qa-demo.mp4" type="video/mp4"></video>
       <div class="tile-face">
         <span class="tile-tag t-qa">Python · QA Tool</span>
         <h3 class="tile-ttl">Python Brand Page QA Tool</h3>
@@ -464,6 +467,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="scale-ai.html" class="tile reveal pop" id="t5">
+      <img class="tile-thumb" src="assets/chatgpt-no-governance.png" alt="LLM output before governance" loading="lazy">
       <div class="tile-face">
         <span class="tile-tag t-ev">LLM Evaluation · QA Management</span>
         <h3 class="tile-ttl">LLM Evaluation at Scale AI</h3>
@@ -495,6 +499,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="n8n-pdp-generator.html" class="tile reveal pop" id="t7">
+      <img class="tile-thumb" src="assets/n8n-workflow.png" alt="n8n workflow diagram" loading="lazy">
       <div class="tile-face">
         <span class="tile-tag t-n8n">n8n · Workflow Automation</span>
         <h3 class="tile-ttl">Footwear PDP Generator — n8n</h3>
