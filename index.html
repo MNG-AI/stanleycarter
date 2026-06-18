@@ -57,7 +57,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(
 .hero{padding:110px 1.5rem 60px;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 300px;gap:4rem;align-items:center}
 .hero-eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:1rem}
 .hero h1{font-size:clamp(3rem,7vw,5.5rem);font-weight:800;line-height:1.0;letter-spacing:-.05em;color:var(--dark);margin-bottom:1.1rem}
-.hero h1 span{color:var(--mid)}
+.blinking-period{animation:blink-p 1s infinite}
+@keyframes blink-p{0%,100%{opacity:1}50%{opacity:0}}
 .hero-sub{font-size:.97rem;color:var(--mid);line-height:1.72;margin-bottom:1.85rem;max-width:480px}
 .hero-btns{display:flex;gap:.7rem;flex-wrap:wrap}
 .btn-p{background:var(--blue);color:#fff;padding:.65rem 1.4rem;border-radius:980px;font-size:.85rem;font-weight:600;font-family:var(--font);transition:filter .2s,transform .15s}
@@ -95,7 +96,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(
 
 /* ── TILE GRID (BENTO) ── */
 .tile-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem}
-/* T1 Amplience and T6 PDP: featured — span 2 columns */
+/* T1 Amplience and T6 PDP: featured, span 2 columns */
 .tile-grid .tile:nth-child(1),.tile-grid .tile:nth-child(6){grid-column:span 2}
 
 /* ── TILE ── */
@@ -293,7 +294,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 <div class="hero">
   <div class="hero-text reveal from-left">
     <p class="hero-eyebrow">AI Workflow Design · Governance · Automation</p>
-    <h1>I build systems<br><span>that make AI work.</span></h1>
+    <h1><span id="tw"></span><span class="blinking-period">.</span></h1>
     <p class="hero-sub">I design governance frameworks, build QA tooling, and automate workflows that help teams use AI reliably. The industry changes. The approach does not.</p>
     <div class="hero-btns">
       <a href="#work" class="btn-p">See the work</a>
@@ -367,11 +368,11 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <div class="wid-h3">LLM &amp; AI Governance</div>
-        <p class="wid-sub">Turning raw AI output into structured, brand-safe, auditable content — at scale.</p>
+        <p class="wid-sub">Turning raw AI output into structured, brand-safe, auditable content, at scale.</p>
         <ul class="wid-list">
           <li><strong>Zero-Drift Calibration</strong>Built scoring systems that cut inter-reviewer variance to under 3% across 50+ person teams.</li>
           <li><strong>Prompt Engineering</strong>Governed prompt pipelines that deliver brand-compliant output from any model, every time.</li>
-          <li><strong>Evaluation Frameworks</strong>Automated LLM scoring benchmarked against real enterprise KPIs — not vibes.</li>
+          <li><strong>Evaluation Frameworks</strong>Automated LLM scoring benchmarked against real enterprise KPIs, not vibes.</li>
         </ul>
       </div>
 
@@ -382,9 +383,9 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
         <div class="wid-h3">Workflow Automation</div>
         <p class="wid-sub">If someone on your team is doing it manually, I'm building the system to do it automatically.</p>
         <ul class="wid-list">
-          <li><strong>API &amp; Webhook Integration</strong>Event-driven pipelines in Python and n8n — triggered by uploads, not humans.</li>
+          <li><strong>API &amp; Webhook Integration</strong>Event-driven pipelines in Python and n8n, triggered by uploads, not humans.</li>
           <li><strong>Human-in-the-Loop Design</strong>95% automated. Edge cases route to the right person instantly, with full context.</li>
-          <li><strong>Agentic Orchestration</strong>Multi-agent AI systems that execute complex, multi-step business logic — no babysitting.</li>
+          <li><strong>Agentic Orchestration</strong>Multi-agent AI systems that execute complex, multi-step business logic, no babysitting.</li>
         </ul>
       </div>
 
@@ -415,7 +416,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     <div class="testi-grid">
       <div class="testi-card reveal from-left">
         <div class="testi-mark">"</div>
-        <p class="testi-quote">Stanley quickly demonstrated strong technical curiosity and a clear passion for using AI to drive operational efficiency. He brought thoughtful ideas around automation and AI governance — and then actually built the tools to prove it.</p>
+        <p class="testi-quote">Stanley quickly demonstrated strong technical curiosity and a clear passion for using AI to drive operational efficiency. He brought thoughtful ideas around automation and AI governance, and then actually built the tools to prove it.</p>
         <div class="testi-divider"></div>
         <div class="testi-name">Courtney Grisham</div>
         <div class="testi-role">Director of Ecommerce · Shoe Station</div>
@@ -458,7 +459,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="ai-governance.html" class="tile reveal pop" id="t2">
-      <img class="tile-thumb" src="assets/chatgpt-side-by-side.png" alt="AI Governance — before and after" loading="lazy">
+      <img class="tile-thumb" src="assets/chatgpt-side-by-side.png" alt="AI Governance before and after" loading="lazy">
       <div class="tile-face">
         <span class="tile-tag t-ai">AI Governance · Workflow</span>
         <h3 class="tile-ttl">AI Content Governance System</h3>
@@ -531,7 +532,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
         <div class="tile-bottom">
           <div class="tile-metric">
             <div class="m-num">117</div>
-            <div class="m-lbl">Unique styles — 1 run</div>
+            <div class="m-lbl">Unique styles, 1 run</div>
           </div>
           <div class="tile-arrow">&#8594;</div>
         </div>
@@ -542,7 +543,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
       <img class="tile-thumb" src="assets/n8n-workflow.png" alt="n8n workflow diagram" loading="lazy">
       <div class="tile-face">
         <span class="tile-tag t-n8n">n8n · Workflow Automation</span>
-        <h3 class="tile-ttl">Footwear PDP Generator — n8n</h3>
+        <h3 class="tile-ttl">Footwear PDP Generator via n8n</h3>
         <p class="tile-sub">The Python pipeline rebuilt for the cloud. Drop photos into Google Drive, get governed product descriptions delivered to your inbox. No local machine, no terminal, no one watching it run. Config and prompts controlled from a Google Sheet.</p>
         <div class="tile-bottom">
           <div class="tile-metric">
@@ -674,6 +675,78 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: .15 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── TYPEWRITER ──
+(function(){
+  const el = document.getElementById('tw');
+  if (!el) return;
+
+  const TYPE  = 52;   // ms per character typed
+  const DEL   = 26;   // ms per character deleted
+  const JITTER = 18;  // random ± ms added to typing speed
+
+  const sequences = [
+    [
+      { text: "Absolutely! As an AI..." },
+      { pause: 1300 },
+      { clear: true },
+      { text: "just kidding, I build real workflows" },
+      { pause: 2400 },
+      { clear: true },
+    ],
+    [
+      { text: "Less prompt engineering. More actual engineering" },
+      { pause: 2400 },
+      { clear: true },
+    ],
+    [
+      { text: "I bridge the gap between prompt and production" },
+      { pause: 2400 },
+      { clear: true },
+    ],
+    [
+      { text: "I wire the workflows that run behind the scenes" },
+      { pause: 2400 },
+      { clear: true },
+    ],
+  ];
+
+  let buf = '';
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  async function typeText(text) {
+    for (const ch of text) {
+      buf += ch;
+      el.textContent = buf;
+      await sleep(TYPE + (Math.random() * JITTER * 2 - JITTER));
+    }
+  }
+
+  async function clearText() {
+    await sleep(300);
+    while (buf.length) {
+      buf = buf.slice(0, -1);
+      el.textContent = buf;
+      await sleep(DEL);
+    }
+    await sleep(220);
+  }
+
+  async function run() {
+    await sleep(500);
+    let i = 0;
+    while (true) {
+      for (const step of sequences[i % sequences.length]) {
+        if (step.text  !== undefined) await typeText(step.text);
+        if (step.pause !== undefined) await sleep(step.pause);
+        if (step.clear)               await clearText();
+      }
+      i++;
+    }
+  }
+
+  run();
+})();
 </script>
 
 </body>
