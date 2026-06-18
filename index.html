@@ -181,7 +181,21 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 .wid-list li::before{content:'';position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--blue);opacity:.45}
 .wid-list strong{display:block;font-size:.79rem;font-weight:700;color:var(--dark);margin-bottom:.1rem}
 
-/* ── WHAT I DO ── */
+/* ── TESTIMONIALS ── */
+#testimonials{padding:4.5rem 1.5rem;background:var(--off)}
+.testi-in{max-width:1180px;margin:0 auto}
+.testi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:2rem}
+.testi-card{background:var(--card);border-radius:var(--radius);padding:2rem 2rem 1.75rem;display:flex;flex-direction:column;transition:background .25s,transform .25s,box-shadow .25s}
+.testi-card:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(0,0,0,.07)}
+.testi-mark{font-size:3.5rem;line-height:.8;color:var(--blue);opacity:.35;font-family:Georgia,serif;margin-bottom:.75rem;user-select:none}
+.testi-quote{font-size:.92rem;color:var(--dark);line-height:1.78;font-style:italic;flex:1;margin-bottom:1.5rem}
+.testi-divider{width:36px;height:2px;background:var(--blue);opacity:.4;border-radius:2px;margin-bottom:1.1rem}
+.testi-name{font-size:.85rem;font-weight:700;color:var(--dark);letter-spacing:-.01em}
+.testi-role{font-size:.75rem;color:var(--mid);margin-top:.2rem;line-height:1.45}
+[data-dark] .testi-card:hover{box-shadow:0 14px 40px rgba(0,0,0,.3)}
+@media(max-width:768px){.testi-grid{grid-template-columns:1fr}}
+
+/* ── DARK OVERRIDES ── */
 [data-dark] .ticker-wrap{background:#000}
 [data-dark] footer{background:#0d0d10;border-top:1px solid rgba(255,255,255,.05)}
 [data-dark] .about-bio{color:#9ca3af}
@@ -387,6 +401,32 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
         </ul>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testi-in">
+    <div class="reveal">
+      <p class="sec-lbl">Social Proof</p>
+      <h2 class="sec-ttl">What managers say.</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal from-left">
+        <div class="testi-mark">"</div>
+        <p class="testi-quote">Stanley quickly demonstrated strong technical curiosity and a clear passion for using AI to drive operational efficiency. He brought thoughtful ideas around automation and AI governance — and then actually built the tools to prove it.</p>
+        <div class="testi-divider"></div>
+        <div class="testi-name">Courtney Grisham</div>
+        <div class="testi-role">Director of Ecommerce · Shoe Station</div>
+      </div>
+      <div class="testi-card reveal from-right">
+        <div class="testi-mark">"</div>
+        <p class="testi-quote">In the AI space, data quality is everything. Stanley engineered the exact calibration guardrails we needed to bring reviewer variance down to negligible levels. His work directly improved the reliability of our core datasets.</p>
+        <div class="testi-divider"></div>
+        <div class="testi-name">Stephani J. Brito</div>
+        <div class="testi-role">Growth Program Manager · Scale AI</div>
+      </div>
     </div>
   </div>
 </section>
