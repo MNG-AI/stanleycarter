@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Quest Log</title>
+<link rel="manifest" href="quest-manifest.json">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050508;
+  --surface:#0f0f17;
+  --surface2:#17172a;
+  --border:rgba(255,255,255,.07);
+  --text:#f0f0f8;
+  --muted:#6b6b8a;
+  --accent:#7c3aed;
+  --accent-dim:rgba(124,58,237,.15);
+  --pass:#22c55e;
+  --pass-dim:rgba(34,197,94,.13);
+  --fail:#ef4444;
+  --fail-dim:rgba(239,68,68,.13);
+  --xp:#f59e0b;
+  --xp-dim:rgba(245,158,11,.15);
+  --radius:16px;
+  --radius-sm:10px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --safe-t:env(safe-area-inset-top,0px);
+  --nav-h:68px;
+  --header-h:96px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+button{border:none;background:none;color:inherit;cursor:pointer;font-family:inherit}
+input,textarea{font-family:inherit;color:inherit;background:none;border:none;outline:none}
+
+/* HEADER */
+#header{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  padding:calc(var(--safe-t) + 12px) 20px 14px;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.level-badge{
+  display:flex;align-items:center;gap:8px;
+}
+.lvl-num{
+  font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
+  background:var(--accent-dim);border:1px solid var(--accent);
+  padding:3px 8px;border-radius:6px;
+}
+.lvl-name{font-size:.85rem;font-weight:600;color:var(--text)}
+.streak-badge{
+  display:flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;
+  color:var(--xp);background:var(--xp-dim);border-radius:20px;padding:4px 10px;
+}
+.xp-bar-wrap{display:flex;align-items:center;gap:10px}
+.xp-bar{flex:1;height:5px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.xp-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#a855f7);border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.xp-label{font-size:.7rem;color:var(--muted);white-space:nowrap;min-width:70px;text-align:right}
+
+/* MAIN SCROLL AREA */
+#main{
+  position:fixed;
+  top:var(--header-h);left:0;right:0;
+  bottom:calc(var(--nav-h) + var(--safe-b));
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.tab{display:none;padding:16px 16px calc(16px + var(--safe-b))}
+.tab.active{display:block}
+
+/* BOTTOM NAV */
+#nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:50;
+  height:calc(var(--nav-h) + var(--safe-b));
+  padding-bottom:var(--safe-b);
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;
+}
+.nav-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:8px 0;font-size:.6rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--muted);transition:color .15s;
+}
+.nav-btn.active{color:var(--accent)}
+.nav-icon{font-size:1.35rem;line-height:1}
+
+/* SECTION HEADERS */
+.section-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:10px;margin-top:4px;
+}
+.section-title{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.section-action{font-size:.75rem;font-weight:600;color:var(--accent)}
+
+/* HOME TAB */
+.today-ring-wrap{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;margin-bottom:12px;
+  display:flex;align-items:center;gap:20px;
+}
+.ring-svg{flex-shrink:0}
+.ring-bg{fill:none;stroke:var(--surface2);stroke-width:8}
+.ring-fill{fill:none;stroke:var(--pass);stroke-width:8;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+.ring-label{position:relative}
+.ring-label .big{font-size:2rem;font-weight:800;line-height:1;color:var(--text)}
+.ring-label .small{font-size:.7rem;color:var(--muted);margin-top:2px}
+.today-meta{flex:1}
+.today-meta h2{font-size:1.1rem;font-weight:700;margin-bottom:4px}
+.today-meta p{font-size:.8rem;color:var(--muted);line-height:1.4}
+.today-stats{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;
+}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:14px 12px;text-align:center;
+}
+.stat-card .val{font-size:1.5rem;font-weight:800;line-height:1}
+.stat-card .lbl{font-size:.6rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.stat-pass .val{color:var(--pass)}
+.stat-fail .val{color:var(--fail)}
+.stat-xp .val{color:var(--xp)}
+
+/* RECENT ACTIVITY */
+.activity-list{display:flex;flex-direction:column;gap:6px}
+.activity-item{
+  display:flex;align-items:center;gap:10px;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:12px 14px;
+}
+.activity-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.activity-dot.pass{background:var(--pass)}
+.activity-dot.fail{background:var(--fail)}
+.activity-dot.none{background:var(--muted)}
+.activity-text{flex:1;font-size:.82rem}
+.activity-xp{font-size:.72rem;font-weight:700;color:var(--xp)}
+
+/* QUEST LIST */
+.quest-list{display:flex;flex-direction:column;gap:8px}
+.quest-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px;cursor:pointer;transition:background .15s,border-color .15s;
+  position:relative;overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+.quest-card:active{background:var(--surface2)}
+.quest-card.done-pass{border-color:rgba(34,197,94,.3);background:var(--pass-dim)}
+.quest-card.done-fail{border-color:rgba(239,68,68,.2);background:var(--fail-dim)}
+.quest-card-row{display:flex;align-items:center;gap:12px}
+.quest-cat-icon{font-size:1.4rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--surface2);border-radius:10px;flex-shrink:0}
+.quest-info{flex:1;min-width:0}
+.quest-title{font-size:.92rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.quest-meta{font-size:.72rem;color:var(--muted);margin-top:2px}
+.quest-xp-badge{font-size:.7rem;font-weight:700;color:var(--xp);background:var(--xp-dim);padding:3px 8px;border-radius:6px;white-space:nowrap}
+.quest-status-icon{font-size:1.3rem;margin-left:6px}
+.quest-freq-chip{
+  display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:2px 7px;border-radius:4px;background:var(--surface2);color:var(--muted);margin-top:5px;
+}
+
+/* ADD QUEST FAB */
+#fab{
+  position:fixed;bottom:calc(var(--nav-h) + var(--safe-b) + 16px);right:18px;z-index:60;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--accent);color:#fff;font-size:1.5rem;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(124,58,237,.5);
+  transition:transform .15s,box-shadow .15s;
+}
+#fab:active{transform:scale(.93);box-shadow:0 2px 10px rgba(124,58,237,.4)}
+
+/* NOTES TAB */
+.notes-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.note-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:14px;position:relative;
+}
+.note-text{font-size:.88rem;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.note-meta{display:flex;align-items:center;gap:6px;margin-top:8px}
+.note-time{font-size:.65rem;color:var(--muted)}
+.note-src{font-size:.6rem;padding:2px 6px;border-radius:4px;font-weight:600}
+.note-src.voice{background:var(--accent-dim);color:var(--accent)}
+.note-src.text{background:var(--surface2);color:var(--muted)}
+.note-del{position:absolute;top:10px;right:10px;font-size:.85rem;color:var(--muted);padding:4px 8px;opacity:.6}
+.note-input-area{
+  position:sticky;bottom:0;
+  background:var(--bg);
+  padding-top:10px;
+  border-top:1px solid var(--border);
+}
+.note-input-row{
+  display:flex;align-items:flex-end;gap:8px;
+  background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  padding:8px 8px 8px 16px;
+}
+#note-input{
+  flex:1;font-size:.9rem;line-height:1.4;resize:none;max-height:120px;
+  background:none;color:var(--text);
+}
+#note-input::placeholder{color:var(--muted)}
+.note-send-btn,.note-mic-btn{
+  width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;transition:background .15s;
+}
+.note-send-btn{background:var(--accent);color:#fff}
+.note-send-btn:active{background:#6d28d9}
+.note-mic-btn{background:var(--surface2);color:var(--text)}
+.note-mic-btn.recording{background:var(--fail);color:#fff;animation:pulse-mic .8s infinite}
+@keyframes pulse-mic{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 8px rgba(239,68,68,0)}}
+
+/* WEEKLY TAB */
+.week-grid-wrap{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px;margin-bottom:12px;
+}
+.week-days-row{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:8px}
+.week-day-col{text-align:center}
+.week-day-label{font-size:.6rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.week-day-cell{
+  aspect-ratio:1;border-radius:8px;background:var(--surface2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:700;cursor:pointer;
+  transition:transform .1s;position:relative;
+}
+.week-day-cell:active{transform:scale(.9)}
+.week-day-cell.today{border:1.5px solid var(--accent)}
+.week-day-cell.future{opacity:.3;cursor:default}
+.week-dot-row{display:flex;justify-content:center;gap:2px;margin-top:4px}
+.week-dot{width:5px;height:5px;border-radius:50%;background:var(--surface2)}
+.week-dot.pass{background:var(--pass)}
+.week-dot.fail{background:var(--fail)}
+.week-summary-row{display:flex;gap:10px;margin-top:12px}
+.week-summary-card{
+  flex:1;background:var(--surface2);border-radius:var(--radius-sm);padding:12px;text-align:center;
+}
+.week-summary-card .val{font-size:1.3rem;font-weight:800}
+.week-summary-card .lbl{font-size:.6rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+
+/* BOTTOM SHEET */
+#sheet-overlay{
+  position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.6);
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+#sheet-overlay.open{opacity:1;pointer-events:all}
+#sheet{
+  position:fixed;bottom:0;left:0;right:0;z-index:90;
+  background:var(--surface);border-radius:24px 24px 0 0;border-top:1px solid var(--border);
+  transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  max-height:90vh;overflow-y:auto;
+  padding-bottom:calc(24px + var(--safe-b));
+}
+#sheet.open{transform:translateY(0)}
+.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
+.sheet-header{padding:16px 20px 8px;display:flex;align-items:center;justify-content:space-between}
+.sheet-title{font-size:1rem;font-weight:700}
+.sheet-close{font-size:1.2rem;color:var(--muted);padding:4px 8px}
+.sheet-body{padding:0 20px 8px}
+
+/* QUEST DETAIL SHEET */
+.quest-detail-icon{font-size:2.5rem;text-align:center;margin:4px 0 12px}
+.quest-detail-title{font-size:1.15rem;font-weight:700;text-align:center;margin-bottom:4px}
+.quest-detail-meta{font-size:.78rem;color:var(--muted);text-align:center;margin-bottom:20px}
+.pf-row{display:flex;gap:12px;margin-bottom:16px}
+.pf-btn{
+  flex:1;padding:18px 12px;border-radius:var(--radius);font-size:1rem;font-weight:700;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  transition:transform .1s,box-shadow .1s;
+  -webkit-tap-highlight-color:transparent;
+}
+.pf-btn:active{transform:scale(.96)}
+.pf-btn .pf-icon{font-size:1.8rem}
+.pf-btn.pass-btn{background:var(--pass-dim);border:1.5px solid var(--pass);color:var(--pass)}
+.pf-btn.fail-btn{background:var(--fail-dim);border:1.5px solid var(--fail);color:var(--fail)}
+.pf-btn.pass-btn:active{box-shadow:0 0 20px rgba(34,197,94,.3)}
+.pf-btn.fail-btn:active{box-shadow:0 0 20px rgba(239,68,68,.3)}
+.already-done-msg{
+  text-align:center;padding:16px;border-radius:var(--radius-sm);
+  font-size:.85rem;font-weight:600;margin-bottom:12px;
+}
+.already-done-msg.pass{background:var(--pass-dim);color:var(--pass)}
+.already-done-msg.fail{background:var(--fail-dim);color:var(--fail)}
+
+/* ADD QUEST SHEET */
+.field-label{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:block}
+.field-input{
+  width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--text);font-size:.92rem;padding:13px 14px;margin-bottom:16px;
+  transition:border-color .15s;
+}
+.field-input:focus{border-color:var(--accent)}
+.cat-picker{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.cat-option{
+  flex:1;min-width:calc(33% - 6px);padding:10px 6px;border-radius:var(--radius-sm);
+  background:var(--surface2);border:1.5px solid transparent;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  font-size:.65rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);
+  cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;
+}
+.cat-option .ci{font-size:1.4rem}
+.cat-option.selected{border-color:var(--accent);background:var(--accent-dim);color:var(--accent)}
+.xp-picker{display:flex;gap:8px;margin-bottom:16px}
+.xp-option{
+  flex:1;padding:10px 6px;border-radius:var(--radius-sm);
+  background:var(--surface2);border:1.5px solid transparent;
+  text-align:center;font-size:.82rem;font-weight:700;color:var(--muted);
+  cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;
+}
+.xp-option.selected{border-color:var(--xp);background:var(--xp-dim);color:var(--xp)}
+.freq-picker{display:flex;gap:8px;margin-bottom:20px}
+.freq-option{
+  flex:1;padding:10px 6px;border-radius:var(--radius-sm);
+  background:var(--surface2);border:1.5px solid transparent;
+  text-align:center;font-size:.75rem;font-weight:700;color:var(--muted);
+  cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;
+}
+.freq-option.selected{border-color:var(--accent);background:var(--accent-dim);color:var(--accent)}
+.sheet-submit-btn{
+  width:100%;padding:16px;border-radius:var(--radius);
+  background:var(--accent);color:#fff;font-size:.95rem;font-weight:700;
+  letter-spacing:.02em;transition:background .15s;
+}
+.sheet-submit-btn:active{background:#6d28d9}
+
+/* DAY DETAIL SHEET */
+.day-quest-item{
+  display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);
+}
+.day-quest-item:last-child{border-bottom:none}
+.dq-icon{font-size:1.1rem;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:var(--surface2);border-radius:8px}
+.dq-text{flex:1;font-size:.85rem}
+.dq-status{font-size:1rem}
+
+/* XP POPUP */
+#xp-popup{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);
+  background:var(--surface);border:1px solid var(--xp);border-radius:20px;
+  padding:24px 32px;text-align:center;z-index:200;
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;
+}
+#xp-popup.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:none}
+#xp-popup.hide{opacity:0;transform:translate(-50%,-50%) scale(1.1)}
+.xp-popup-num{font-size:2.5rem;font-weight:900;color:var(--xp);line-height:1}
+.xp-popup-label{font-size:.8rem;color:var(--muted);margin-top:4px}
+
+/* LEVEL UP BANNER */
+#lvlup-banner{
+  position:fixed;top:calc(var(--header-h) + 8px);left:16px;right:16px;z-index:150;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);border-radius:var(--radius);
+  padding:14px 18px;display:flex;align-items:center;gap:12px;
+  transform:translateY(-120px);transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 8px 30px rgba(124,58,237,.5);
+}
+#lvlup-banner.show{transform:translateY(0)}
+.lvlup-icon{font-size:1.8rem}
+.lvlup-text{flex:1}
+.lvlup-text strong{font-size:.95rem;display:block}
+.lvlup-text span{font-size:.78rem;opacity:.8}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-state .ei{font-size:2.5rem;margin-bottom:10px}
+.empty-state p{font-size:.85rem;line-height:1.5}
+
+/* SWIPE DELETE */
+.quest-card-inner{position:relative}
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="hdr-row">
+    <div class="level-badge">
+      <span class="lvl-num" id="hdr-level">LVL 1</span>
+      <span class="lvl-name" id="hdr-name">Novice</span>
+    </div>
+    <div class="streak-badge">🔥 <span id="hdr-streak">0</span></div>
+  </div>
+  <div class="xp-bar-wrap">
+    <div class="xp-bar"><div class="xp-bar-fill" id="xp-fill" style="width:0%"></div></div>
+    <span class="xp-label" id="xp-label">0 / 100 XP</span>
+  </div>
+</header>
+
+<div id="main">
+  <!-- HOME -->
+  <div class="tab active" id="tab-home">
+    <div class="today-ring-wrap">
+      <svg class="ring-svg" width="80" height="80" viewBox="0 0 80 80">
+        <circle class="ring-bg" cx="40" cy="40" r="32"/>
+        <circle class="ring-fill" id="ring-fill" cx="40" cy="40" r="32"
+          stroke-dasharray="201" stroke-dashoffset="201"/>
+      </svg>
+      <div style="flex:1">
+        <h2 style="font-size:1.05rem;font-weight:700;margin-bottom:4px">Today's Progress</h2>
+        <p id="home-progress-text" style="font-size:.82rem;color:var(--muted)">No quests yet — add some below</p>
+        <p id="home-date" style="font-size:.7rem;color:var(--muted);margin-top:4px"></p>
+      </div>
+    </div>
+    <div class="today-stats">
+      <div class="stat-card stat-pass"><div class="val" id="stat-pass">0</div><div class="lbl">Passed</div></div>
+      <div class="stat-card stat-fail"><div class="val" id="stat-fail">0</div><div class="lbl">Failed</div></div>
+      <div class="stat-card stat-xp"><div class="val" id="stat-xp">0</div><div class="lbl">XP Today</div></div>
+    </div>
+    <div class="section-hdr">
+      <span class="section-title">Recent Activity</span>
+    </div>
+    <div class="activity-list" id="home-activity"></div>
+  </div>
+
+  <!-- QUESTS -->
+  <div class="tab" id="tab-quests">
+    <div class="section-hdr">
+      <span class="section-title">Today's Quests</span>
+      <button class="section-action" id="quests-date-label"></button>
+    </div>
+    <div class="quest-list" id="quest-list"></div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="tab" id="tab-notes">
+    <div class="section-hdr"><span class="section-title">Quick Capture</span></div>
+    <div class="notes-list" id="notes-list"></div>
+    <div class="note-input-area">
+      <div class="note-input-row">
+        <textarea id="note-input" rows="1" placeholder="Capture a thought…"></textarea>
+        <button class="note-mic-btn" id="mic-btn" title="Voice note">🎙️</button>
+        <button class="note-send-btn" id="note-send">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY -->
+  <div class="tab" id="tab-weekly">
+    <div class="section-hdr"><span class="section-title">This Week</span></div>
+    <div class="week-grid-wrap">
+      <div class="week-days-row" id="week-grid"></div>
+      <div class="week-summary-row" id="week-summary"></div>
+    </div>
+    <div class="section-hdr" style="margin-top:8px">
+      <span class="section-title">All Time</span>
+    </div>
+    <div class="today-stats">
+      <div class="stat-card stat-pass"><div class="val" id="all-pass">0</div><div class="lbl">Total Pass</div></div>
+      <div class="stat-card stat-fail"><div class="val" id="all-fail">0</div><div class="lbl">Total Fail</div></div>
+      <div class="stat-card stat-xp"><div class="val" id="all-xp">0</div><div class="lbl">Total XP</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav id="nav">
+  <button class="nav-btn active" data-tab="home"><span class="nav-icon">🏠</span>Home</button>
+  <button class="nav-btn" data-tab="quests"><span class="nav-icon">⚔️</span>Quests</button>
+  <button class="nav-btn" data-tab="notes"><span class="nav-icon">📝</span>Notes</button>
+  <button class="nav-btn" data-tab="weekly"><span class="nav-icon">📊</span>Weekly</button>
+</nav>
+
+<!-- FAB -->
+<button id="fab">＋</button>
+
+<!-- SHEET OVERLAY -->
+<div id="sheet-overlay"></div>
+<div id="sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <span class="sheet-title" id="sheet-title"></span>
+    <button class="sheet-close" id="sheet-close">✕</button>
+  </div>
+  <div class="sheet-body" id="sheet-body"></div>
+</div>
+
+<!-- XP POPUP -->
+<div id="xp-popup">
+  <div class="xp-popup-num" id="xp-popup-num">+25</div>
+  <div class="xp-popup-label">XP EARNED</div>
+</div>
+
+<!-- LEVEL UP BANNER -->
+<div id="lvlup-banner">
+  <div class="lvlup-icon">⚡</div>
+  <div class="lvlup-text">
+    <strong id="lvlup-title">Level Up!</strong>
+    <span id="lvlup-sub">You reached Level 2</span>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const LEVEL_NAMES = [
+  'Novice','Apprentice','Journeyman','Adept','Expert',
+  'Master','Grandmaster','Legend','Mythic','Transcendent'
+];
+const CATS = {
+  body:  { icon:'💪', label:'Body' },
+  mind:  { icon:'🧠', label:'Mind' },
+  life:  { icon:'🏠', label:'Life' },
+  work:  { icon:'💼', label:'Work' },
+  money: { icon:'💰', label:'Money' },
+};
+
+function xpForLevel(lvl) { return lvl * 100; }
+function totalXpForLevel(lvl) {
+  let t = 0; for (let i = 1; i < lvl; i++) t += xpForLevel(i); return t;
+}
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('ql_state');
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  return defaultState();
+}
+
+function defaultState() {
+  return {
+    profile: { name:'Player', level:1, xp:0, totalXp:0, streak:0, lastDate:null },
+    quests: [
+      { id:'q1', title:'Morning routine', cat:'body', xp:25, freq:'daily', active:true },
+      { id:'q2', title:'Move your body', cat:'body', xp:50, freq:'daily', active:true },
+      { id:'q3', title:'Deep work block', cat:'work', xp:50, freq:'daily', active:true },
+      { id:'q4', title:'Read or learn something', cat:'mind', xp:25, freq:'daily', active:true },
+      { id:'q5', title:'Drink enough water', cat:'life', xp:10, freq:'daily', active:true },
+    ],
+    log: {},
+    notes: [],
+  };
+}
+
+function save() { localStorage.setItem('ql_state', JSON.stringify(state)); }
+
+let state = loadState();
+checkStreak();
+
+function today() {
+  return new Date().toISOString().slice(0,10);
+}
+
+function checkStreak() {
+  const td = today();
+  const p = state.profile;
+  if (!p.lastDate) { p.lastDate = td; save(); return; }
+  if (p.lastDate === td) return;
+  const diff = (new Date(td) - new Date(p.lastDate)) / 86400000;
+  if (diff === 1) { p.streak++; }
+  else if (diff > 1) { p.streak = 0; }
+  p.lastDate = td;
+  save();
+}
+
+function todayLog() {
+  const td = today();
+  if (!state.log[td]) state.log[td] = {};
+  return state.log[td];
+}
+
+function addXp(amount, skipLvlCheck) {
+  const p = state.profile;
+  const oldLevel = p.level;
+  p.xp += amount;
+  p.totalXp += amount;
+  while (p.xp >= xpForLevel(p.level)) {
+    p.xp -= xpForLevel(p.level);
+    p.level++;
+  }
+  save();
+  renderHeader();
+  if (!skipLvlCheck && p.level > oldLevel) showLevelUp(p.level);
+}
+
+function showXpPopup(amount) {
+  const el = document.getElementById('xp-popup');
+  document.getElementById('xp-popup-num').textContent = '+' + amount;
+  el.classList.remove('hide');
+  el.classList.add('show');
+  setTimeout(() => { el.classList.add('hide'); setTimeout(() => el.classList.remove('show','hide'), 200); }, 1200);
+}
+
+function showLevelUp(lvl) {
+  const banner = document.getElementById('lvlup-banner');
+  document.getElementById('lvlup-title').textContent = '⚡ Level Up!';
+  document.getElementById('lvlup-sub').textContent = `You reached Level ${lvl} — ${LEVEL_NAMES[Math.min(lvl-1,LEVEL_NAMES.length-1)]}`;
+  banner.classList.add('show');
+  setTimeout(() => banner.classList.remove('show'), 3500);
+}
+
+// ── HEADER ────────────────────────────────────────────────────────────────────
+function renderHeader() {
+  const p = state.profile;
+  const lvl = p.level;
+  const needed = xpForLevel(lvl);
+  const pct = Math.min(100, (p.xp / needed) * 100);
+  document.getElementById('hdr-level').textContent = 'LVL ' + lvl;
+  document.getElementById('hdr-name').textContent = LEVEL_NAMES[Math.min(lvl-1, LEVEL_NAMES.length-1)];
+  document.getElementById('hdr-streak').textContent = p.streak;
+  document.getElementById('xp-fill').style.width = pct + '%';
+  document.getElementById('xp-label').textContent = p.xp + ' / ' + needed + ' XP';
+}
+
+// ── HOME TAB ──────────────────────────────────────────────────────────────────
+function renderHome() {
+  const log = todayLog();
+  const active = state.quests.filter(q => q.active && q.freq === 'daily');
+  const passed = active.filter(q => log[q.id] === 'pass').length;
+  const failed = active.filter(q => log[q.id] === 'fail').length;
+  const total = active.length;
+  const xpToday = active.filter(q => log[q.id] === 'pass').reduce((s,q) => s + q.xp, 0);
+
+  // Ring
+  const pct = total ? passed / total : 0;
+  const circ = 201;
+  document.getElementById('ring-fill').style.strokeDashoffset = circ - (circ * pct);
+
+  document.getElementById('home-progress-text').textContent =
+    total ? `${passed} of ${total} quests completed` : 'No quests yet — add some below';
+  document.getElementById('home-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  document.getElementById('stat-pass').textContent = passed;
+  document.getElementById('stat-fail').textContent = failed;
+  document.getElementById('stat-xp').textContent = xpToday;
+
+  // Activity
+  const acts = [];
+  for (const q of active) {
+    const status = log[q.id];
+    if (status) acts.push({ q, status });
+  }
+  const container = document.getElementById('home-activity');
+  if (!acts.length) {
+    container.innerHTML = '<div class="empty-state"><div class="ei">🎯</div><p>Complete quests to see activity here</p></div>';
+    return;
+  }
+  container.innerHTML = acts.map(({q,status}) => `
+    <div class="activity-item">
+      <div class="activity-dot ${status}"></div>
+      <div class="activity-text">${esc(q.title)}</div>
+      ${status === 'pass' ? `<span class="activity-xp">+${q.xp} XP</span>` : '<span style="font-size:.7rem;color:var(--fail)">Logged</span>'}
+    </div>
+  `).join('');
+}
+
+// ── QUESTS TAB ────────────────────────────────────────────────────────────────
+function renderQuests() {
+  const log = todayLog();
+  const d = new Date();
+  document.getElementById('quests-date-label').textContent =
+    d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+
+  const active = state.quests.filter(q => q.active);
+  const list = document.getElementById('quest-list');
+
+  if (!active.length) {
+    list.innerHTML = '<div class="empty-state"><div class="ei">⚔️</div><p>No quests yet.<br>Tap ＋ to add your first quest.</p></div>';
+    return;
+  }
+
+  // Sort: undone first, then pass, then fail
+  const sorted = [...active].sort((a,b) => {
+    const oa = log[a.id] ? 1 : 0, ob = log[b.id] ? 1 : 0;
+    return oa - ob;
+  });
+
+  list.innerHTML = sorted.map(q => {
+    const status = log[q.id];
+    const cat = CATS[q.cat] || CATS.life;
+    const statusIcon = status === 'pass' ? '✅' : status === 'fail' ? '❌' : '';
+    const cls = status === 'pass' ? 'done-pass' : status === 'fail' ? 'done-fail' : '';
+    return `
+      <div class="quest-card ${cls}" data-qid="${q.id}">
+        <div class="quest-card-row">
+          <div class="quest-cat-icon">${cat.icon}</div>
+          <div class="quest-info">
+            <div class="quest-title">${esc(q.title)}</div>
+            <div class="quest-meta">${cat.label} · <span style="color:var(--xp)">${q.xp} XP</span></div>
+          </div>
+          ${statusIcon ? `<span class="quest-status-icon">${statusIcon}</span>` : `<span class="quest-xp-badge">+${q.xp}</span>`}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  list.querySelectorAll('.quest-card').forEach(card => {
+    card.addEventListener('click', () => openQuestDetail(card.dataset.qid));
+  });
+}
+
+// ── QUEST DETAIL SHEET ────────────────────────────────────────────────────────
+function openQuestDetail(qid) {
+  const q = state.quests.find(x => x.id === qid);
+  if (!q) return;
+  const log = todayLog();
+  const status = log[qid];
+  const cat = CATS[q.cat] || CATS.life;
+
+  document.getElementById('sheet-title').textContent = 'Quest';
+  document.getElementById('sheet-body').innerHTML = `
+    <div class="quest-detail-icon">${cat.icon}</div>
+    <div class="quest-detail-title">${esc(q.title)}</div>
+    <div class="quest-detail-meta">${cat.label} · ${q.xp} XP · ${q.freq}</div>
+    ${status
+      ? `<div class="already-done-msg ${status}">${status === 'pass' ? '✅ Completed — +'+q.xp+' XP earned' : '❌ Logged as failed'}</div>
+         <div class="pf-row">
+           <button class="pf-btn pass-btn" id="pf-pass"><span class="pf-icon">✓</span>Pass</button>
+           <button class="pf-btn fail-btn" id="pf-fail"><span class="pf-icon">✗</span>Fail</button>
+         </div>`
+      : `<div class="pf-row">
+           <button class="pf-btn pass-btn" id="pf-pass"><span class="pf-icon">✓</span>Pass</button>
+           <button class="pf-btn fail-btn" id="pf-fail"><span class="pf-icon">✗</span>Fail</button>
+         </div>`}
+    <button class="sheet-submit-btn" id="delete-quest" style="background:var(--fail-dim);color:var(--fail);margin-top:4px">Remove Quest</button>
+  `;
+
+  document.getElementById('pf-pass')?.addEventListener('click', () => {
+    const wasPass = log[qid] === 'pass';
+    log[qid] = 'pass';
+    save();
+    if (!wasPass) { showXpPopup(q.xp); addXp(q.xp); }
+    closeSheet();
+    renderAll();
+  });
+  document.getElementById('pf-fail')?.addEventListener('click', () => {
+    if (log[qid] === 'pass') {
+      // Undo the XP if re-logging as fail
+      const p = state.profile;
+      p.xp = Math.max(0, p.xp - q.xp);
+      p.totalXp = Math.max(0, p.totalXp - q.xp);
+      // Recalculate level
+      while (p.level > 1 && p.xp < 0) { p.level--; p.xp += xpForLevel(p.level); }
+    }
+    log[qid] = 'fail';
+    save();
+    closeSheet();
+    renderAll();
+  });
+  document.getElementById('delete-quest')?.addEventListener('click', () => {
+    state.quests = state.quests.filter(x => x.id !== qid);
+    save();
+    closeSheet();
+    renderAll();
+  });
+
+  openSheet('Quest');
+}
+
+// ── ADD QUEST SHEET ───────────────────────────────────────────────────────────
+let newQuestDraft = { cat:'body', xp:25, freq:'daily' };
+
+function openAddQuest() {
+  newQuestDraft = { cat:'body', xp:25, freq:'daily' };
+  document.getElementById('sheet-title').textContent = 'New Quest';
+  document.getElementById('sheet-body').innerHTML = `
+    <label class="field-label">Quest Title</label>
+    <input class="field-input" id="nq-title" placeholder="e.g. Morning run" autocomplete="off" spellcheck="false">
+    <label class="field-label">Category</label>
+    <div class="cat-picker" id="cat-picker">
+      ${Object.entries(CATS).map(([k,v]) =>
+        `<div class="cat-option${k==='body'?' selected':''}" data-cat="${k}"><span class="ci">${v.icon}</span>${v.label}</div>`
+      ).join('')}
+    </div>
+    <label class="field-label">XP Reward</label>
+    <div class="xp-picker" id="xp-picker">
+      ${[10,25,50,100].map(v =>
+        `<div class="xp-option${v===25?' selected':''}" data-xp="${v}">${v}</div>`
+      ).join('')}
+    </div>
+    <label class="field-label">Frequency</label>
+    <div class="freq-picker" id="freq-picker">
+      ${['daily','weekly','once'].map(f =>
+        `<div class="freq-option${f==='daily'?' selected':''}" data-freq="${f}">${f}</div>`
+      ).join('')}
+    </div>
+    <button class="sheet-submit-btn" id="nq-submit">Add Quest</button>
+  `;
+
+  document.getElementById('cat-picker').addEventListener('click', e => {
+    const opt = e.target.closest('.cat-option');
+    if (!opt) return;
+    document.querySelectorAll('.cat-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    newQuestDraft.cat = opt.dataset.cat;
+  });
+  document.getElementById('xp-picker').addEventListener('click', e => {
+    const opt = e.target.closest('.xp-option');
+    if (!opt) return;
+    document.querySelectorAll('.xp-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    newQuestDraft.xp = +opt.dataset.xp;
+  });
+  document.getElementById('freq-picker').addEventListener('click', e => {
+    const opt = e.target.closest('.freq-option');
+    if (!opt) return;
+    document.querySelectorAll('.freq-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    newQuestDraft.freq = opt.dataset.freq;
+  });
+  document.getElementById('nq-submit').addEventListener('click', () => {
+    const title = document.getElementById('nq-title').value.trim();
+    if (!title) { document.getElementById('nq-title').focus(); return; }
+    state.quests.push({
+      id: 'q' + Date.now(),
+      title,
+      cat: newQuestDraft.cat,
+      xp: newQuestDraft.xp,
+      freq: newQuestDraft.freq,
+      active: true,
+    });
+    save();
+    closeSheet();
+    renderAll();
+  });
+
+  openSheet('New Quest');
+  setTimeout(() => document.getElementById('nq-title')?.focus(), 350);
+}
+
+// ── NOTES ─────────────────────────────────────────────────────────────────────
+function renderNotes() {
+  const list = document.getElementById('notes-list');
+  const notes = [...state.notes].reverse();
+  if (!notes.length) {
+    list.innerHTML = '<div class="empty-state"><div class="ei">📝</div><p>Nothing captured yet.<br>Type or tap the mic to add a note.</p></div>';
+    return;
+  }
+  list.innerHTML = notes.map(n => `
+    <div class="note-card" data-nid="${n.id}">
+      <div class="note-text">${esc(n.text)}</div>
+      <div class="note-meta">
+        <span class="note-time">${formatTime(n.ts)}</span>
+        <span class="note-src ${n.source}">${n.source === 'voice' ? '🎙️ voice' : '⌨️ typed'}</span>
+      </div>
+      <button class="note-del" data-del="${n.id}">🗑</button>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('[data-del]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const nid = btn.dataset.del;
+      state.notes = state.notes.filter(n => n.id !== nid);
+      save();
+      renderNotes();
+    });
+  });
+}
+
+function addNote(text, source) {
+  if (!text.trim()) return;
+  state.notes.push({ id: 'n' + Date.now(), text: text.trim(), ts: Date.now(), source });
+  save();
+  renderNotes();
+}
+
+function formatTime(ts) {
+  const d = new Date(ts);
+  const now = new Date();
+  const diff = now - d;
+  if (diff < 60000) return 'just now';
+  if (diff < 3600000) return Math.floor(diff/60000) + 'm ago';
+  if (diff < 86400000) return Math.floor(diff/3600000) + 'h ago';
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+
+// Voice notes
+let recognition = null;
+let recognizing = false;
+
+function initVoice() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) return;
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = 'en-US';
+  recognition.onresult = e => {
+    const text = e.results[0][0].transcript;
+    addNote(text, 'voice');
+  };
+  recognition.onend = () => {
+    recognizing = false;
+    document.getElementById('mic-btn').classList.remove('recording');
+  };
+  recognition.onerror = () => {
+    recognizing = false;
+    document.getElementById('mic-btn').classList.remove('recording');
+  };
+}
+
+document.getElementById('mic-btn').addEventListener('click', () => {
+  if (!recognition) { alert('Voice input not supported in this browser. Use Chrome on Android.'); return; }
+  if (recognizing) { recognition.stop(); return; }
+  recognizing = true;
+  document.getElementById('mic-btn').classList.add('recording');
+  recognition.start();
+});
+
+document.getElementById('note-send').addEventListener('click', () => {
+  const input = document.getElementById('note-input');
+  addNote(input.value, 'text');
+  input.value = '';
+  input.style.height = 'auto';
+});
+
+document.getElementById('note-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    document.getElementById('note-send').click();
+  }
+});
+
+document.getElementById('note-input').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+// ── WEEKLY TAB ────────────────────────────────────────────────────────────────
+function renderWeekly() {
+  const days = ['S','M','T','W','T','F','S'];
+  const now = new Date();
+  const dow = now.getDay();
+  const grid = document.getElementById('week-grid');
+  const active = state.quests.filter(q => q.active && q.freq === 'daily');
+
+  let weekPass = 0, weekFail = 0, weekXp = 0;
+
+  const cols = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(now);
+    d.setDate(now.getDate() - dow + i);
+    const key = d.toISOString().slice(0,10);
+    const isToday = key === today();
+    const isFuture = d > now && !isToday;
+    const log = state.log[key] || {};
+    const passed = active.filter(q => log[q.id] === 'pass');
+    const failed = active.filter(q => log[q.id] === 'fail');
+    const dayXp = passed.reduce((s,q) => s + q.xp, 0);
+    weekPass += passed.length;
+    weekFail += failed.length;
+    weekXp += dayXp;
+
+    const pct = active.length ? Math.round((passed.length / active.length) * 100) : 0;
+    const color = isFuture ? '' : passed.length ? `color:var(--pass)` : failed.length ? `color:var(--muted)` : '';
+
+    cols.push(`
+      <div class="week-day-col">
+        <div class="week-day-label">${days[i]}</div>
+        <div class="week-day-cell${isToday?' today':''}${isFuture?' future':''}" data-date="${key}" style="${color}">
+          ${isFuture ? '' : active.length ? pct+'%' : '—'}
+        </div>
+        <div class="week-dot-row">
+          ${passed.slice(0,3).map(() => '<div class="week-dot pass"></div>').join('')}
+          ${failed.slice(0,3).map(() => '<div class="week-dot fail"></div>').join('')}
+        </div>
+      </div>
+    `);
+  }
+  grid.innerHTML = cols.join('');
+
+  grid.querySelectorAll('.week-day-cell:not(.future)').forEach(cell => {
+    cell.addEventListener('click', () => openDayDetail(cell.dataset.date));
+  });
+
+  document.getElementById('week-summary').innerHTML = `
+    <div class="week-summary-card"><div class="val" style="color:var(--pass)">${weekPass}</div><div class="lbl">Passed</div></div>
+    <div class="week-summary-card"><div class="val" style="color:var(--fail)">${weekFail}</div><div class="lbl">Failed</div></div>
+    <div class="week-summary-card"><div class="val" style="color:var(--xp)">${weekXp}</div><div class="lbl">XP</div></div>
+  `;
+
+  // All time
+  let ap=0,af=0,ax=0;
+  for (const [,dayLog] of Object.entries(state.log)) {
+    for (const q of active) {
+      if (dayLog[q.id] === 'pass') { ap++; ax += q.xp; }
+      if (dayLog[q.id] === 'fail') af++;
+    }
+  }
+  document.getElementById('all-pass').textContent = ap;
+  document.getElementById('all-fail').textContent = af;
+  document.getElementById('all-xp').textContent = ax;
+}
+
+function openDayDetail(dateKey) {
+  const log = state.log[dateKey] || {};
+  const active = state.quests.filter(q => q.active && q.freq === 'daily');
+  const d = new Date(dateKey);
+  const label = d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+
+  document.getElementById('sheet-title').textContent = label;
+  document.getElementById('sheet-body').innerHTML = active.length
+    ? active.map(q => {
+        const cat = CATS[q.cat] || CATS.life;
+        const s = log[q.id];
+        const icon = s === 'pass' ? '✅' : s === 'fail' ? '❌' : '⬜';
+        return `<div class="day-quest-item">
+          <div class="dq-icon">${cat.icon}</div>
+          <div class="dq-text">${esc(q.title)}</div>
+          <span class="dq-status">${icon}</span>
+        </div>`;
+      }).join('')
+    : '<p style="color:var(--muted);font-size:.85rem">No quests tracked this day.</p>';
+
+  openSheet(label);
+}
+
+// ── SHEET ─────────────────────────────────────────────────────────────────────
+function openSheet(title) {
+  document.getElementById('sheet-title').textContent = title;
+  document.getElementById('sheet-overlay').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+}
+function closeSheet() {
+  document.getElementById('sheet-overlay').classList.remove('open');
+  document.getElementById('sheet').classList.remove('open');
+}
+document.getElementById('sheet-close').addEventListener('click', closeSheet);
+document.getElementById('sheet-overlay').addEventListener('click', closeSheet);
+
+// Swipe-down to close sheet
+let sheetStartY = 0;
+const sheetEl = document.getElementById('sheet');
+sheetEl.addEventListener('touchstart', e => { sheetStartY = e.touches[0].clientY; }, { passive:true });
+sheetEl.addEventListener('touchend', e => {
+  if (e.changedTouches[0].clientY - sheetStartY > 80) closeSheet();
+}, { passive:true });
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
+let currentTab = 'home';
+document.getElementById('nav').addEventListener('click', e => {
+  const btn = e.target.closest('.nav-btn');
+  if (!btn) return;
+  const tab = btn.dataset.tab;
+  if (tab === currentTab) return;
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('fab').style.display = tab === 'quests' ? 'flex' : 'none';
+  renderTab(tab);
+});
+
+function renderTab(tab) {
+  if (tab === 'home') renderHome();
+  if (tab === 'quests') renderQuests();
+  if (tab === 'notes') renderNotes();
+  if (tab === 'weekly') renderWeekly();
+}
+
+document.getElementById('fab').addEventListener('click', openAddQuest);
+document.getElementById('fab').style.display = 'none';
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderAll() {
+  renderHeader();
+  renderTab(currentTab);
+}
+
+// ── SERVICE WORKER ────────────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('quest-sw.js').catch(() => {});
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+initVoice();
+renderHeader();
+renderHome();
+</script>
+</body>
+</html>
