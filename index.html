@@ -52,6 +52,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(
 .nav-cta:hover{opacity:.7}
 .nav-theme{background:none;border:none;cursor:pointer;padding:.3rem .5rem;border-radius:8px;color:var(--mid);font-size:.85rem;line-height:1;transition:background .15s,color .15s;display:flex;align-items:center}
 .nav-theme:hover{background:var(--off);color:var(--dark)}
+.nav-burger{display:none;background:none;border:none;cursor:pointer;padding:.3rem;border-radius:8px;color:var(--dark);align-items:center;justify-content:center}
+.nav-burger:hover{background:var(--off)}
+.nav-mobile{display:none;position:fixed;top:52px;left:0;right:0;flex-direction:column;background:var(--white);border-bottom:1px solid var(--border);padding:.25rem 1.5rem;z-index:99;box-shadow:0 12px 24px rgba(0,0,0,.08)}
+.nav-mobile.open{display:flex}
+.nav-mobile a{padding:.85rem 0;font-size:.9rem;font-weight:500;color:var(--dark);border-bottom:1px solid var(--off)}
+.nav-mobile a:last-child{border-bottom:none}
 
 /* ── HERO ── */
 .hero{padding:110px 1.5rem 60px;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 300px;gap:4rem;align-items:center}
@@ -231,6 +237,7 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 
 @media(max-width:768px){
   .nav-links{display:none}
+  .nav-burger{display:flex}
   .nav-resume span{display:none}
   .hero{grid-template-columns:1fr;padding-top:88px;gap:2rem}
   .hero-photo{order:-1}
@@ -287,7 +294,16 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
         <span>Resume</span>
       </a>
       <a href="mailto:skcart79@gmail.com" class="nav-cta">Contact</a>
+      <button class="nav-burger" id="navBurger" onclick="toggleMobileNav()" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="#work">Work</a>
+    <a href="#what-i-do">What I Do</a>
+    <a href="#about">About</a>
+    <a href="blog.html">Blog</a>
   </div>
 </nav>
 
@@ -616,6 +632,19 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 
 <!-- Scripts -->
 <script>
+// ── MOBILE NAV ──
+function toggleMobileNav() {
+  const nav = document.getElementById('navMobile');
+  const open = nav.classList.toggle('open');
+  document.getElementById('navBurger').setAttribute('aria-expanded', open);
+}
+document.getElementById('navMobile').addEventListener('click', function(e) {
+  if (e.target.tagName === 'A') {
+    this.classList.remove('open');
+    document.getElementById('navBurger').setAttribute('aria-expanded', 'false');
+  }
+});
+
 // ── DARK MODE ──
 function toggleTheme() {
   const isDark = document.documentElement.hasAttribute('data-dark');
