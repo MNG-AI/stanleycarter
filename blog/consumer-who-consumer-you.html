@@ -51,9 +51,8 @@
     .btn-back { background: var(--accent); color: #fff !important; padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.82rem; font-weight: 500; transition: opacity 0.15s; }
     .btn-back:hover { opacity: 0.88; }
 
-    .cover { height: 220px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: linear-gradient(135deg,#1a7f37,#3ddc84); }
-    .cover::before { content:''; position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,.35) 1.5px,transparent 1.5px); background-size:18px 18px; opacity:.5; }
-    .cover svg { width: 64px; height: 64px; position: relative; z-index: 1; opacity: .95; }
+    .cover { height: 220px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: var(--surface); }
+    .cover-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     .hero { padding: 3rem 2.5rem 3rem; max-width: 760px; margin: 0 auto; border-bottom: 1px solid var(--border); }
     .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-bg); padding: 0.25rem 0.7rem; border-radius: 100px; margin-bottom: 1.4rem; }
@@ -93,7 +92,6 @@
       .nav-center { display: none; }
       .hero, .page { padding-left: 1.2rem; padding-right: 1.2rem; }
       .cover { height: 160px; }
-      .cover svg { width: 48px; height: 48px; }
     }
   </style>
 </head>
@@ -117,7 +115,7 @@
 </nav>
 
 <div class="cover">
-  <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1" fill="currentColor" stroke="none"/><circle cx="19" cy="21" r="1" fill="currentColor" stroke="none"/><path d="M2 3h2l2.4 12.4a2 2 0 002 1.6h9.2a2 2 0 002-1.6L22 7H6"/></svg>
+  <img class="cover-img" src="../assets/Shopping%20Cart%20in%20Modern%20Retail%20Environment.png" alt="Consumer Who? Consumer You!">
 </div>
 
 <div class="hero reveal">
