@@ -68,9 +68,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(
 .post-card{background:var(--off);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:transform .25s ease,box-shadow .25s ease,background .25s}
 .post-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,0,0,.11)}
 .post-thumb{width:100%;height:150px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
-.post-thumb::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.35) 1.5px,transparent 1.5px);background-size:16px 16px;opacity:.5}
-.post-icon{width:44px;height:44px;position:relative;z-index:1;opacity:.92;transition:transform .35s ease}
-.post-card:hover .post-icon{transform:scale(1.12) rotate(-4deg)}
+.post-thumb-img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+.post-card:hover .post-thumb-img{transform:scale(1.08)}
 .post-face{padding:1.5rem 1.6rem;display:flex;flex-direction:column;flex:1}
 .post-date{font-size:.66rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.55rem}
 .post-ttl{font-size:1.05rem;font-weight:700;letter-spacing:-.02em;line-height:1.3;margin-bottom:.5rem;color:var(--dark)}
@@ -142,8 +141,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
 <div class="post-grid-wrap">
   <div class="post-grid">
     <a href="blog/marketing-objectives.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#0071e3,#00c6ff)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Photo%20Collage%20-%20Achieve%20Your%20%20Business%20Goals.png" alt="Marketing Objectives">
       </div>
       <div class="post-face">
         <div class="post-date">May 2023</div>
@@ -156,8 +155,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/defining-your-target-market.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#1a7f37,#3ddc84)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Detailed%20Dartboard%20with%20Dart%20Centered%20in%20Focus.png" alt="Defining Your Target Market and Maximizing Marketing Success">
       </div>
       <div class="post-face">
         <div class="post-date">May 2023</div>
@@ -170,8 +169,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/preliminary-findings-and-limitations.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="7"/><rect x="12" y="7" width="3" height="11"/><rect x="17" y="13" width="3" height="5"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Magnifying%20Glass%20Above%20Customer%20Data%20Chart.png" alt="Preliminary Findings and Limitations">
       </div>
       <div class="post-face">
         <div class="post-date">December 2022</div>
@@ -184,8 +183,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/new-product-research-apple.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#d97706,#ffcf70)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1v.2h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Minimalist%20Controller%20with%20Glossy%20Highlights.png" alt="New Product Research – Apple">
       </div>
       <div class="post-face">
         <div class="post-date">October 2022</div>
@@ -198,8 +197,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/consumer-engagement.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#c0392b,#ff7a6b)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 001 1h2l3.5 4V6L6 10H4a1 1 0 00-1 1z"/><path d="M14 8a4 4 0 010 8"/><path d="M17 5a8 8 0 010 14"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Pastel%20Sky%20with%20Airplane%20Wing.png" alt="Consumer Engagement">
       </div>
       <div class="post-face">
         <div class="post-date">October 2022</div>
@@ -212,8 +211,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/benefits-of-social-media-marketing.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#0891b2,#5eead4)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.2 10.8l7.6-4.6M8.2 13.2l7.6 4.6"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Smartphone%20Displaying%20Modern%20Analytics%20Dashboard.png" alt="Benefits of Social Media Marketing">
       </div>
       <div class="post-face">
         <div class="post-date">June 2022</div>
@@ -226,8 +225,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/role-of-social-media.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#0071e3,#00c6ff)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v6h-6"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Young%20Woman%20Enjoying%20Streaming%20Content%20in%20Minimalist%20Room.png" alt="Role of Social Media">
       </div>
       <div class="post-face">
         <div class="post-date">May 2022</div>
@@ -240,8 +239,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/marketing-implications-of-youtube.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#c0392b,#ff7a6b)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 8l6 4-6 4V8z" fill="currentColor" stroke="none"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Intimate%20Content%20Creator%20Studio%20Atmosphere.png" alt="Marketing Implications of YouTube">
       </div>
       <div class="post-face">
         <div class="post-date">May 2022</div>
@@ -254,8 +253,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/unethical-vs-ethical.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 7l-3 6a3 3 0 006 0zM19 7l-3 6a3 3 0 006 0zM5 7h14M8 3h8"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Copy%20of%20Laptop%20in%20Soft%20Light%20Showing%20Search%20Engine%20Results%20on%20Clean%20Desk.png" alt="Unethical vs Ethical">
       </div>
       <div class="post-face">
         <div class="post-date">April 2022</div>
@@ -268,8 +267,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/paid-vs-organic-strategies.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#0071e3,#00c6ff)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 7l-3 6a3 3 0 006 0zM19 7l-3 6a3 3 0 006 0zM5 7h14M8 3h8"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Cinematic%20Analysis%20in%20a%20Modern%20Office.png" alt="Paid vs Organic Strategies">
       </div>
       <div class="post-face">
         <div class="post-date">March 2022</div>
@@ -282,8 +281,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/green-for-profit-or-environment.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#1a7f37,#3ddc84)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 019 6c1.5-2 4-3 7-3 0 5-1 9-5 12-1 .8-2.3 1-4 1z"/><path d="M9 15c3-3 5-6 6-11"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Elegant%20Water%20Bottle%20with%20Green%20Leaves.png" alt="Green for Profit or Green for the Environment?">
       </div>
       <div class="post-face">
         <div class="post-date">December 2021</div>
@@ -296,8 +295,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/marvel-vs-dc-universe.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#d97706,#ffcf70)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v6h-6"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Abstract%20Covers%20of%20Comic%20Books.png" alt="Top Dog Versus Underdog Marvel vs. DC Universe">
       </div>
       <div class="post-face">
         <div class="post-date">November 2021</div>
@@ -310,8 +309,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/under-armour-segmentation.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#0891b2,#5eead4)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Minimalist%20Arrangement%20of%20Running%20Gear.png" alt="Under Armour: Where Do We Go From Here?">
       </div>
       <div class="post-face">
         <div class="post-date">November 2021</div>
@@ -324,8 +323,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/consumer-who-consumer-you.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#1a7f37,#3ddc84)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1" fill="currentColor" stroke="none"/><circle cx="19" cy="21" r="1" fill="currentColor" stroke="none"/><path d="M2 3h2l2.4 12.4a2 2 0 002 1.6h9.2a2 2 0 002-1.6L22 7H6"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Shopping%20Cart%20in%20Modern%20Retail%20Environment.png" alt="Consumer Who? Consumer You!">
       </div>
       <div class="post-face">
         <div class="post-date">October 2021</div>
@@ -338,8 +337,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/smart-goals.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#0071e3,#00c6ff)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Minimalist%20Planner%20with%20Shallow%20Depth%20of%20Field.png" alt="S.M.A.R.T Goals">
       </div>
       <div class="post-face">
         <div class="post-date">September 2021</div>
@@ -352,8 +351,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/marketing-perspective.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 001 1h2l3.5 4V6L6 10H4a1 1 0 00-1 1z"/><path d="M14 8a4 4 0 010 8"/><path d="M17 5a8 8 0 010 14"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Confident%20Creator%20in%20Sage%20Green%20Studio.png" alt="Marketing Perspective">
       </div>
       <div class="post-face">
         <div class="post-date">June 2021</div>
@@ -366,8 +365,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/digital-media-consumer-impact.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#c0392b,#ff7a6b)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9C.7 8.5 2 4 6 4c2.2 0 3.7 1.3 4.5 2.5C11.3 5.3 12.8 4 15 4c4 0 5.3 4.5 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Calm%20Mid-Morning%20in%20an%20Airport%20Terminal.png" alt="Effectively Impacting the Consumer Through Digital Media">
       </div>
       <div class="post-face">
         <div class="post-date">May 2021</div>
@@ -380,8 +379,8 @@ footer{background:var(--dark);color:#fff;padding:2.5rem 1.5rem;text-align:center
     </a>
 
     <a href="blog/day-in-the-life-digital-media.html" class="post-card reveal pop">
-      <div class="post-thumb" style="background:linear-gradient(135deg,#d97706,#ffcf70)">
-        <svg class="post-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+      <div class="post-thumb">
+      <img class="post-thumb-img" src="assets/Well-Groomed%20Hand%20and%20Bright%20Smartphone.png" alt="A Day in the Life: Digital Media">
       </div>
       <div class="post-face">
         <div class="post-date">May 2021</div>
