@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Effectively Impacting the Consumer Through Digital Media — Stanley Carter</title>
+  <meta name="description" content="How one viral act of customer service turned an airport into a marketing case study.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #ffffff;
+      --surface:   #f7f7f8;
+      --border:    #e8e9eb;
+      --muted:     #9ca3af;
+      --body:      #6b7280;
+      --heading:   #111827;
+      --blue:      #2563eb;
+      --accent:    #c0392b;
+      --accent-bg: #c0392b1a;
+      --card:      #ffffff;
+      --sans:      'Inter', system-ui, sans-serif;
+    }
+
+    [data-dark] {
+      --bg:         #09090b;
+      --surface:    #131315;
+      --border:     #2a2a2e;
+      --muted:      #6b7280;
+      --body:       #9ca3af;
+      --heading:    #f2f2f5;
+      --blue:       #60a5fa;
+      --card:       #1c1c1f;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--body); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background .25s, color .25s; }
+
+    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 60px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); transition: background .25s, border-color .25s; }
+    [data-dark] nav { background: rgba(9,9,11,0.9); }
+    .nav-logo { font-size: 1rem; font-weight: 600; color: var(--heading); text-decoration: none; }
+    .nav-center { display: flex; gap: 2rem; }
+    .nav-center a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-center a:hover { color: var(--heading); }
+    .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+    .nav-right a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-right a:hover { color: var(--heading); }
+    .btn-back { background: var(--accent); color: #fff !important; padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.82rem; font-weight: 500; transition: opacity 0.15s; }
+    .btn-back:hover { opacity: 0.88; }
+
+    .cover { height: 220px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: linear-gradient(135deg,#c0392b,#ff7a6b); }
+    .cover::before { content:''; position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,.35) 1.5px,transparent 1.5px); background-size:18px 18px; opacity:.5; }
+    .cover svg { width: 64px; height: 64px; position: relative; z-index: 1; opacity: .95; }
+
+    .hero { padding: 3rem 2.5rem 3rem; max-width: 760px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+    .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-bg); padding: 0.25rem 0.7rem; border-radius: 100px; margin-bottom: 1.4rem; }
+    .hero h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 700; color: var(--heading); line-height: 1.2; margin-bottom: 1rem; }
+    .hero .sub { font-size: 1rem; color: var(--body); line-height: 1.75; }
+    .hero .meta { margin-top: 1.4rem; font-size: 0.8rem; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .page { max-width: 760px; margin: 0 auto; padding: 3rem 2.5rem 6rem; }
+    .page h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 2rem 0 0.8rem; line-height: 1.3; }
+    .page h2:first-child { margin-top: 0; }
+    .page h3 { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent); margin: 1.8rem 0 0.6rem; }
+    .page p { color: var(--body); margin-bottom: 1.1rem; line-height: 1.8; font-size: 0.98rem; }
+    .page p:last-child { margin-bottom: 0; }
+    .page strong { color: var(--heading); font-weight: 600; }
+    .page em { font-style: italic; color: var(--heading); }
+    .page ol, .page ul { margin: 0 0 1.1rem 1.3rem; color: var(--body); }
+    .page li { margin-bottom: 0.5rem; line-height: 1.7; font-size: 0.98rem; }
+
+    .refs { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .refs-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    .refs ul { list-style: none; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .refs li { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+    .nav-theme-pp { background: none; border: none; cursor: pointer; padding: 0.3rem 0.5rem; border-radius: 8px; color: var(--muted); font-size: 0.85rem; line-height: 1; transition: background 0.15s, color 0.15s; display: flex; align-items: center; }
+    .nav-theme-pp:hover { background: var(--surface); color: var(--heading); }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    [data-dark] footer { background: #09090b; }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; }
+      .nav-center { display: none; }
+      .hero, .page { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .cover { height: 160px; }
+      .cover svg { width: 48px; height: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Stanley Carter</a>
+  <div class="nav-center">
+    <a href="../blog.html">Blog</a>
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://github.com/MNG-AI" target="_blank">GitHub</a>
+    <button class="nav-theme-pp" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">
+      <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="../blog.html" class="btn-back">&larr; Blog</a>
+  </div>
+</nav>
+
+<div class="cover">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9C.7 8.5 2 4 6 4c2.2 0 3.7 1.3 4.5 2.5C11.3 5.3 12.8 4 15 4c4 0 5.3 4.5 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>
+</div>
+
+<div class="hero reveal">
+  <div class="hero-tag">Marketing Blog · May 2021</div>
+  <h1>Effectively Impacting the Consumer Through Digital Media</h1>
+  <p class="sub">How one viral act of customer service turned an airport into a marketing case study.</p>
+  <div class="meta">
+    <span>May 30, 2021</span>
+    <span>&middot;</span>
+    <span>387 words</span>
+  </div>
+</div>
+
+<div class="page reveal">
+    <p>The tale of tiger’s big adventure is about an incident at Tampa International Airport, where a young boy left his toy tiger at the airport play area. An operations manager decided to make it his mission to deliver the toy back to its owner. On the way, he took photos of the tiger enjoying the many things to do at Tampa International airport. He used those pictures to create a book to give to the little boy along with his tiger. The story ended up being posted on the company Facebook and Twitter account, where the media outlets like CNN, Good Morning America, ABC News, etc., started to take notice.</p>
+    <p>This act showed that Tampa International Airport has employees that are dedicated to customer service and treating its customers like family. The company took that moment to show off its exceptional customer service on social media, which ended up getting tons of positive feedback. That moment will be the deciding factor for most people who have had instances of bad customer service with other airports. By that manager going above and beyond for such a small incident, consumers started taking notice of the company worldwide after being posted and covered on social media, blogs, and posts from other companies like the Disney Institute. With that type of recognition, it only leads to more impressions and I believe Tampa International Airport succeeded on how they addressed the experiences you could have when using their services. For that reason I do not believe that they could have handled that situation any better than it was.</p>
+    <p>Looking at their current website and social media pages, the company is remaining true to its personable approach to marketing. Each time information is being displayed on their pages and site, it is written in text that is family-friendly and has life to it. It is apparent that they are being run and updated by humans and not just simple robotic sentences. The company also has a user-friendly app where you can find the same information in a clear and concise way. The way the company handles integrations with its customers on social media is family friendly and somewhat comical at times. The company interacts with its followers and posts memes and other entertaining posts to keep the energy playful when thinking of TPA.</p>
+</div>
+
+<footer>
+  <p>
+    <a href="../index.html">Stanley Carter</a>
+    &nbsp;&middot;&nbsp; eCommerce Content Specialist, Shoe Carnival, Inc.
+    &nbsp;&middot;&nbsp; <a href="mailto:skcart79@gmail.com">skcart79@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+function toggleTheme(){
+  const dark = document.documentElement.toggleAttribute('data-dark');
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+  document.getElementById('iconMoon').style.display = dark ? 'none' : '';
+  document.getElementById('iconSun').style.display  = dark ? '' : 'none';
+}
+(function(){
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved === 'dark' || (!saved && prefersDark)){
+    document.documentElement.setAttribute('data-dark','');
+    document.getElementById('iconMoon').style.display = 'none';
+    document.getElementById('iconSun').style.display  = '';
+  }
+})();
+(function(){
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+})();
+</script>
+</body>
+</html>

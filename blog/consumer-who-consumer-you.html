@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consumer Who? Consumer You! — Stanley Carter</title>
+  <meta name="description" content="A personal audit of what actually drives my own buying decisions, stage by stage.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #ffffff;
+      --surface:   #f7f7f8;
+      --border:    #e8e9eb;
+      --muted:     #9ca3af;
+      --body:      #6b7280;
+      --heading:   #111827;
+      --blue:      #2563eb;
+      --accent:    #1a7f37;
+      --accent-bg: #1a7f371a;
+      --card:      #ffffff;
+      --sans:      'Inter', system-ui, sans-serif;
+    }
+
+    [data-dark] {
+      --bg:         #09090b;
+      --surface:    #131315;
+      --border:     #2a2a2e;
+      --muted:      #6b7280;
+      --body:       #9ca3af;
+      --heading:    #f2f2f5;
+      --blue:       #60a5fa;
+      --card:       #1c1c1f;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--body); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background .25s, color .25s; }
+
+    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 60px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); transition: background .25s, border-color .25s; }
+    [data-dark] nav { background: rgba(9,9,11,0.9); }
+    .nav-logo { font-size: 1rem; font-weight: 600; color: var(--heading); text-decoration: none; }
+    .nav-center { display: flex; gap: 2rem; }
+    .nav-center a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-center a:hover { color: var(--heading); }
+    .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+    .nav-right a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-right a:hover { color: var(--heading); }
+    .btn-back { background: var(--accent); color: #fff !important; padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.82rem; font-weight: 500; transition: opacity 0.15s; }
+    .btn-back:hover { opacity: 0.88; }
+
+    .cover { height: 220px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: linear-gradient(135deg,#1a7f37,#3ddc84); }
+    .cover::before { content:''; position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,.35) 1.5px,transparent 1.5px); background-size:18px 18px; opacity:.5; }
+    .cover svg { width: 64px; height: 64px; position: relative; z-index: 1; opacity: .95; }
+
+    .hero { padding: 3rem 2.5rem 3rem; max-width: 760px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+    .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-bg); padding: 0.25rem 0.7rem; border-radius: 100px; margin-bottom: 1.4rem; }
+    .hero h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 700; color: var(--heading); line-height: 1.2; margin-bottom: 1rem; }
+    .hero .sub { font-size: 1rem; color: var(--body); line-height: 1.75; }
+    .hero .meta { margin-top: 1.4rem; font-size: 0.8rem; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .page { max-width: 760px; margin: 0 auto; padding: 3rem 2.5rem 6rem; }
+    .page h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 2rem 0 0.8rem; line-height: 1.3; }
+    .page h2:first-child { margin-top: 0; }
+    .page h3 { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent); margin: 1.8rem 0 0.6rem; }
+    .page p { color: var(--body); margin-bottom: 1.1rem; line-height: 1.8; font-size: 0.98rem; }
+    .page p:last-child { margin-bottom: 0; }
+    .page strong { color: var(--heading); font-weight: 600; }
+    .page em { font-style: italic; color: var(--heading); }
+    .page ol, .page ul { margin: 0 0 1.1rem 1.3rem; color: var(--body); }
+    .page li { margin-bottom: 0.5rem; line-height: 1.7; font-size: 0.98rem; }
+
+    .refs { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .refs-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    .refs ul { list-style: none; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .refs li { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+    .nav-theme-pp { background: none; border: none; cursor: pointer; padding: 0.3rem 0.5rem; border-radius: 8px; color: var(--muted); font-size: 0.85rem; line-height: 1; transition: background 0.15s, color 0.15s; display: flex; align-items: center; }
+    .nav-theme-pp:hover { background: var(--surface); color: var(--heading); }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    [data-dark] footer { background: #09090b; }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; }
+      .nav-center { display: none; }
+      .hero, .page { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .cover { height: 160px; }
+      .cover svg { width: 48px; height: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Stanley Carter</a>
+  <div class="nav-center">
+    <a href="../blog.html">Blog</a>
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://github.com/MNG-AI" target="_blank">GitHub</a>
+    <button class="nav-theme-pp" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">
+      <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="../blog.html" class="btn-back">&larr; Blog</a>
+  </div>
+</nav>
+
+<div class="cover">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1" fill="currentColor" stroke="none"/><circle cx="19" cy="21" r="1" fill="currentColor" stroke="none"/><path d="M2 3h2l2.4 12.4a2 2 0 002 1.6h9.2a2 2 0 002-1.6L22 7H6"/></svg>
+</div>
+
+<div class="hero reveal">
+  <div class="hero-tag">Marketing Blog · October 2021</div>
+  <h1>Consumer Who? Consumer You!</h1>
+  <p class="sub">A personal audit of what actually drives my own buying decisions, stage by stage.</p>
+  <div class="meta">
+    <span>October 31, 2021</span>
+    <span>&middot;</span>
+    <span>543 words</span>
+  </div>
+</div>
+
+<div class="page reveal">
+    <p><em>What type of consumer are you?</em>– The consumer type I believe best describes me is an individual consumer. Individual consumers purchase goods and services to meet their own individual needs or the needs of others while organizational consumers purchase goods for the purpose of a business or an organization (Kardes, et al, 2020). I rarely buy things that I want and not necessarily need but when I do, it is usually as a gift for someone or a gift to myself.</p>
+    <p><em>What influences your buying decisions, and how?</em> – I am influenced by a lot of different factors when I shop and the first thing I look for is how does it solve the problem that I am having. If it is something that I don’t need, marketing has the biggest impact on my buying decisions. How well a product is presented to me, whether it be on T.V, internet, word of mouth, or social media, makes a big impact. I rely on a products appeal to me through its marketing and research done on my own.</p>
+    <p><em>What stage actually leads to your purchasing decisions?</em> -The 5 stages of purchase decisions are:</p>
+    <ol><li>Problem / Need Recognition</li><li>Information Search</li><li>Evaluation of Alternatives</li><li>Purchase Decision</li><li>Post-purchase Behavior</li></ol>
+    <p>I believe after the evaluation of alternatives is when I make my final decision on when to purchase. I go through each stage on every purchase I make. I rarely buy anything without seeing a problem that needs fixing, researching products and then comparing the final decision against other products that are similar. If I could add a new stage, I would add discount shopping after looking at alternatives because I love getting the best deal on everything that I can.</p>
+    <p><em>When making a buying decision, how are you influenced by marketing research and marketing design?</em></p>
+    <p>Marketing research and design are the two of the biggest reasons why I purchase anything. If I haven’t done any research on google or looked at reviews of the product or brand, I won’t buy it. I am also a consumer who is easily effected by good behavioral marketing strategies. I am still amazed at the algorithms on TikTok and how effective it is at only showing me videos that I would actually care to see. When I am shopping online or even scrolling on Youtube, the suggested, “similar to this”, or recommended sections always catch my attention.</p>
+    <p><em>Do you experience any post-purchase behavior?</em> With every purchase that I did not need, I go through the same post-purchase behaviors. I always question if the decision was a good one based on cost, return on investment, and need. Buyer’s remorse is something I struggle with on even the smallest of purchases. I sometimes return things just because I changed my mind when I receive the item. On the opposite side, when I really like a product after purchasing, it can have a big impact on my view on similar products or the brand who produced it. Meeting my expectations can go a long way in the consumer retention department because I will not have to question the quality of it when I am shopping next time.</p>
+    <div class="refs"><div class="refs-label">Reference</div><ul><li>Kardes, F. et al. (2020). Consumer behavior (2nd Edition). Cengage Learning.</li></ul></div>
+</div>
+
+<footer>
+  <p>
+    <a href="../index.html">Stanley Carter</a>
+    &nbsp;&middot;&nbsp; eCommerce Content Specialist, Shoe Carnival, Inc.
+    &nbsp;&middot;&nbsp; <a href="mailto:skcart79@gmail.com">skcart79@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+function toggleTheme(){
+  const dark = document.documentElement.toggleAttribute('data-dark');
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+  document.getElementById('iconMoon').style.display = dark ? 'none' : '';
+  document.getElementById('iconSun').style.display  = dark ? '' : 'none';
+}
+(function(){
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved === 'dark' || (!saved && prefersDark)){
+    document.documentElement.setAttribute('data-dark','');
+    document.getElementById('iconMoon').style.display = 'none';
+    document.getElementById('iconSun').style.display  = '';
+  }
+})();
+(function(){
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+})();
+</script>
+</body>
+</html>
