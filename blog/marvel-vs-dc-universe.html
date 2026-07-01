@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Dog Versus Underdog Marvel vs. DC Universe — Stanley Carter</title>
+  <meta name="description" content="Breaking down Marvel&#x27;s brand dominance — and three ways DC could close the gap.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #ffffff;
+      --surface:   #f7f7f8;
+      --border:    #e8e9eb;
+      --muted:     #9ca3af;
+      --body:      #6b7280;
+      --heading:   #111827;
+      --blue:      #2563eb;
+      --accent:    #d97706;
+      --accent-bg: #d977061a;
+      --card:      #ffffff;
+      --sans:      'Inter', system-ui, sans-serif;
+    }
+
+    [data-dark] {
+      --bg:         #09090b;
+      --surface:    #131315;
+      --border:     #2a2a2e;
+      --muted:      #6b7280;
+      --body:       #9ca3af;
+      --heading:    #f2f2f5;
+      --blue:       #60a5fa;
+      --card:       #1c1c1f;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--body); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background .25s, color .25s; }
+
+    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 60px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); transition: background .25s, border-color .25s; }
+    [data-dark] nav { background: rgba(9,9,11,0.9); }
+    .nav-logo { font-size: 1rem; font-weight: 600; color: var(--heading); text-decoration: none; }
+    .nav-center { display: flex; gap: 2rem; }
+    .nav-center a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-center a:hover { color: var(--heading); }
+    .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+    .nav-right a { font-size: 0.9rem; color: var(--body); text-decoration: none; transition: color 0.15s; }
+    .nav-right a:hover { color: var(--heading); }
+    .btn-back { background: var(--accent); color: #fff !important; padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.82rem; font-weight: 500; transition: opacity 0.15s; }
+    .btn-back:hover { opacity: 0.88; }
+
+    .cover { height: 220px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: linear-gradient(135deg,#d97706,#ffcf70); }
+    .cover::before { content:''; position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,.35) 1.5px,transparent 1.5px); background-size:18px 18px; opacity:.5; }
+    .cover svg { width: 64px; height: 64px; position: relative; z-index: 1; opacity: .95; }
+
+    .hero { padding: 3rem 2.5rem 3rem; max-width: 760px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+    .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-bg); padding: 0.25rem 0.7rem; border-radius: 100px; margin-bottom: 1.4rem; }
+    .hero h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 700; color: var(--heading); line-height: 1.2; margin-bottom: 1rem; }
+    .hero .sub { font-size: 1rem; color: var(--body); line-height: 1.75; }
+    .hero .meta { margin-top: 1.4rem; font-size: 0.8rem; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .page { max-width: 760px; margin: 0 auto; padding: 3rem 2.5rem 6rem; }
+    .page h2 { font-size: 1.3rem; font-weight: 700; color: var(--heading); margin: 2rem 0 0.8rem; line-height: 1.3; }
+    .page h2:first-child { margin-top: 0; }
+    .page h3 { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent); margin: 1.8rem 0 0.6rem; }
+    .page p { color: var(--body); margin-bottom: 1.1rem; line-height: 1.8; font-size: 0.98rem; }
+    .page p:last-child { margin-bottom: 0; }
+    .page strong { color: var(--heading); font-weight: 600; }
+    .page em { font-style: italic; color: var(--heading); }
+    .page ol, .page ul { margin: 0 0 1.1rem 1.3rem; color: var(--body); }
+    .page li { margin-bottom: 0.5rem; line-height: 1.7; font-size: 0.98rem; }
+
+    .refs { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .refs-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    .refs ul { list-style: none; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .refs li { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+    .nav-theme-pp { background: none; border: none; cursor: pointer; padding: 0.3rem 0.5rem; border-radius: 8px; color: var(--muted); font-size: 0.85rem; line-height: 1; transition: background 0.15s, color 0.15s; display: flex; align-items: center; }
+    .nav-theme-pp:hover { background: var(--surface); color: var(--heading); }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    [data-dark] footer { background: #09090b; }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; }
+      .nav-center { display: none; }
+      .hero, .page { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .cover { height: 160px; }
+      .cover svg { width: 48px; height: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Stanley Carter</a>
+  <div class="nav-center">
+    <a href="../blog.html">Blog</a>
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://github.com/MNG-AI" target="_blank">GitHub</a>
+    <button class="nav-theme-pp" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">
+      <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="iconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="../blog.html" class="btn-back">&larr; Blog</a>
+  </div>
+</nav>
+
+<div class="cover">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v6h-6"/></svg>
+</div>
+
+<div class="hero reveal">
+  <div class="hero-tag">Marketing Blog · November 2021</div>
+  <h1>Top Dog Versus Underdog Marvel vs. DC Universe</h1>
+  <p class="sub">Breaking down Marvel&#x27;s brand dominance — and three ways DC could close the gap.</p>
+  <div class="meta">
+    <span>November 28, 2021</span>
+    <span>&middot;</span>
+    <span>431 words</span>
+  </div>
+</div>
+
+<div class="page reveal">
+    <h2>What is the brand strategy being used by the top dog? What is the brand strategy being used by the underdog?</h2>
+    <p>Marvel is the top dog between the two rivals, and for good reasons. The company is responsible for the most popular comic series and superheroes in entertainment today. When marketing to fans of a comic series, it takes a combination of important factors like building on the hype, engaging with the community, and a bit of secrecy. Marvel has evolved through the years by staying innovative with the times and by actually listening to the feedback from their fans.</p>
+    <p>While D.C is lacking behind Marvel in some aspects, they are also doing well in terms of improvement. They focus more on staying true to original stories and personas from the comics in their newer projects and productions. They want to keep their old fans of the different series engaged with the original concepts without branching out too far to different kinds of viewers.</p>
+    <h2>How can the underdog improve its strategy so that it can gain more market share and surpass the top dog? Provide three recommendations.</h2>
+    <ol><li>First, I would try to produce more storylines into movies more frequently. This would help with staying in the media because Marvel has so many different storylines going on at the same time while keeping them connected with the Avengers. D.C could copy that game plan.</li><li>Focus more on the Justice League in more live action films. They have had success with collaborations in the past like Batman vs. Superman. This brings fans of specific serieses together.</li><li>Expand on the success of the highlight superheros in more television cartoon series. With the rise in popularity with anime and cartoon action, D.C could easily branch out and grab the attention of those viewers.</li></ol>
+    <h2>Why do you believe consumers prefer the top dog over the underdog? Which do you prefer, and why?</h2>
+    <p>To be honest, Marvel’s recent success with the Avenger’s series is a huge reason why recent fans of comics or comic book movies prefer Marvel over D.C. I personally prefer the Marvel series more but I would say I am a little biased because my favorite superhero is Spider-Man. As of lately, Marvel has made Spider-Man their main attraction with his many movies, video games and appearances in the Avengers series. The characters in the Marvel universe has semi believable backstories and I believe that the human connection in superhero comics and movies is the most attractive aspect and that is why Marvel is considered the top dog.</p>
+</div>
+
+<footer>
+  <p>
+    <a href="../index.html">Stanley Carter</a>
+    &nbsp;&middot;&nbsp; eCommerce Content Specialist, Shoe Carnival, Inc.
+    &nbsp;&middot;&nbsp; <a href="mailto:skcart79@gmail.com">skcart79@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+function toggleTheme(){
+  const dark = document.documentElement.toggleAttribute('data-dark');
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+  document.getElementById('iconMoon').style.display = dark ? 'none' : '';
+  document.getElementById('iconSun').style.display  = dark ? '' : 'none';
+}
+(function(){
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved === 'dark' || (!saved && prefersDark)){
+    document.documentElement.setAttribute('data-dark','');
+    document.getElementById('iconMoon').style.display = 'none';
+    document.getElementById('iconSun').style.display  = '';
+  }
+})();
+(function(){
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+})();
+</script>
+</body>
+</html>
